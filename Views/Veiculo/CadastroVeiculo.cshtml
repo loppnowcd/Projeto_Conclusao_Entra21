@@ -1,0 +1,123 @@
+﻿@using ProjetoEntra21.Enums
+@model ProjetoEntra21.Models.Veiculo
+
+@{
+    ViewData["Title"] = "Cadastro de novo Veículo";
+}
+
+
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+<hr />
+
+<div class="row justify-content-md-center">
+
+
+    <div class="col-md-3">
+        <h5 class="text-center">Dados do Veículo</h5>
+
+        <div class="form-group mb-3">
+            <label asp-for="MarcaFipe.Codigo" class="control-label"></label>
+
+            <select id="MarcaSelect" class="form-control" asp-for="MarcaFipe.Codigo" required>
+                <option value="">Carregando marcas...</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Modelo.Codigo" class="control-label"></label>
+
+            <select id="ModeloSelect" class="form-control" asp-for="Modelo.Codigo" disabled required>
+                <option>Selecione uma marca primeiro</option>
+            </select>
+        </div>
+
+    </div>
+    
+   
+
+</div>
+
+<br />
+
+<div class="form-group mt-3 container text-center">
+    <input type="submit" value="Salvar Cadastro" class="btn btn-primary" />
+</div>
+
+
+@* A seção de scripts que já tínhamos, permanece igual *@
+@section Scripts {
+    <script src="https://unpkg.com/imask"></script>
+    <script> document.addEventListener('DOMContentLoaded', function () {
+
+                const marcaSelect = document.getElementById('MarcaSelect');
+                const modeloSelect = document.getElementById('ModeloSelect');
+
+                // --- FUNÇÃO PARA CARREGAR AS MARCAS NA PÁGINA INICIAL ---
+                function carregarMarcas() {
+                    // Desabilita os selects enquanto carrega
+                    marcaSelect.disabled = true;
+                    modeloSelect.disabled = true;
+
+                    fetch('/api/Veiculos/marcas') // Chama nosso novo endpoint de marcas
+                        .then(response => response.json())
+                        .then(marcas => {
+                            marcaSelect.innerHTML = '
+    <option value="">Selecione a Marca</option>'; // Opção padrão
+
+                            marcas.forEach(marca => {
+                                const option = document.createElement('option');
+                                option.value = marca.codigo;
+                                option.textContent = marca.nome;
+                                marcaSelect.appendChild(option);
+                            });
+
+                            marcaSelect.disabled = false; // Habilita o select de marcas
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar marcas:', error);
+                            marcaSelect.innerHTML = '
+    <option>Erro ao carregar marcas</option>';
+                        });
+                }
+
+                // --- LÓGICA EXISTENTE PARA CARREGAR MODELOS QUANDO UMA MARCA É SELECIONADA ---
+                marcaSelect.addEventListener('change', function () {
+                    const marcaCodigo = this.value;
+
+                    modeloSelect.innerHTML = '
+    <option>Carregando modelos...</option>';
+                    modeloSelect.disabled = true;
+
+                    if (marcaCodigo) {
+                        fetch(`/api/Veiculos/marcas/${marcaCodigo}/modelos`)
+                            .then(response => response.json())
+                            .then(modelos => {
+                                modeloSelect.innerHTML = '
+    <option value="">Selecione o Modelo</option>';
+                                modelos.forEach(modelo => {
+                                    const option = document.createElement('option');
+                                    option.value = modelo.codigo;
+                                    option.textContent = modelo.nome;
+                                    modeloSelect.appendChild(option);
+                                });
+                                modeloSelect.disabled = false;
+                            })
+                            .catch(error => {
+                                console.error('Erro ao buscar modelos:', error);
+                                modeloSelect.innerHTML = '
+    <option>Erro ao carregar modelos</option>';
+                            });
+                    } else {
+                        modeloSelect.innerHTML = '
+    <option>Selecione uma marca primeiro</option>';
+                        modeloSelect.disabled = true;
+                    }
+                });
+
+                // --- EXECUÇÃO INICIAL ---
+                // Chama a função para carregar as marcas assim que a página estiver pronta.
+                carregarMarcas();
+            });
+    </script>
+    }

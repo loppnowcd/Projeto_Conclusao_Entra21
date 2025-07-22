@@ -1,0 +1,174 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\views\\pessoaf\\novocadastropf.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:views\\pessoaf\\novocadastropf.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\enums\\estadocivil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:enums\\estadocivil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\models\\pessoaf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:models\\pessoaf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\models\\dadosestadocivil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:models\\dadosestadocivil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\controllers\\veiculocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:controllers\\veiculocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|c:\\users\\guest01\\desktop\\erp\\projetoconclusaoentra21\\views\\veiculo\\cadastroveiculo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{254FD596-A342-4CBC-87FE-897EB9E73580}|ProjetoEntra21.csproj|solutionrelative:views\\veiculo\\cadastroveiculo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EstadoCivil.cs",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Enums\\EstadoCivil.cs",
+              "RelativeDocumentMoniker": "Enums\\EstadoCivil.cs",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Enums\\EstadoCivil.cs",
+              "RelativeToolTip": "Enums\\EstadoCivil.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T22:37:05.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PessoaF.cs",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Models\\PessoaF.cs",
+              "RelativeDocumentMoniker": "Models\\PessoaF.cs",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Models\\PessoaF.cs",
+              "RelativeToolTip": "Models\\PessoaF.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T22:34:15.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NovoCadastroPF.cshtml",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\PessoaF\\NovoCadastroPF.cshtml",
+              "RelativeDocumentMoniker": "Views\\PessoaF\\NovoCadastroPF.cshtml",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\PessoaF\\NovoCadastroPF.cshtml",
+              "RelativeToolTip": "Views\\PessoaF\\NovoCadastroPF.cshtml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAuwGcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-22T22:33:37.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "VeiculoController.cs",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Controllers\\VeiculoController.cs",
+              "RelativeDocumentMoniker": "Controllers\\VeiculoController.cs",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Controllers\\VeiculoController.cs",
+              "RelativeToolTip": "Controllers\\VeiculoController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADEAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-21T23:46:28.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-22T00:15:15.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DadosEstadoCivil.cs",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Models\\DadosEstadoCivil.cs",
+              "RelativeDocumentMoniker": "Models\\DadosEstadoCivil.cs",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Models\\DadosEstadoCivil.cs",
+              "RelativeToolTip": "Models\\DadosEstadoCivil.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T22:24:51.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAEYAAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-22T00:05:00.55Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CadastroVeiculo.cshtml",
+              "DocumentMoniker": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\Veiculo\\CadastroVeiculo.cshtml",
+              "RelativeDocumentMoniker": "Views\\Veiculo\\CadastroVeiculo.cshtml",
+              "ToolTip": "C:\\Users\\guest01\\Desktop\\erp\\ProjetoConclusaoEntra21\\Views\\Veiculo\\CadastroVeiculo.cshtml",
+              "RelativeToolTip": "Views\\Veiculo\\CadastroVeiculo.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-21T23:48:50.31Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
