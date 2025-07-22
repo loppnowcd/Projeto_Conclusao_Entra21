@@ -9,17 +9,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProjetoGeanBagattoli</title>
+    <title>@ViewData["Title"] - ProjetoEntra21</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProjetoGeanBagattoli.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProjetoEntra21.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> 
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 min-vh-12 row">
             <div class="container-fluid col-md-12">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoGeanBagattoli</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoEntra21</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -61,31 +61,13 @@
                             <div class="collapse" id="submenu-home">
                                 <ul class="nav flex-column ps-3">
                                     <li class="nav-item"><a class="nav-link text-muted fw-bolder fs-5" asp-area="" asp-controller="PessoaF" asp-action="NovoCadastroPF"><i class="bi bi-chevron-right me-2"></i>Cadastro<i class="bi bi-plus-circle ms-4"></i></a></li>
-                                    <li class="nav-item"><a class="nav-link text-muted" style="margin-left: 25px;" href="#"><i class="bi bi-chevron-right me-2"></i>Consulta</a></li>
+                                    <li class="nav-item"><a class="nav-link text-muted"  asp-area="" asp-controller="Veiculo" asp-action="CadastroVeiculo"><i class="bi bi-chevron-right me-2"></i>VEICULO</a></li>
                                     <li class="nav-item"><a class="nav-link text-muted" style="margin-left: 25px;" href="#"><i class="bi bi-chevron-right me-2"></i>Aniversários</a></li>
                                     <li class="nav-item"><a class="nav-link text-muted" style="margin-left: 25px;" href="#"><i class="bi bi-chevron-right me-2"></i>Eventos</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark d-flex justify-content-between" href="#">
-                                <span>Dashboard</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark d-flex justify-content-between" href="#">
-                                <span>Orders</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark d-flex justify-content-between" href="#">
-                                <span>Account</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </li>
+                        
 
                     </ul>
                 </nav>

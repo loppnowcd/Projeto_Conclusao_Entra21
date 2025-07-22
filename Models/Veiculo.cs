@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ProjetoEntra21.Enums;
 
 namespace ProjetoEntra21.Models
 {

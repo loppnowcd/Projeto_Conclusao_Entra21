@@ -16,9 +16,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "VeiculosController",
+    "ContainingType": "ProjetoEntra21.Controllers.Api.MarcasController",
     "Method": "GetMarcas",
-    "RelativePath": "api/Veiculos/marcas",
+    "RelativePath": "api/marcas",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

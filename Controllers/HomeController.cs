@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoEntra21.Models;
 
-namespace ProjetoGeanBagattoli.Controllers
+namespace ProjetoEntra21.Controllers
 {
     public class HomeController : Controller
     {

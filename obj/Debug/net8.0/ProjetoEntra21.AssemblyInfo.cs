@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjetoEntra21")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bb53d6422c0bc5a98534b756128322947ba7eb2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f93c519c2b3f5363d02881e5965f537eb1301128")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjetoEntra21")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjetoEntra21")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

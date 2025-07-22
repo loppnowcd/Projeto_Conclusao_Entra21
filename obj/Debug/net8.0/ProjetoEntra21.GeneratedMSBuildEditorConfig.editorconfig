@@ -9,45 +9,45 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProjetoEntra21
 build_property.RootNamespace = ProjetoEntra21
-build_property.ProjectDir = C:\Users\guest01\Desktop\erp\ProjetoConclusaoEntra21\
+build_property.ProjectDir = C:\Users\guest01\Desktop\ERp4\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\guest01\Desktop\erp\ProjetoConclusaoEntra21
+build_property.MSBuildProjectDirectory = C:\Users\guest01\Desktop\ERp4
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/Home/Index.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/Home/Privacy.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/PessoaF/NovoCadastroPF.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/PessoaF/NovoCadastroPF.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVzc29hRlxOb3ZvQ2FkYXN0cm9QRi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/Veiculo/CadastroVeiculo.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/Veiculo/CadastroVeiculo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVmVpY3Vsb1xDYWRhc3Ryb1ZlaWN1bG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/_ViewImports.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/_ViewStart.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/guest01/Desktop/erp/ProjetoConclusaoEntra21/Views/Shared/_Layout.cshtml]
+[C:/Users/guest01/Desktop/ERp4/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-e4id2rsu0s
