@@ -15,7 +15,7 @@ Este projeto foi desenvolvido utilizando as tecnologias HTML, C#, CSS, TSQL e Ja
 
 ## Sobre o Projeto
 
-Este projeto tem como objetivo [descrever brevemente o objetivo do projeto, por exemplo: criar um sistema de gerenciamento, portal web, loja virtual, etc.].  
+Este projeto tem como objetivo [Criar uma solução web que possibilite às pessoas realizar entregas de produtos como renda extra ou renda principal.].  
 O projeto foi desenvolvido como trabalho de conclusão do programa Entra21, integrando diversas tecnologias do ecossistema web e banco de dados.
 
 ## Tecnologias Utilizadas
