@@ -1,0 +1,22 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/bin/Debug/net9.0
+/via-entrega.site/.vs
+/via-entrega.site/bin/Debug
+/via-entrega.site/obj
+/via-entrega.services/bin/Debug/net9.0
+/via-entrega.services/obj/Debug/net9.0
+/via-entrega.services/obj
+*.user
+/via-entrega.repositories/bin/Debug/net9.0
+/via-entrega.repositories/obj/Debug/net9.0
+/via-entrega.repositories/obj
+/via-entrega.interfaces/bin/Debug/net9.0
+/via-entrega.interfaces/obj/Debug/net9.0
+/via-entrega.interfaces/obj
+/via-entrega.entities/bin/Debug/net9.0
+/via-entrega.entities/obj/Debug/net9.0
+/via-entrega.entities/obj
+/.vs
