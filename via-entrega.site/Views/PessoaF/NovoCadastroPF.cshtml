@@ -1,0 +1,261 @@
+﻿@using via_entrega.entities.Enums
+@model via_entrega.entities.PessoaF
+
+@{
+    ViewData["Title"] = "Cadastro de Nova Pessoa Física";
+}
+
+
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+<hr />
+
+<div class="row justify-content-md-center">
+
+    <div class="col-md-3">
+        
+        <h5 class="text-center">Dados Pessoais</h5>
+
+        <div class="form-group mb-3">
+            <label asp-for="Nome" class="control-label"></label>
+            <input asp-for="Nome" class="form-control" required/>
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+        <h5 class="text-center">Documentos</h5>
+
+        <div class="form-group mb-3">
+            <label asp-for="Documento.CPF" class="control-label"></label>
+            <input asp-for="Documento.CPF" class="form-control" required />
+            <span asp-validation-for="Documento.CPF" class="text-danger"></span>
+        </div>
+
+    
+
+        <div class="form-group mb-3">
+            <label asp-for="Documento.CNH" class="control-label"></label>
+            <input asp-for="Documento.CNH" class="form-control" required />
+            <span asp-validation-for="Documento.CNH" class="text-danger"></span>
+            <label asp-for="Documento.CNHExpedido" class="control-label"></label>
+            <input asp-for="Documento.CNHExpedido" class="form-control" required />
+            <span asp-validation-for="Documento.CNHExpedido" class="text-danger"></span>
+        </div>
+
+       
+
+    </div>
+
+    <div class="col-md-3">
+        <h5 class="text-center">Endereço</h5>
+
+        <div class="form-group mb-3">
+            <label asp-for="Endereco.Estado" class="control-label"></label>
+            <select id="EstadoSelect" class="form-control" asp-for="Endereco.Estado" required>
+                <option value="">Selecione um Estado</option>
+                @foreach (var estadoEnum in Enum.GetValues(typeof(UF)))
+                {
+                    <option value="@estadoEnum.ToString()">@estadoEnum.ToString()</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Endereco.Cidade" class="control-label"></label>
+            <select id="CidadeSelect" class="form-control" asp-for="Endereco.Cidade" disabled required>
+                <option>Selecione um estado primeiro</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Endereco.CEP" class="control-label"></label>
+            <input asp-for="Endereco.CEP" class="form-control" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Endereco.Rua" class="control-label"></label>
+            <input asp-for="Endereco.Rua" class="form-control" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Endereco.Numero" class="control-label"></label>
+            <input asp-for="Endereco.Numero" class="form-control" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Endereco.Bairro" class="control-label"></label>
+            <input asp-for="Endereco.Bairro" class="form-control" required />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <h5 class="text-center">Estado Civil</h5>
+        <div class="form-group mb-3">
+            <label asp-for="EstadoCivil"  class="control-label"></label>
+            <select id="EstadoCivilSelect" class="form-control" asp-for="EstadoCivil" asp-items="Html.GetEnumSelectList<DadosEstadoCivil>()" required>
+                <option value="">Selecione o estado civil</option>
+            </select>
+        </div>
+
+            <br />
+            <br />
+            <br />
+
+            <h5 class="text-center">Contato</h5>
+
+            <div class="form-group mb-3">
+                <label asp-for="Contato.Telefone" class="control-label"></label>
+                <input id="telefoneInput" asp-for="Contato.Telefone" class="form-control" required />
+                <span asp-validation-for="Contato.Telefone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Contato.eMail" class="control-label"></label>
+                <input id="emailInput" asp-for="Contato.eMail" class="form-control" />
+                <span asp-validation-for="Contato.eMail" class="text-danger"></span>
+            </div>
+
+        </div>
+    </div>
+   
+
+</div>
+
+<br />
+
+<div class="form-group mt-3 container text-center">
+    <input type="submit" value="Salvar Cadastro" class="btn btn-primary" />
+</div>
+
+
+@* A seção de scripts que já tínhamos, permanece igual *@
+@section Scripts {
+    <script src="https://unpkg.com/imask"></script>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const estadoSelect = document.getElementById('EstadoSelect');
+            const cidadeSelect = document.getElementById('CidadeSelect');
+
+            estadoSelect.addEventListener('change', function () {
+                const uf = this.value;
+
+                cidadeSelect.innerHTML = '<option>Carregando...</option>';
+                cidadeSelect.disabled = true;
+
+                if (uf) {
+                    fetch(`/api/Localidade/${uf}`)
+                        .then(response => response.json())
+                        .then(cidades => {
+                            cidadeSelect.innerHTML = '<option value="">Selecione a Cidade</option>';
+                            cidades.forEach(cidade => {
+                                const option = document.createElement('option');
+                                option.value = cidade.nome;
+                                option.textContent = cidade.nome;
+                                cidadeSelect.appendChild(option);
+                            });
+                            cidadeSelect.disabled = false;
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar cidades:', error);
+                            cidadeSelect.innerHTML = '<option>Erro ao carregar cidades</option>';
+                        });
+                } else {
+                    cidadeSelect.innerHTML = '<option>Selecione um estado primeiro</option>';
+                    cidadeSelect.disabled = true;
+                }
+            });
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const estadoSelect = document.getElementById('EstadoNaturalidadeSelect');
+            const cidadeSelect = document.getElementById('CidadeNaturalidadeSelect');
+
+            estadoSelect.addEventListener('change', function () {
+                const uf = this.value;
+
+                cidadeSelect.innerHTML = '<option>Carregando...</option>';
+                cidadeSelect.disabled = true;
+
+                if (uf) {
+                    fetch(`/api/Localidade/${uf}`)
+                        .then(response => response.json())
+                        .then(cidades => {
+                            cidadeSelect.innerHTML = '<option value="">Selecione a Cidade</option>';
+                            cidades.forEach(cidade => {
+                                const option = document.createElement('option');
+                                option.value = cidade.nome;
+                                option.textContent = cidade.nome;
+                                cidadeSelect.appendChild(option);
+                            });
+                            cidadeSelect.disabled = false;
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar cidades:', error);
+                            cidadeSelect.innerHTML = '<option>Erro ao carregar cidades</option>';
+                        });
+                } else {
+                    cidadeSelect.innerHTML = '<option>Selecione um estado primeiro</option>';
+                    cidadeSelect.disabled = true;
+                }
+            });
+        })
+
+        const estadoCivilSelect = document.getElementById('EstadoCivilSelect');
+        const nomeConjugeInput = document.getElementById('NomeConjugeSelect');
+        const regimeCasamentoSelect = document.getElementById('RegimeCasamentoSelect');
+
+        // 2. Define a função que aplica a lógica
+        function atualizarCamposEstadoCivil() {
+            // Pega o valor da opção selecionada (ex: "1", "2", "3")
+            const valorSelecionado = estadoCivilSelect.value;
+            // Define qual é o valor que deve ativar os campos la no enum
+            const valorCasado = '2';
+
+            // 3. A Lógica: Habilita apenas se o valor for '2', senão, desabilita.
+            if (valorSelecionado === valorCasado) {
+                NomeConjugeSelect.disabled = false;
+                RegimeCasamentoSelect.disabled = false;
+            } else {
+                NomeConjugeSelect.disabled = true;
+                NomeConjugeSelect.value = ''; // Limpa o campo por segurança
+
+                RegimeCasamentoSelect.disabled = true;
+                RegimeCasamentoSelect.value = ''; // Limpa o campo por segurança
+            }
+
+
+        }
+
+        // 4. Adiciona o "ouvinte" para o campo de estado civil
+        estadoCivilSelect.addEventListener('change', atualizarCamposEstadoCivil);
+
+        // 5. Executa a função uma vez quando a página carrega para definir o estado inicial correto
+        atualizarCamposEstadoCivil();
+
+
+        // 1. Pega a referência do campo de telefone
+        const telefoneInput = document.getElementById('telefoneInput');
+
+        // 2. Define as opções da máscara.
+        // O IMask é inteligente, ele pode ter múltiplas máscaras e escolhe a melhor.
+        // Isso já cobre o caso do 9º dígito opcional do celular!
+        const telefoneMaskOptions = {
+            mask: [
+                {
+                    mask: '(00) 0000-0000'
+                },
+                {
+                    mask: '(00) 00000-0000'
+                }
+            ]
+        };
+
+        // 3. Aplica a máscara ao elemento!
+        const mask = IMask(telefoneInput, telefoneMaskOptions);
+    </script>
+}
