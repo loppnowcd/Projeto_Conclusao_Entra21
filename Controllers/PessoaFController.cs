@@ -6,7 +6,6 @@ namespace ProjetoEntra21.Controllers
     public class PessoaFController : Controller
     {
         // ==========================================================
-        // PASSO 1: ADICIONE ESTE MÉTODO QUE ESTAVA FALTANDO
         // Esta é a ação que MOSTRA o formulário em branco (GET)
         public IActionResult NovoCadastroPF()
         {
@@ -15,8 +14,7 @@ namespace ProjetoEntra21.Controllers
         // ==========================================================
 
 
-        // PASSO 2: DESCOMENTE O [HttpPost] AQUI
-        // Este é o seu método que já existe (POST)
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult NovoCadastroPF(PessoaF pessoaF)
@@ -26,7 +24,6 @@ namespace ProjetoEntra21.Controllers
             if (ModelState.IsValid)
             {
                 // !! AQUI VIRA A LÓGICA PARA SALVAR NO BANCO DE DADOS !!
-                // Por enquanto, vamos apenas simular que deu tudo certo.
                 // O código seria algo como: _context.PessoasF.Add(pessoaF);
                 //                          _context.SaveChanges();
 
