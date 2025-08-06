@@ -1,8 +1,9 @@
-﻿using via_entrega.Interfaces.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using via_entrega.Interfaces.Common;
 
 namespace via_entrega.entities
 {
-	public abstract class EnitityBase : IEntityBase
+	public abstract class EntityBase : IEntityBase
 	{
 		public Guid Id { get; set; }
 		public bool Active { get; set; }

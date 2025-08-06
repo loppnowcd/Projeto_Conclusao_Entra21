@@ -16,4 +16,8 @@
     <None Include="via-entrega.repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\via-entrega.services\via-entrega.services.csproj" />
+  </ItemGroup>
+
 </Project>

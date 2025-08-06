@@ -11,7 +11,9 @@ namespace via_entrega.entities.Enums
 		[Display(Name = "Casado")]
 		Casado,
 		[Display(Name = "Divorciado")]
-		Divorciado
+		Divorciado,
+		[Display(Name = "Viuvo")]
+		Viuvo
 	}
 
 }

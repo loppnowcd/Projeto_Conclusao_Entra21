@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using via_entrega.entities;
+using via_entrega.entities.Registrations;
 
 namespace Controllers
 {

@@ -8,7 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Registrations\PessoaFRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Configuration\DeliveryOrderConfiguration.cs" />
+    <None Include="Registrations\PessoaFRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using via_entrega.entities;
+using via_entrega.entities.Registrations;
 
 namespace Controllers
 {
@@ -19,7 +19,7 @@ namespace Controllers
 		// Este é o seu método que já existe (POST)
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult NovoCadastroPJ(EmpresaPJ empresaPJ)
+		public IActionResult NovoCadastroPJ(PessoaJuridica empresaPJ)
 		{
 			// O ModelState.IsValid verifica se os dados recebidos são válidos
 			// (ex: se campos obrigatórios foram preenchidos)
