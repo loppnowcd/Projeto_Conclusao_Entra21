@@ -8,12 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Registrations\PessoaFRepository.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Configuration\DeliveryOrderConfiguration.cs" />
-    <None Include="Registrations\PessoaFRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

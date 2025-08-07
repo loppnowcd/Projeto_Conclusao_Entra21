@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\via-entrega.entities\via-entrega.entities.csproj" />
+    <ProjectReference Include="..\via-entrega.interfaces\via-entrega.interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

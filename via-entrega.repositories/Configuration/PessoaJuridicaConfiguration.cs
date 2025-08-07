@@ -8,9 +8,6 @@ namespace via_entrega.repositoriess.Configuration
 	{
 		public void Configure(EntityTypeBuilder<PessoaJuridica> builder)
 		{
-			// Chave primária (herdada de EntityBase)
-			builder.HasKey(p => p.Id);
-
 			// Campos obrigatórios
 			builder.Property(p => p.Cnpj)
 				   .IsRequired()
@@ -19,20 +16,6 @@ namespace via_entrega.repositoriess.Configuration
 			builder.Property(p => p.NomeFatasia)
 				   .HasMaxLength(150);
 
-			// Campos de auditoria (herdados)
-			builder.Property(p => p.CreatedAt).IsRequired();
-			builder.Property(p => p.UpdatedAt).IsRequired();
-
-			// Relacionamentos herdados
-			builder.HasMany(p => p.Enderecos)
-				   .WithOne()
-				   .HasForeignKey("PessoaId")
-				   .OnDelete(DeleteBehavior.Cascade);
-
-			builder.HasMany(p => p.Contatos)
-				   .WithOne()
-				   .HasForeignKey("PessoaId")
-				   .OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

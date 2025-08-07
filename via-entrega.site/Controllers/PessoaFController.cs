@@ -19,7 +19,7 @@ namespace Controllers
         // Este é o seu método que já existe (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult NovoCadastroPF(PessoaF pessoaF)
+        public IActionResult NovoCadastroPF(PessoaFController pessoaF)
         {
             // O ModelState.IsValid verifica se os dados recebidos são válidos
             // (ex: se campos obrigatórios foram preenchidos)

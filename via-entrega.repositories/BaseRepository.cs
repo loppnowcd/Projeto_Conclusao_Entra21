@@ -1,10 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using via_entrega.entities;
 using via_entrega.Interfaces.Common;
 
 namespace via_entrega.repositoriess
 {
-	public abstract class BaseRepository<T> : ICRUD<T> where T : class, IEntityBase
+	public abstract class BaseRepository<T> : ICRUD<T> where T : class, entities.IEntityBase
 	{
 		private readonly ViaEntregaContext _viaEntregaContext;
 		internal readonly DbSet<T> _dbSet;

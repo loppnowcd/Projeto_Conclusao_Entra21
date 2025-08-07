@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using via_entrega.entities.Registrations;
 
 namespace Controllers
 {
@@ -29,17 +25,18 @@ namespace Controllers
             {
                 var response = await client.GetAsync(requestUrl);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var marcas = JsonSerializer.Deserialize<List<DadosMarcaFipe>>(jsonString,
-                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    return Ok(marcas);
-                }
-                else
-                {
-                    return StatusCode((int)response.StatusCode, "Erro ao consultar a API da Fipe.");
-                }
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    var jsonString = await response.Content.ReadAsStringAsync();
+                //    var marcas = JsonSerializer.Deserialize<List<DadosMarcaFipe>>(jsonString,
+                //        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                //    return Ok(marcas);
+                //}
+                //else
+                //{
+                //    return StatusCode((int)response.StatusCode, "Erro ao consultar a API da Fipe.");
+                //}
+                return Ok();
             }
             catch (HttpRequestException e)
             {
