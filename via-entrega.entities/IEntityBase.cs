@@ -1,4 +1,4 @@
-﻿namespace via_entrega.entities
+﻿namespace via_entrega.Interfaces.Common
 {
 	public interface IEntityBase
 	{
