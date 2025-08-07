@@ -10,8 +10,9 @@ namespace via_entrega.repositoriess
 		}
 
 		public DbSet<Driver> Drivers { get; set; }
+		public DbSet<Veiculo> Veiculos { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 		}

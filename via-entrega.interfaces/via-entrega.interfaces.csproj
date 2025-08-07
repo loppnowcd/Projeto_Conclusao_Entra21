@@ -8,12 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
+    <None Include="via-entrega.repositories.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="via-entrega.repositories.csproj" />
+    <ProjectReference Include="..\via-entrega.entities\via-entrega.entities.csproj" />
   </ItemGroup>
 
 </Project>
