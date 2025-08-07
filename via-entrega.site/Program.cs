@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Services;
+using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
+using via_entrega.interfaces.Services;
 using via_entrega.repositoriess;
 using via_entrega.repositoriess.Registrations;
+using via_entrega.services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +22,9 @@ builder.Services.AddHttpClient<IbgeApiService>();
 //		options.ClientId = builder.Configuration["Auth0:ClientId"];
 //	});
 
+builder.Services.AddScoped<IPessoaFisicaRepository, PessoaFisicaRepository>();
+builder.Services.AddScoped<IPessoaFisicaService<PessoaFisica>, PessoaFisicaService>();
 
-builder.Services.AddScoped(typeof(IPessoaFisicaRepository), typeof(PessoaFisicaRepository));
 
 var app = builder.Build();
 

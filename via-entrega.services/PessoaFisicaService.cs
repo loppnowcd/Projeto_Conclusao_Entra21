@@ -12,6 +12,16 @@ namespace via_entrega.services
 			_pessoaFisicaRepository = pessoaFisicaRepository;
 		}
 
+		public async Task<PessoaFisica> BuscarPorCpfAsync(string cpf)
+		{
+			return await _pessoaFisicaRepository.BuscarPorCpfAsync(cpf);
+		}
+
+		public async Task<IEnumerable<PessoaFisica>> BuscarPorNomeAsync(string nome)
+		{
+			return await _pessoaFisicaRepository.BuscarPorNomeAsync(nome);
+		}
+
 		public async Task<Guid?> CreateAsync(PessoaFisica entity)
 		{
 			return await _pessoaFisicaRepository.CreateAsync(entity);
