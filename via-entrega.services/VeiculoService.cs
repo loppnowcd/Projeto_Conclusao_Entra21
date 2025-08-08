@@ -9,7 +9,7 @@ using via_entrega.interfaces.Services;
 
 namespace via_entrega.services
 {
-    public class VeiculoService : IVeiculoService
+    public class VeiculoService :  IVeiculoService
     {
         private readonly IVeiculoRepository _veiculoRepositorio;
         public VeiculoService(IVeiculoRepository veiculoRepositorio)
@@ -31,6 +31,8 @@ namespace via_entrega.services
                 throw new ArgumentNullException("Placa não informado");
 
             return await _veiculoRepositorio.CreateAsync(veiculo);
+
+            //teste
         }
 
         public async Task<List<Veiculo?>> GetAllAsync()
