@@ -2,7 +2,7 @@
 
 namespace ProjetoEntra21.Models
 {
-    public class DadosEnderecoXXXYZA
+    public class DadosEndereco
     {
         public string Rua { get; set; }
         public int Numero { get; set; }
