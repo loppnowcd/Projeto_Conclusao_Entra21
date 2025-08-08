@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using via_entrega.entities;
+using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 
 namespace via_entrega.repositoriess
