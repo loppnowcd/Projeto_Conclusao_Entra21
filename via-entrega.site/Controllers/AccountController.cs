@@ -15,6 +15,7 @@ namespace via_entrega.site.Controllers
 			_logger = logger;
 		}
 
+
 		public async Task Login(string returnUrl = "/")
 		{
 			var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
