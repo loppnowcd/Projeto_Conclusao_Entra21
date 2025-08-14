@@ -23,10 +23,16 @@ namespace via_entrega.services
             return await _pessoaJuridicaRepository.BuscarPorRazaoSocialAsync(razaoSocial);
         }
 
-        public async Task<Guid?> CreateAsync(PessoaJuridica entity)
+        public async Task<Guid?> CreateAsync(PessoaJuridica pessoaJuridica)
         {
-            return await _pessoaJuridicaRepository.CreateAsync(entity);
-        }
+			if (string.IsNullOrWhiteSpace(pessoaJuridica.NomeFatasia))
+				throw new ArgumentException("A razão social é obrigatória.");
+
+			if (string.IsNullOrWhiteSpace(pessoaJuridica.Cnpj) || pessoaJuridica.Cnpj.Length != 14)
+				throw new ArgumentException("CNPJ inválido.");
+
+			return await _pessoaJuridicaRepository.CreateAsync(pessoaJuridica);
+		}
 
         public async Task<bool> DeleteAsync(Guid id)
         {

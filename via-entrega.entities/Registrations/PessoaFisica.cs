@@ -7,6 +7,7 @@ namespace via_entrega.entities.Registrations
 	{
 		
 		public string Cpf { get; set; }
+		//
 		public string NomeMae { get; set; }
 		public Sexo Sexo { get; set; }	
 		public string Cor { get; set; }

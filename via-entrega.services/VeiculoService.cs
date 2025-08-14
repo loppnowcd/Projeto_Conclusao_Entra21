@@ -20,13 +20,14 @@ namespace via_entrega.services
 
         public async Task<Guid?> CreateAsync(Veiculo veiculo)
         {
-            if (veiculo == null) throw new ArgumentNullException("Veiculo está nulo");
+			if (string.IsNullOrWhiteSpace(veiculo.Modelo))
+				throw new ArgumentException("O modelo é obrigatório.");
 
-            if (string.IsNullOrEmpty(veiculo.Placa))
-                throw new ArgumentNullException("Placa não informado");
+			if (string.IsNullOrWhiteSpace(veiculo.Placa) || veiculo.Placa.Length != 7)
+				throw new ArgumentException("Placa inválida.");
 
-            return await _veiculoRepositorio.CreateAsync(veiculo);
-        }
+			return await _veiculoRepositorio.CreateAsync(veiculo);
+		}
 
         public async Task<List<Veiculo?>> GetAllAsync()
         {
@@ -41,6 +42,7 @@ namespace via_entrega.services
         {
             return await _veiculoRepositorio.DeleteAsync(id);
         }
-    }
+		
+	}
 }
 

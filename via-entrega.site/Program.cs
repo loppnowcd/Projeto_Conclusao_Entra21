@@ -24,7 +24,7 @@ builder.Services.AddHttpClient<IbgeApiService>();
 
 builder.Services.AddScoped<IPessoaFisicaRepository, PessoaFisicaRepository>();
 builder.Services.AddScoped<IPessoaFisicaService<PessoaFisica>, PessoaFisicaService>();
-
+builder.Services.AddScoped<IPessoaJuridicaService<PessoaJuridica>, PessoaJuridicaService>();
 
 var app = builder.Build();
 
