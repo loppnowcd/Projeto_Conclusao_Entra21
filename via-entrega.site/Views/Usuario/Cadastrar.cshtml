@@ -1,0 +1,93 @@
+﻿@model ViewModels.UsuarioViewModel
+@{
+    ViewData["Title"] = "Criar Usuário";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<style>
+    body {
+        background-color: #fff;
+    }
+
+    .form-container {
+        max-width: 450px;
+        margin: 50px auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .form-title {
+        text-align: center;
+        color: #ff6600;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .btn-orange {
+        background-color: #ff6600;
+        color: white;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+    }
+
+        .btn-orange:hover {
+            background-color: #e65500;
+        }
+
+    label {
+        font-weight: 600;
+        color: #444;
+    }
+</style>
+
+<div class="form-container">
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["MensagemSucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["MensagemErro"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <h2 class="form-title">Cadastro de Usuário</h2>
+
+    <form asp-action="Cadastrar" asp-controller="Usuario" method="post">
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" placeholder="Digite seu e-mail" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Senha" class="form-label"></label>
+            <input asp-for="Senha" type="password" class="form-control" placeholder="Digite sua senha" />
+            <span asp-validation-for="Senha" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ConfirmarSenha" class="form-label"></label>
+            <input asp-for="ConfirmarSenha" type="password" class="form-control" placeholder="Confirme sua senha" />
+            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-orange w-100">Cadastrar</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

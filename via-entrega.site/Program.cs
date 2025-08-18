@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Services;
-using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
 using via_entrega.repositoriess;
@@ -22,9 +21,19 @@ builder.Services.AddHttpClient<IbgeApiService>();
 //		options.ClientId = builder.Configuration["Auth0:ClientId"];
 //	});
 
+#region Services
+builder.Services.AddScoped<IPessoaFisicaService, PessoaFisicaService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+#endregion
+
+#region Repositories
+
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IPessoaFisicaRepository, PessoaFisicaRepository>();
-builder.Services.AddScoped<IPessoaFisicaService<PessoaFisica>, PessoaFisicaService>();
-builder.Services.AddScoped<IPessoaJuridicaService<PessoaJuridica>, PessoaJuridicaService>();
+
+#endregion
+
+
 
 var app = builder.Build();
 
