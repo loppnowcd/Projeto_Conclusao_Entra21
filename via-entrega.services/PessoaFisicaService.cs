@@ -1,4 +1,5 @@
 ﻿using via_entrega.entities.Registrations;
+using via_entrega.interfaces.Common;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
 
@@ -22,9 +23,20 @@ namespace via_entrega.services
 			return await _pessoaFisicaRepository.BuscarPorNomeAsync(nome);
 		}
 
-		public async Task<Guid?> CreateAsync(PessoaFisica entity)
+		public async Task<Guid?> CreateAsync(PessoaFisica pessoa)
 		{
-			return await _pessoaFisicaRepository.CreateAsync(entity);
+			if (string.IsNullOrEmpty(pessoa.Nome))
+				throw new ArgumentException("O nome é obrigatório.");
+
+			if (pessoa.Cpf.Length != 11)
+				throw new ArgumentException("CPF inválido.");
+
+			// Regra: CPF único
+			var existente = await _pessoaFisicaRepository.BuscarPorCpfAsync(pessoa.Cpf);
+			if (existente != null)
+				throw new InvalidOperationException("CPF já cadastrado.");
+
+			return await _pessoaFisicaRepository.CreateAsync(pessoa);
 		}
 
 		public async Task<bool> DeleteAsync(Guid id)
@@ -46,5 +58,6 @@ namespace via_entrega.services
 		{
 			return await _pessoaFisicaRepository.UpdateAsync(entity);
 		}
+
 	}
 }

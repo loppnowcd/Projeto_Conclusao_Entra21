@@ -6,5 +6,6 @@
 		 Cancelado = 2,
 		 Em_transito = 3,
 		 Devolvido = 4,
+		AguardandoColeta = 5,
 	}
 }

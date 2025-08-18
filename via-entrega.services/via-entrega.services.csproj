@@ -8,8 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ICollectionOrderService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\via-entrega.entities\via-entrega.entities.csproj" />
     <ProjectReference Include="..\via-entrega.interfaces\via-entrega.interfaces.csproj" />
+    <ProjectReference Include="..\via-entrega.repositories\via-entrega.repositories.csproj" />
   </ItemGroup>
 
 </Project>
