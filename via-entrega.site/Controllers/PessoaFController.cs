@@ -8,7 +8,7 @@ namespace Controllers
         // ==========================================================
         // PASSO 1: ADICIONE ESTE MÉTODO QUE ESTAVA FALTANDO
         // Esta é a ação que MOSTRA o formulário em branco (GET)
-        public IActionResult NovoCadastroPF()
+        public IActionResult Create()
         {
             return View();
         }

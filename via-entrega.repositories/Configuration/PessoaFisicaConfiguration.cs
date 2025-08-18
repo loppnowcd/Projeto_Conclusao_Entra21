@@ -15,11 +15,6 @@ namespace via_entrega.repositoriess.Configuration
 				   .IsRequired()
 				   .HasMaxLength(14);
 
-			builder.Property(p => p.NomeMae)
-				   .HasMaxLength(100);
-
-			builder.Property(p => p.Cor)
-				   .HasMaxLength(50);
 
 			builder.Property(p => p.LicenseNumber)
 				   .HasMaxLength(20);

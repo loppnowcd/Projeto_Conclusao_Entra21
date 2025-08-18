@@ -1,0 +1,82 @@
+﻿@using via_entrega.entities.Enums
+@using via_entrega.entities.Registrations
+@model Pessoa
+
+@{
+    ViewData["Title"] = "Cadastro de Usuário";
+}
+
+<h2>Cadastro de Usuário</h2>
+
+<form asp-action="Create" method="post">
+    <!-- Tipo de Pessoa -->
+    <div class="form-group">
+        <label>Tipo de Pessoa</label><br />
+        <input type="radio" name="TipoPessoa" value="PF" checked onchange="togglePessoa()" /> Pessoa Física
+        <input type="radio" name="TipoPessoa" value="PJ" onchange="togglePessoa()" /> Pessoa Jurídica
+    </div>
+
+    <!-- Campos comuns -->
+    <div class="form-group">
+        <label asp-for="Nome" class="control-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DataNascimento" class="control-label"></label>
+        <input asp-for="DataNascimento" type="date" class="form-control" />
+        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+    </div>
+
+    <!-- Pessoa Física -->
+    <div id="pfFields">
+        <div class="form-group">
+            <label for="Cpf">CPF</label>
+            <input name="Cpf" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="Sexo">Sexo</label>
+            <select name="Sexo" class="form-control" asp-items="Html.GetEnumSelectList<Sexo>()"></select>
+        </div>
+
+        <div class="form-group">
+            <label for="EstadoCivil">Estado Civil</label>
+            <select name="EstadoCivil" class="form-control" asp-items="Html.GetEnumSelectList<DadosEstadoCivil>()"></select>
+        </div>
+
+        <div class="form-group">
+            <label for="LicenseNumber">Número da CNH</label>
+            <input name="LicenseNumber" class="form-control" />
+        </div>
+    </div>
+
+    <!-- Pessoa Jurídica -->
+    <div id="pjFields" style="display:none;">
+        <div class="form-group">
+            <label for="NomeFantasia">Nome Fantasia</label>
+            <input name="NomeFantasia" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="Cnpj">CNPJ</label>
+            <input name="Cnpj" class="form-control" />
+        </div>
+    </div>
+
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Cadastrar" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function togglePessoa() {
+            let tipo = document.querySelector('input[name="TipoPessoa"]:checked').value;
+            document.getElementById("pfFields").style.display = (tipo === "PF") ? "block" : "none";
+            document.getElementById("pjFields").style.display = (tipo === "PJ") ? "block" : "none";
+        }
+    </script>
+}

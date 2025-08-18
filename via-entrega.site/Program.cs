@@ -22,7 +22,6 @@ builder.Services.AddHttpClient<IbgeApiService>();
 //	});
 
 #region Services
-builder.Services.AddScoped<IPessoaFisicaService, PessoaFisicaService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 #endregion
 
