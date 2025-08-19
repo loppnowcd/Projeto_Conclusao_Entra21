@@ -4,7 +4,7 @@ using via_entrega.Interfaces.Common;
 
 namespace via_entrega.services
 {
-	public interface ICollectionOrderService<T> : ICRUD<CollectionOrder>
+	public interface ICollectionOrderService: ICRUD<CollectionOrder>
 	{
 	}
 }

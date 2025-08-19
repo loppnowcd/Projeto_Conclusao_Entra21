@@ -22,6 +22,11 @@ namespace via_entrega.repositoriess.Registrations
 			return await _context.Set<PessoaFisica>().FirstOrDefaultAsync(p => p.Cpf == cpf);
 		}
 
+		public async Task<bool> ExisteCpf(string cpf)
+		{
+			return await _context.Set<PessoaFisica>().AnyAsync(p => p.Cpf == cpf);
+		}
+
 		public async Task<IEnumerable<PessoaFisica>> BuscarPorNomeAsync(string nome)
 		{
 			return await _context.Set<PessoaFisica>()

@@ -10,5 +10,7 @@ namespace via_entrega.interfaces.Repositories
 {
 	public interface IDeliveryOrderRepository : ICRUD<DeliveryOrder>
 	{
+		public Task<IEnumerable<DeliveryOrder?>> BuscarOrdersPelaPessoa(Guid idPessoa);
+
 	}
 }
