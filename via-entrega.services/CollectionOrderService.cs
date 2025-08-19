@@ -3,7 +3,7 @@ using via_entrega.entities.Orders;
 
 namespace via_entrega.services
 {
-	public class CollectionOrderService : ICollectionOrderService<CollectionOrder>
+	public class CollectionOrderService : ICollectionOrderService
 	{
 		private readonly ICollectionOrderRepository _collectionOrderRepository;
 

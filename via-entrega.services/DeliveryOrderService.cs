@@ -5,17 +5,24 @@ using via_entrega.interfaces.Services;
 
 namespace via_entrega.services
 {
-	public class DeliveryOrderService : IDeliveryOrderService<DeliveryOrder>
+	public class DeliveryOrderService : IDeliveryOrderService
 	{
 		private readonly IDeliveryOrderRepository _deliveryOrderRepository;
 		public DeliveryOrderService(IDeliveryOrderRepository deliveryOrderRepository)
 		{
 			_deliveryOrderRepository = deliveryOrderRepository;
 		}
+
+		public async Task<IEnumerable<DeliveryOrder?>> BuscarOrdersPelaPessoa(Guid idPessoa)
+		{
+			return await _deliveryOrderRepository.BuscarOrdersPelaPessoa(idPessoa);
+		}
+
+
 		public async Task<Guid?> CreateAsync(DeliveryOrder order)
 		{
 			return await _deliveryOrderRepository.CreateAsync(order);
-			
+
 		}
 
 		public async Task<bool> DeleteAsync(Guid id)
@@ -41,3 +48,4 @@ namespace via_entrega.services
 
 		}
 	}
+}

@@ -3,7 +3,8 @@ using via_entrega.Interfaces.Common;
 
 namespace via_entrega.interfaces.Services
 {
-	public interface IDeliveryOrderService<T> : ICRUD<DeliveryOrder>
+	public interface IDeliveryOrderService : ICRUD<DeliveryOrder>
 	{
+		public Task<IEnumerable<DeliveryOrder?>> BuscarOrdersPelaPessoa(Guid idPessoa); 
 	}
 }

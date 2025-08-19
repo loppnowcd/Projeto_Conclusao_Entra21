@@ -5,7 +5,7 @@ using via_entrega.interfaces.Services;
 
 namespace via_entrega.services
 {
-	public class PessoaFisicaService : IPessoaFisicaService<PessoaFisica>
+	public class PessoaFisicaService : IPessoaFisicaService
 	{
 		private readonly IPessoaFisicaRepository _pessoaFisicaRepository;
 		public PessoaFisicaService(IPessoaFisicaRepository pessoaFisicaRepository)
@@ -32,8 +32,8 @@ namespace via_entrega.services
 				throw new ArgumentException("CPF inválido.");
 
 			// Regra: CPF único
-			var existente = await _pessoaFisicaRepository.BuscarPorCpfAsync(pessoa.Cpf);
-			if (existente != null)
+			bool existente = await _pessoaFisicaRepository.ExisteCpf(pessoa.Cpf);
+			if (existente)
 				throw new InvalidOperationException("CPF já cadastrado.");
 
 			return await _pessoaFisicaRepository.CreateAsync(pessoa);

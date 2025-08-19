@@ -24,12 +24,14 @@ builder.Services.AddHttpClient<IbgeApiService>();
 #region Services
 builder.Services.AddScoped<IPessoaFisicaService, PessoaFisicaService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IDeliveryOrderService, DeliveryOrderService>();
 #endregion
 
 #region Repositories
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IPessoaFisicaRepository, PessoaFisicaRepository>();
+builder.Services.AddScoped<IDeliveryOrderRepository, DeliveryOrderRepository>();
 
 #endregion
 
