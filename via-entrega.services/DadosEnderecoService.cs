@@ -1,10 +1,11 @@
 ﻿using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
+using via_entrega.repositoriess.Registrations;
 
 namespace via_entrega.services
 {
-    public class DadosEnderecoService : IDadosEnderecoService<DadosEndereco>
+    public class DadosEnderecoService : IDadosEnderecoService
     {
         private readonly IDadosEnderecoRepository _dadosEnderecoRepository;
 
@@ -46,6 +47,11 @@ namespace via_entrega.services
         public async Task<DadosEndereco?> UpdateAsync(DadosEndereco entity)
         {
             return await _dadosEnderecoRepository.UpdateAsync(entity);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dadosEnderecoRepository.SaveChangesAsync();
         }
     }
 }

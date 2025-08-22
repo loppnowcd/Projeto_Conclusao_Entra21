@@ -54,5 +54,10 @@ namespace via_entrega.services
 			return await _collectionOrderRepository.UpdateAsync(entity);
 
 		}
-	}
+
+        public async Task SaveChangesAsync()
+        {
+            await _collectionOrderRepository.SaveChangesAsync();
+        }
+    }
 }

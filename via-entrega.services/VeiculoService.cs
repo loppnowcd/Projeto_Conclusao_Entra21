@@ -42,7 +42,11 @@ namespace via_entrega.services
         {
             return await _veiculoRepositorio.DeleteAsync(id);
         }
-		
-	}
+
+        public async Task SaveChangesAsync()
+        {
+            await _veiculoRepositorio.SaveChangesAsync();
+        }
+    }
 }
 

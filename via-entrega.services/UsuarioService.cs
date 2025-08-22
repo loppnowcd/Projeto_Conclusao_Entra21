@@ -3,6 +3,7 @@ using System.Net.Mail;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
+using via_entrega.repositoriess.Registrations;
 
 namespace via_entrega.services
 {
@@ -67,6 +68,11 @@ namespace via_entrega.services
         public async Task<bool> DesativarAsync(Guid id)
         {
             return await _usuarioRepository.DesativarAsync(id);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _usuarioRepository.SaveChangesAsync();
         }
     }
 }

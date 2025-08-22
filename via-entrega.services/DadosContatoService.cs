@@ -4,7 +4,7 @@ using via_entrega.interfaces.Services;
 
 namespace via_entrega.services
 {
-    public class DadosContatoService : IDadosContatoService<DadosContato>
+    public class DadosContatoService : IDadosContatoService
     {
         private readonly IDadosContatoRepository _dadosContatoRepository;
 
@@ -46,6 +46,11 @@ namespace via_entrega.services
         public async Task<DadosContato?> UpdateAsync(DadosContato entity)
         {
             return await _dadosContatoRepository.UpdateAsync(entity);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dadosContatoRepository.SaveChangesAsync();
         }
     }
 }
