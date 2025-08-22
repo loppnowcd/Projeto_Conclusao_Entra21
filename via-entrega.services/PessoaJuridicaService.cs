@@ -1,10 +1,11 @@
 ﻿using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
+using via_entrega.repositoriess.Registrations;
 
 namespace via_entrega.services
 {
-    public class PessoaJuridicaService : IPessoaJuridicaService<PessoaJuridica>
+    public class PessoaJuridicaService : IPessoaJuridicaService
     {
         private readonly IPessoaJuridicaRepository _pessoaJuridicaRepository;
 
@@ -52,6 +53,11 @@ namespace via_entrega.services
         public async Task<PessoaJuridica?> UpdateAsync(PessoaJuridica entity)
         {
             return await _pessoaJuridicaRepository.UpdateAsync(entity);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _pessoaJuridicaRepository.SaveChangesAsync();
         }
     }
 }

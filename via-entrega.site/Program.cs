@@ -24,13 +24,20 @@ builder.Services.AddHttpClient<IbgeApiService>();
 #region Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IDeliveryOrderService, DeliveryOrderService>();
+builder.Services.AddScoped<IPessoaFisicaService, PessoaFisicaService>();
+builder.Services.AddScoped<IPessoaJuridicaService, PessoaJuridicaService>();
+builder.Services.AddScoped<IDadosContatoService, DadosContatoService>();
+builder.Services.AddScoped<IDadosEnderecoService, DadosEnderecoService>();
 #endregion
 
 #region Repositories
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IPessoaFisicaRepository, PessoaFisicaRepository>();
+builder.Services.AddScoped<IPessoaJuridicaRepository, PessoaJuridicaRepository>();
 builder.Services.AddScoped<IDeliveryOrderRepository, DeliveryOrderRepository>();
+builder.Services.AddScoped<IDadosContatoRepository, DadosContatoRepository>();
+builder.Services.AddScoped<IDadosEnderecoRepository, DadosEnderecoRepository>();
 
 #endregion
 

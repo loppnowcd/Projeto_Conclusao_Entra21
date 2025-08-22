@@ -5,7 +5,7 @@ using via_entrega.Interfaces.Common;
 
 namespace via_entrega.repositoriess
 {
-	public abstract class BaseRepository<T> : ICRUD<T> where T : class, entities.IEntityBase
+    public abstract class BaseRepository<T> : ICRUD<T> where T : class, entities.IEntityBase
 	{
 		private readonly ViaEntregaContext _viaEntregaContext;
 		internal readonly DbSet<T> _dbSet;
@@ -27,9 +27,9 @@ namespace via_entrega.repositoriess
 
 		public virtual async Task<Guid?> CreateAsync(T entity)
 		{
+			entity.Id = Guid.CreateVersion7();
 			await _dbSet.AddAsync(entity);
 			entity.CreatedAt = DateTime.UtcNow;
-			await _viaEntregaContext.SaveChangesAsync();
 			return entity.Id;
 		}
 
@@ -37,7 +37,6 @@ namespace via_entrega.repositoriess
 		{
 			_dbSet.Update(entity);
 			entity.UpdatedAt = DateTime.UtcNow;
-			await _viaEntregaContext.SaveChangesAsync();
 			return entity;
 		}
 
@@ -49,9 +48,13 @@ namespace via_entrega.repositoriess
 
 			entity.Active = false;
 			entity.UpdatedAt = DateTime.UtcNow;
-			await _viaEntregaContext.SaveChangesAsync();
 
 			return true;
 		}
-	}
+
+        public async Task SaveChangesAsync()
+        {
+            await _viaEntregaContext.SaveChangesAsync();
+        }
+    }
 }

@@ -5,6 +5,6 @@ namespace via_entrega.interfaces.Repositories
 {
     public interface IVeiculoRepository : ICRUD<Veiculo>
     {
-
+        public Task SaveChangesAsync();
     }
 }
