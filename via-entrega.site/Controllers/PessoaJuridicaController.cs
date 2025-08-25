@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using via_entrega.entities.Registrations;
+using via_entrega.interfaces.Services;
+using via_entrega.services;
 
 namespace Controllers
 {
-    public class EmpresaPjController : Controller
+    public class PessoaJuridicaController : Controller
 	{
+		private readonly IPessoaJuridicaService _pessoaJuridicaService;
+		public IPessoaJuridicaService(IDeliveryOrderService deliveryOrderService)
+		{
+		_pessoaJuridicaService = pessoaJuridicaService;
+		}
+		{
         // ==========================================================
         // PASSO 1: ADICIONE ESTE MÉTODO QUE ESTAVA FALTANDO
         // Esta é a ação que MOSTRA o formulário em branco (GET)
@@ -38,6 +46,8 @@ namespace Controllers
 			// a aplicação retorna para a mesma tela de cadastro,
 			// mas desta vez exibindo as mensagens de erro e mantendo os dados que o usuário já digitou.
 			return View(empresaPJ);
+
+
 		}
 	}
 }

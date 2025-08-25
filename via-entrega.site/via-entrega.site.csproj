@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\PessoaFController.cs" />
     <Compile Remove="Models\Class.cs" />
     <Compile Remove="Models\DadosEstadoCivil.cs" />
     <Compile Remove="Repository\ICRUD.cs" />

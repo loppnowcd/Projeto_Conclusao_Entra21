@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using via_entrega.entities.Enums;
-using via_entrega.entities.Orders;
 using via_entrega.interfaces.Services;
 using ViewModels.PessoaFisica;
 

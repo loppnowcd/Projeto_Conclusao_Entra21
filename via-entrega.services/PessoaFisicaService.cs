@@ -51,11 +51,13 @@ namespace via_entrega.services
 
 		public async Task<PessoaFisica?> GetByIdAsync(Guid id)
 		{
+
 			return await _pessoaFisicaRepository.GetByIdAsync(id);
 		}
 
 		public async Task<PessoaFisica?> UpdateAsync(PessoaFisica entity)
 		{
+			if (entity.Id == Guid.Empty) throw new ArgumentException("Id inválido.");
 			return await _pessoaFisicaRepository.UpdateAsync(entity);
 		}
 

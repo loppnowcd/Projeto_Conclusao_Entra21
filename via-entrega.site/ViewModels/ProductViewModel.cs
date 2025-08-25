@@ -1,8 +1,10 @@
-﻿namespace via_entrega.entities.Orders
+﻿using via_entrega.entities.Enums;
+
+namespace via_entrega.entities.Orders
 {
-	public class Product : EntityBase
+	public class Product 
 	{
-		public decimal Altura { get; set; }	
+		public decimal Altura { get; set; }
 		public decimal Largura { get; set; }
 		public decimal Comprimento { get; set; }
 		public decimal Peso { get; set; }

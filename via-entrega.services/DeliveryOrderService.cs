@@ -19,9 +19,17 @@ namespace via_entrega.services
 		}
 
 
-		public async Task<Guid?> CreateAsync(DeliveryOrder order)
+		public async Task<Guid?> CreateAsync(DeliveryOrder entity)
 		{
-			return await _deliveryOrderRepository.CreateAsync(order);
+			if (entity.Id == Guid.Empty)
+				throw new ArgumentException("Cliente é obrigatório.");
+			if (entity.DataColeta == default)
+				throw new ArgumentException("Data de coleta é obrigatória.");
+			if (entity.Status == Status.AguardandoColeta)
+				return await _deliveryOrderRepository.CreateAsync(entity);
+
+			// Adiciona um valor de retorno para todos os caminhos de código
+			return null;
 
 		}
 
