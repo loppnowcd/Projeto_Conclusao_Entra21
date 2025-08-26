@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\via-entrega.entities\via-entrega.entities.csproj" />
     <ProjectReference Include="..\via-entrega.interfaces\via-entrega.interfaces.csproj" />
     <ProjectReference Include="..\via-entrega.repositories\via-entrega.repositories.csproj" />

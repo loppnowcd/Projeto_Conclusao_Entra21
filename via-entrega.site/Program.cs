@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Services;
 using via_entrega.interfaces.Repositories;
@@ -15,11 +16,13 @@ builder.Services.AddDbContext<ViaEntregaContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IbgeApiService>();
-//builder.Services
-//	.AddAuth0WebAppAuthentication(options => {
-//		options.Domain = builder.Configuration["Auth0:Domain"];
-//		options.ClientId = builder.Configuration["Auth0:ClientId"];
-//	});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                                               .AddCookie(options =>
+                                               {
+                                                   options.LoginPath = "/Account/Login";
+                                                   options.LogoutPath = "/Account/Logout";
+                                               });
 
 #region Services
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();

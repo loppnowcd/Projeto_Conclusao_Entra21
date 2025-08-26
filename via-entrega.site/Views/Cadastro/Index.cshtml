@@ -40,7 +40,7 @@
 			<div class="row mb-3">
 				<div class="col-md-6">
 					<label asp-for="TipoPessoa" class="form-label">Tipo de Pessoa</label>
-					<select asp-for="TipoPessoa" class="form-select">
+					<select asp-for="TipoPessoa" class="form-select" onchange="mudarTipoPessoa()">
 						<option value="1">Pessoa Física</option>
 						<option value="2">Pessoa Jurídica</option>
 					</select>
@@ -218,7 +218,24 @@
 	}
 
 	<script>
+
+			function mudarTipoPessoa(){
+					let tipoPesoa = document.getElementsByName("TipoPessoa")[0].value
+
+				if(tipoPesoa === '1')
+				{
+					$('#pessoaFisicaFields').show();
+					$('#pessoaJuridicaFields').hide();
+				}
+				else{
+					$('#pessoaJuridicaFields').show();
+					$('#pessoaFisicaFields').hide();
+				}
+			}
+
+
 		$(document).ready(function () {
+
 			let enderecoIndex = @Model.Enderecos?.Count ?? 0;
 
 			$('#addEndereco').click(function () {
@@ -289,7 +306,7 @@
 			$(this).closest('.contato-item').remove();
 		});
 				$('.cep').mask('00000-000');
-			});
+			})
 	</script>
 </body>
 </html>

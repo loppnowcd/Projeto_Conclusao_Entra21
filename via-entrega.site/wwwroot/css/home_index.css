@@ -1,0 +1,111 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+header {
+    background-color: #ff7300;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav {
+    background-color: #f6962f;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+    nav a {
+        color: white !important;
+        font-weight: bold;
+        margin: 0 10px;
+    }
+
+        nav a:hover {
+            color: rgb(249, 169, 104) !important;
+        }
+
+.btn-usuario {
+    background-color: rgb(254, 204, 128);
+    color: #ff7b00;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
+    padding: 8px 15px;
+}
+
+    .btn-usuario:hover {
+        background-color: #f5e3cd;
+    }
+
+.hero {
+    background: linear-gradient(135deg, #ffd49c, #fff0e0);
+    padding: 60px 20px;
+    text-align: center;
+}
+
+    .hero h1 {
+        font-size: 3rem;
+        color: #ff7a06;
+        font-weight: bold;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: #f57e34;
+    }
+
+.hero-buttons button {
+    margin: 10px;
+    padding: 12px 25px;
+    background-color: #ff7a06;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .hero-buttons button:hover {
+        background-color: #e86900;
+    }
+
+.carousel-inner img {
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.section {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+    .section h2 {
+        color: #ff7700;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+footer {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+}

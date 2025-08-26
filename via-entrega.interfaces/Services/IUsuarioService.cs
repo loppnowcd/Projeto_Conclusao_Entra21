@@ -1,4 +1,5 @@
-﻿using via_entrega.entities.Registrations;
+﻿using System.Security.Claims;
+using via_entrega.entities.Registrations;
 
 namespace via_entrega.interfaces.Services
 {
@@ -8,5 +9,6 @@ namespace via_entrega.interfaces.Services
         public Task<Usuario?> AtualizarAsync(Usuario usuario);
         public Task<bool> AtivarAsync(Guid id);
         public Task<bool> DesativarAsync(Guid id);
+        public Task<ClaimsPrincipal?> Login(string email, string password);
     }
 }
