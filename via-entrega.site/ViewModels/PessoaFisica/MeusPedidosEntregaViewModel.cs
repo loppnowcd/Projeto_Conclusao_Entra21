@@ -2,7 +2,7 @@
 
 namespace ViewModels.PessoaFisica
 {
-	public class MeusPedidosEntregaViewModel
+	public class OrderCreateVM
 	{
 		public DateTime? DataEntrega { get; set; }
 		public DateTime DataColeta { get; set; }

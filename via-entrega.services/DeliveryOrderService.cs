@@ -53,5 +53,10 @@ namespace via_entrega.services
         {
             await _deliveryOrderRepository.SaveChangesAsync();
         }
-    }
+
+		 Task<IEnumerable<DeliveryOrder>> IDeliveryOrderService.GetAllByUserAsync(string? userId)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

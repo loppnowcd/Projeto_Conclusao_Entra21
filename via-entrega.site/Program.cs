@@ -25,6 +25,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                                                });
 
 #region Services
+builder.Services.AddScoped<ICollectionOrderService, CollectionOrderService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IDeliveryOrderService, DeliveryOrderService>();
 builder.Services.AddScoped<IPessoaFisicaService, PessoaFisicaService>();
@@ -34,7 +35,7 @@ builder.Services.AddScoped<IDadosEnderecoService, DadosEnderecoService>();
 #endregion
 
 #region Repositories
-
+builder.Services.AddScoped<ICollectionOrderRepository, CollectionOrderRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IPessoaFisicaRepository, PessoaFisicaRepository>();
 builder.Services.AddScoped<IPessoaJuridicaRepository, PessoaJuridicaRepository>();

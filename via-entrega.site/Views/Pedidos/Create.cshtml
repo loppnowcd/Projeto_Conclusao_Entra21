@@ -1,0 +1,60 @@
+﻿@model ViewModels.Orders.OrderCreateVM
+@{
+    ViewData["Title"] = "Solicitar Entrega";
+    
+}
+<div class="container py-3">
+    <h2>Solicitar Entrega</h2>
+    <form asp-action="Create" method="post" class="row g-3">
+        <div class="col-12">
+            <label asp-for="Endereco" class="form-label"></label>
+            <input asp-for="Endereco" class="form-control" />
+            <span asp-validation-for="Endereco" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Destinatario" class="form-label"></label>
+            <input asp-for="Destinatario" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="Telefone" class="form-label"></label>
+            <input asp-for="Telefone" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="Documento" class="form-label"></label>
+            <input asp-for="Documento" class="form-control" />
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Observacao" class="form-label"></label>
+            <textarea asp-for="Observacao" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="ValorTotal" class="form-label"></label>
+            <input asp-for="ValorTotal" class="form-control" />
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="DataColeta" class="form-label"></label>
+            <input asp-for="DataColeta" type="date" class="form-control" />
+            <span asp-validation-for="DataColeta" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="DataEntrega" class="form-label"></label>
+            <input asp-for="DataEntrega" type="date" class="form-control" />
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
