@@ -1,0 +1,9 @@
+﻿@* Partial simples de estado vazio *@
+@model dynamic
+<div class="text-center p-5 border rounded-3 bg-light">
+    <h5 class="mb-2">@Model?.Title</h5>
+    <p class="text-muted mb-3">@Model?.Subtitle</p>
+    <a asp-controller="@Model?.CtaController" asp-action="@Model?.CtaAction" class="btn btn-primary">
+        @Model?.CtaText
+    </a>
+</div>

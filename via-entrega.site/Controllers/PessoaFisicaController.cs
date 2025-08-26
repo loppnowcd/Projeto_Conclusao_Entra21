@@ -54,44 +54,44 @@ namespace Controllers
 			//				  : pedidoEntrega.PessoaFisica?.Nome
 			//};
 
-			IEnumerable<MeusPedidosEntregaViewModel?>  dados = MontarDadosFicticios();
+			IEnumerable<OrderCreateVM?>  dados = MontarDadosFicticios();
 
 			return PartialView("_MeusPedidosEntrega", dados);
 		}
 
-		private IEnumerable<MeusPedidosEntregaViewModel?> MontarDadosFicticios()
+		private IEnumerable<OrderCreateVM?> MontarDadosFicticios()
 		{
-			List<MeusPedidosEntregaViewModel?> pedidos = new List<MeusPedidosEntregaViewModel?>
+			List<OrderCreateVM?> pedidos = new List<OrderCreateVM?>
 			{
-				new MeusPedidosEntregaViewModel
+				new OrderCreateVM
 				{
 					DataColeta = DateTime.Now.AddDays(-2),
 					DataEntrega = DateTime.Now.AddDays(1),
 					Status = via_entrega.entities.Enums.Status.Cancelado,
 					NomeCliente = "João da Silva"
 				},
-				new MeusPedidosEntregaViewModel
+				new OrderCreateVM
 				{
 					DataColeta = DateTime.Now.AddDays(-5),
 					DataEntrega = DateTime.Now.AddDays(2),
 					Status = Status.Entregue,
 					NomeCliente = "Maria Oliveira",
 				},
-				new MeusPedidosEntregaViewModel
+				new OrderCreateVM
 				{
 					DataColeta = DateTime.Now.AddDays(-10),
 					DataEntrega = DateTime.Now.AddDays(3),
 					Status = Status.AguardandoColeta,
 					NomeCliente = "Carlos Pereira"
 				},
-				new MeusPedidosEntregaViewModel
+				new OrderCreateVM
 				{
 					DataColeta = DateTime.Now.AddDays(-1),
 					DataEntrega = DateTime.Now.AddDays(4),
 					Status = Status.AguardandoColeta,
 					NomeCliente = "Ana Souza"
 				},
-				new MeusPedidosEntregaViewModel
+				new OrderCreateVM
 				{
 					DataColeta = DateTime.Now.AddDays(-3),
 					DataEntrega = DateTime.Now.AddDays(5),
