@@ -1,5 +1,8 @@
 ﻿using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
@@ -54,6 +57,27 @@ namespace via_entrega.services
             }
         }
 
+        public async Task<ClaimsPrincipal?> Login(string email, string password)
+        {
+            Usuario? usuario = await _usuarioRepository.BuscarPorEmail(email);
+
+            if (usuario is null || usuario.Senha != password)
+                return null;
+
+            // Criar claims do usuário
+            List<Claim>? claims = new()
+            {
+                new Claim(ClaimTypes.Name, usuario.Email),
+                new Claim(ClaimTypes.Email, usuario.Email),
+                new Claim(ClaimTypes.Role, "Usuario"),
+                new Claim("UserId", usuario.Id.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            return claimsPrincipal;
+        }
 
         public async Task<Usuario?> AtualizarAsync(Usuario usuario)
         {

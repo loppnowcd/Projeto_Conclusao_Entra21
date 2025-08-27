@@ -1,0 +1,97 @@
+﻿body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff7300 0%, #ff8c00 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+    background: #ff7300;
+    border-radius: 15px;
+    padding: 40px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+    .logo-container i {
+        font-size: 60px;
+        color: #fff;
+    }
+
+.welcome-title {
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ff7300;
+}
+
+.btn-login {
+    background: #ff7300;
+    color: #fff;
+    font-weight: 600;
+    width: 100%;
+}
+
+    .btn-login:hover {
+        background: #ff8c00;
+    }
+
+.form-control:focus {
+    border-color: #ff7300;
+    box-shadow: 0 0 0 0.2rem rgba(255,115,0,0.25);
+}
+
+.forgot-password {
+    font-size: 14px;
+    color: #6c757d;
+    text-decoration: none;
+}
+
+    .forgot-password:hover {
+        color: #ff7300;
+    }
+
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+    .register-link a {
+        color: #ff7300;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+@media (max-width: 480px) {
+    .logo-container {
+        padding: 30px;
+    }
+
+    .welcome-title {
+        font-size: 26px;
+    }
+}

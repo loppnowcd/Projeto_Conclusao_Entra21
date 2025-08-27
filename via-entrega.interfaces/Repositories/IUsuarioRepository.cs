@@ -7,5 +7,6 @@ namespace via_entrega.interfaces.Repositories
     {
         public Task<bool> AtivarAsync(Guid id);
         public Task<bool> DesativarAsync(Guid id);
+        public Task<Usuario?> BuscarPorEmail(string email);
     }
 }

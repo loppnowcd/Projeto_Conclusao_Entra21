@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.EntityFrameworkCore;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 
@@ -34,6 +31,11 @@ namespace via_entrega.repositoriess.Registrations
             usuario.Ativo = false;
             await UpdateAsync(usuario);
             return true;
+        }
+
+        public async Task<Usuario?> BuscarPorEmail(string email)
+        {
+            return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }
