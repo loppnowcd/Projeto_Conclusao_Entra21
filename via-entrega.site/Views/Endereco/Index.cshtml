@@ -1,0 +1,175 @@
+﻿@model IEnumerable<ViewModels.Cadastro.EnderecoViewModel>
+
+@{
+    ViewData["Title"] = "Endereços";
+    Layout = null;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container mt-4">
+    <h2>Gerenciar Endereços</h2>
+    <button class="btn btn-primary mb-3" onclick="openCreateModal()">Novo Endereço</button>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Rua</th>
+                <th>Número</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>CEP</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="enderecoTable">
+            @foreach (var item in Model)
+            {
+                <tr data-id="@item.Id">
+                    <td>@item.Rua</td>
+                    <td>@item.Numero</td>
+                    <td>@item.Bairro</td>
+                    <td>@item.Cidade</td>
+                    <td>@item.Estado</td>
+                    <td>@item.CEP</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="openEditModal('@item.Id')">Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteEndereco('@item.Id')">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal (Create/Edit) -->
+<div class="modal fade" id="enderecoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Novo Endereço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="enderecoId" />
+                <div class="mb-2">
+                    <label>Rua</label>
+                    <input type="text" class="form-control" id="rua" />
+                </div>
+                <div class="mb-2">
+                    <label>Número</label>
+                    <input type="text" class="form-control" id="numero" />
+                </div>
+                <div class="mb-2">
+                    <label>Bairro</label>
+                    <input type="text" class="form-control" id="bairro" />
+                </div>
+                <div class="mb-2">
+                    <label>Cidade</label>
+                    <input type="text" class="form-control" id="cidade" />
+                </div>
+                <div class="mb-2">
+                    <label>Estado</label>
+                    <input type="text" class="form-control" id="estado" />
+                </div>
+                <div class="mb-2">
+                    <label>CEP</label>
+                    <input type="text" class="form-control" id="cep" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" onclick="saveEndereco()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+    <div id="toastMsg" class="toast text-bg-primary border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body" id="toastBody">Mensagem aqui...</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let modal = new bootstrap.Modal(document.getElementById("enderecoModal"));
+    let toastEl = document.getElementById("toastMsg");
+    let toast = new bootstrap.Toast(toastEl);
+
+    function showToast(message, success = true) {
+        $("#toastBody").text(message);
+        $("#toastMsg").removeClass("text-bg-danger text-bg-success")
+                      .addClass(success ? "text-bg-success" : "text-bg-danger");
+        toast.show();
+    }
+
+    function openCreateModal() {
+        $("#modalTitle").text("Novo Endereço");
+        $("#enderecoId").val("");
+        $("#rua, #numero, #bairro, #cidade, #estado, #cep").val("");
+        modal.show();
+    }
+
+    function openEditModal(id) {
+        let row = $(`tr[data-id='${id}']`);
+        $("#modalTitle").text("Editar Endereço");
+        $("#enderecoId").val(id);
+        $("#rua").val(row.find("td:eq(0)").text());
+        $("#numero").val(row.find("td:eq(1)").text());
+        $("#bairro").val(row.find("td:eq(2)").text());
+        $("#cidade").val(row.find("td:eq(3)").text());
+        $("#estado").val(row.find("td:eq(4)").text());
+        $("#cep").val(row.find("td:eq(5)").text());
+        modal.show();
+    }
+
+    function saveEndereco() {
+        let id = $("#enderecoId").val();
+        let data = {
+            Id: id,
+            Rua: $("#rua").val(),
+            Numero: $("#numero").val(),
+            Bairro: $("#bairro").val(),
+            Cidade: $("#cidade").val(),
+            Estado: $("#estado").val(),
+            CEP: $("#cep").val()
+        };
+
+        let method = id ? "PUT" : "POST";
+        let url = id ? `/Endereco/Update/${id}` : "/Endereco/Create";
+
+        $.ajax({
+            url: url,
+            method: method,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (res) {
+                showToast(res.message, res.success);
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+
+        modal.hide();
+    }
+
+    function deleteEndereco(id) {
+        if (!confirm("Deseja excluir este endereço?")) return;
+        $.ajax({
+            url: `/Endereco/Delete/${id}`,
+            method: "DELETE",
+            success: function (res) {
+                showToast(res.message, res.success);
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+    }
+</script>
+
