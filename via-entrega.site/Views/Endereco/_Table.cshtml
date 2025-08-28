@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ViewModels.Cadastro.EnderecoViewModel>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="text-center p-5 bg-light rounded-3">
+        <p class="mb-0 text-muted">Você ainda não cadastrou endereços.</p>
+    </div>
+}
+else
+{
+    <table class="align-middle table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Rua</th>
+                <th>Número</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>CEP</th>
+                <th class="text-end">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model)
+            {
+                <tr data-id="@e.Id"
+                    data-rua="@e.Rua"
+                    data-numero="@e.Numero"
+                    data-bairro="@e.Bairro"
+                    data-cidade="@e.Cidade"
+                    data-estado="@e.Estado"
+                    data-cep="@e.CEP">
+                    <td class="text-nowrap">@e.Rua</td>
+                    <td class="text-nowrap">@e.Numero</td>
+                    <td class="text-nowrap">@e.Bairro</td>
+                    <td class="text-nowrap">@e.Cidade</td>
+                    <td class="text-nowrap">@e.Estado</td>
+                    <td class="text-nowrap">@e.CEP</td>
+                    <td class="text-end">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary"
+                                data-action="edit"
+                                data-id="@e.Id">
+                            Editar
+                        </button>
+
+                        <form class="d-inline" onsubmit="return false;">
+                            @Html.AntiForgeryToken()
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    data-action="delete"
+                                    data-id="@e.Id">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
