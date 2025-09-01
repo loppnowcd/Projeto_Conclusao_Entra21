@@ -31,6 +31,8 @@ builder.Services.AddScoped<IPessoaFisicaService, PessoaFisicaService>();
 builder.Services.AddScoped<IPessoaJuridicaService, PessoaJuridicaService>();
 builder.Services.AddScoped<IDadosContatoService, DadosContatoService>();
 builder.Services.AddScoped<IDadosEnderecoService, DadosEnderecoService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICollectionOrderService, CollectionOrderService>();
 #endregion
 
 #region Repositories
@@ -41,7 +43,8 @@ builder.Services.AddScoped<IPessoaJuridicaRepository, PessoaJuridicaRepository>(
 builder.Services.AddScoped<IDeliveryOrderRepository, DeliveryOrderRepository>();
 builder.Services.AddScoped<IDadosContatoRepository, DadosContatoRepository>();
 builder.Services.AddScoped<IDadosEnderecoRepository, DadosEnderecoRepository>();
-
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICollectionOrderRepository, CollectionOrderRepository>();
 #endregion
 
 

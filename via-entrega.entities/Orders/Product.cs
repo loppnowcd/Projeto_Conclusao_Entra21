@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace via_entrega.entities.Orders
+﻿namespace via_entrega.entities.Orders
 {
 	public class Product : EntityBase
 	{

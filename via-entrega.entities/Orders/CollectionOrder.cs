@@ -16,6 +16,5 @@ namespace via_entrega.entities.Orders
 		public string Observacao { get; set; }
 		public decimal ValorTotal { get; set; }
 
-
-	}
+    }
 }
