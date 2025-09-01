@@ -1,0 +1,213 @@
+﻿@model IEnumerable<ViewModels.Cadastro.EnderecoViewModel>
+
+@{
+    ViewData["Title"] = "Endereços";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container py-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="m-0">Endereços</h2>
+            <button type="button" class="btn btn-primary" id="btnNovo">Novo Endereço</button>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                    <h5 class="card-title m-0">Meus Endereços</h5>
+                    <input type="search" class="form-control" placeholder="Buscar por rua/bairro..." id="busca" style="max-width:260px;">
+                </div>
+
+                <div id="listaContainer" class="table-responsive">
+                    <!-- A tabela de endereços será carregada aqui via AJAX -->
+                    <div class="text-center text-muted py-5">Carregando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form (Create/Edit) -->
+    <div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="enderecoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Novo Endereço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="enderecoId" />
+                    <div class="mb-2">
+                        <label>Rua</label>
+                        <input type="text" class="form-control" id="rua" />
+                    </div>
+                    <div class="mb-2">
+                        <label>Número</label>
+                        <input type="text" class="form-control" id="numero" />
+                    </div>
+                    <div class="mb-2">
+                        <label>Bairro</label>
+                        <input type="text" class="form-control" id="bairro" />
+                    </div>
+                    <div class="mb-2">
+                        <label>Cidade</label>
+                        <input type="text" class="form-control" id="cidade" />
+                    </div>
+                    <div class="mb-2">
+                        <label>Estado</label>
+                        <input type="text" class="form-control" id="estado" />
+                    </div>
+                    <div class="mb-2">
+                        <label>CEP</label>
+                        <input type="text" class="form-control" id="cep" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="saveEndereco()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+        <div id="toastMsg" class="toast text-bg-primary border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastBody">Mensagem aqui...</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (bundle com Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const listaContainer = document.getElementById('listaContainer');
+        const buscaInput = document.getElementById('busca');
+        const btnNovo = document.getElementById('btnNovo');
+        const modalEl = document.getElementById('enderecoModal');
+        const modal = new bootstrap.Modal(modalEl);
+        const form = document.getElementById('formEndereco');
+        const modalTitle = document.getElementById('modalTitle');
+        const inputId = document.getElementById('enderecoId');
+        const inputRua = document.getElementById('rua');
+        const inputNumero = document.getElementById('numero');
+        const inputBairro = document.getElementById('bairro');
+        const inputCidade = document.getElementById('cidade');
+        const inputEstado = document.getElementById('estado');
+        const inputCEP = document.getElementById('cep');
+
+        // CSRF (AntiForgery)
+        function getCsrf() {
+            const tokenInput = form.querySelector('input[name="__RequestVerificationToken"]');
+            return tokenInput ? tokenInput.value : '';
+        }
+
+        async function carregarTabela() {
+            const resp = await fetch('@Url.Action("List", "Endereco")', { cache: 'no-store' });
+            listaContainer.innerHTML = await resp.text();
+        }
+
+        function resetForm() {
+            inputId.value = '';
+            inputRua.value = '';
+            inputNumero.value = '';
+            inputBairro.value = '';
+            inputCidade.value = '';
+            inputEstado.value = '';
+            inputCEP.value = '';
+        }
+
+        function openCreateModal() {
+            resetForm();
+            modalTitle.textContent = 'Novo Endereço';
+            modal.show();
+        }
+
+        async function openEditModal(id) {
+            const url = '@Url.Action("GetById", "Endereco")' + `?id=${id}`;
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (!resp.ok) { alert('Endereço não encontrado.'); return; }
+            const data = await resp.json();
+            inputId.value = data.id || '';
+            inputRua.value = data.rua || '';
+            inputNumero.value = data.numero || '';
+            inputBairro.value = data.bairro || '';
+            inputCidade.value = data.cidade || '';
+            inputEstado.value = data.estado || '';
+            inputCEP.value = data.cep || '';
+            modalTitle.textContent = 'Editar Endereço';
+            modal.show();
+        }
+
+        async function excluir(id) {
+            if (!confirm('Excluir este endereço?')) return;
+            const resp = await fetch('@Url.Action("Delete", "Endereco")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    '__RequestVerificationToken': getCsrf(),
+                    'id': id
+                })
+            });
+            if (resp.ok) {
+                await carregarTabela();
+                filtrarTabela();
+            } else {
+                const msg = await resp.text();
+                alert(msg || 'Erro ao excluir.');
+            }
+        }
+
+        // Delegação de eventos dos botões da tabela
+        document.addEventListener('click', (ev) => {
+            const btn = ev.target.closest('[data-action]');
+            if (!btn) return;
+            const action = btn.getAttribute('data-action');
+            const id = btn.getAttribute('data-id');
+            if (action === 'edit') openEditModal(id);
+            if (action === 'delete') excluir(id);
+        });
+
+        // Criar (botão topo)
+        btnNovo?.addEventListener('click', openCreateModal);
+
+        // Submit do formulário (Create/Update)
+        form.addEventListener('submit', async (ev) => {
+            ev.preventDefault();
+            const formData = new FormData(form);
+            const resp = await fetch('@Url.Action("Save", "Endereco")', { method: 'POST', body: formData });
+            if (resp.ok) { modal.hide(); await carregarTabela(); filtrarTabela(); }
+            else { const msg = await resp.text(); alert(msg || 'Erro ao salvar.'); }
+        });
+
+        // Busca simples no client
+        function filtrarTabela() {
+            const q = (buscaInput.value || '').toLowerCase();
+            const rows = listaContainer.querySelectorAll('tbody tr');
+            rows.forEach(tr => {
+                const txt = (tr.dataset.rua + ' ' + tr.dataset.bairro + ' ' + tr.dataset.cidade).toLowerCase();
+                tr.style.display = txt.includes(q) ? '' : 'none';
+            });
+        }
+        buscaInput?.addEventListener('input', filtrarTabela);
+
+        // Inicialização
+        (async () => { await carregarTabela(); })();
+    </script>
+</body>
+
+</html>

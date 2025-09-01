@@ -2,7 +2,8 @@
 using via_entrega.entities.Enums;
 
 namespace ViewModels.Cadastro
-{
+{   
+
     public class CadastroViewModel
     {
         [Required]

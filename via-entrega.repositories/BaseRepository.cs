@@ -35,7 +35,10 @@ namespace via_entrega.repositoriess
 
 		public virtual async Task<T?> UpdateAsync(T entity)
 		{
-			_dbSet.Update(entity);
+			if (!_dbSet.Any(e => e.Id == entity.Id))
+				return null;
+
+            _dbSet.Update(entity);
 			entity.UpdatedAt = DateTime.UtcNow;
 			return entity;
 		}

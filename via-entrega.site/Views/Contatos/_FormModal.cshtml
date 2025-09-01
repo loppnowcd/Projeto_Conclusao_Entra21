@@ -1,0 +1,47 @@
+﻿@using ViewModels.Cadastro
+@model ContatoViewModel
+
+<div class="modal fade" id="contatoModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        @* responsivo *@
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTitle" class="modal-title">Novo contato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <form id="formContato" asp-action="Save" asp-controller="Contato" method="post" autocomplete="off">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id" />
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Celular">Celular*</label>
+                            <input class="form-control" id="Celular" name="Celular" required />
+                            <div class="form-text">Ex.: (47) 99999-9999</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Telefone">Telefone</label>
+                            <input class="form-control" id="Telefone" name="Telefone" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="Email">Email*</label>
+                            <input type="email" class="form-control" id="Email" name="Email" required />
+                        </div>
+                    </div>
+
+                    <small class="text-muted d-block mt-3">* campos obrigatórios</small>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
