@@ -1,0 +1,102 @@
+﻿/* === Via Entrega Theme (global) === */
+:root {
+    --ve-primary: #ff7a00; /* laranja principal */
+    --ve-primary-600: #e06200; /* hover/darken */
+    --ve-primary-700: #c65100; /* darker */
+    --ve-accent: #f39a3d; /* laranja claro do gradiente */
+    --ve-soft: #fff3e6; /* fundos suaves (banner/tables) */
+    --ve-soft-2: #fff7ec; /* modal footer/back */
+    --ve-border: #ffd2a3; /* borda sutil */
+    --ve-text-strong: #a14a00; /* títulos em superfícies claras */
+}
+
+/* Topbar (branding) */
+.ve-topbar {
+    background: linear-gradient(180deg, var(--ve-primary) 0%, var(--ve-accent) 100%);
+    color: #fff;
+}
+
+    .ve-topbar h1 {
+        font-weight: 700;
+        letter-spacing: .5px;
+    }
+
+    .ve-topbar small {
+        opacity: .9;
+    }
+
+/* Navbar (se usar) */
+.navbar-ve {
+    background-color: #ffa24d1f;
+    border-bottom: 1px solid #ffffff33;
+}
+
+/* Botões */
+.btn-primary {
+    background-color: var(--ve-primary);
+    border-color: var(--ve-primary);
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--ve-primary-600);
+        border-color: var(--ve-primary-600);
+    }
+
+.btn-outline-primary {
+    color: var(--ve-primary);
+    border-color: var(--ve-primary);
+}
+
+    .btn-outline-primary:hover {
+        color: #fff;
+        background-color: var(--ve-primary);
+        border-color: var(--ve-primary);
+    }
+
+/* Links/inputs */
+a, .btn-link {
+    color: var(--ve-primary);
+}
+
+.form-control:focus {
+    border-color: var(--ve-primary);
+    box-shadow: 0 0 0 .2rem rgba(255,122,0,.25);
+}
+
+/* Cards/Tables */
+.card-title {
+    color: var(--ve-text-strong);
+}
+
+.table thead, .table-light {
+    background-color: var(--ve-soft);
+    color: var(--ve-text-strong);
+}
+
+.table-hover tbody tr:hover {
+    background-color: #fff8ef;
+}
+
+/* Modal */
+.modal-content {
+    border: 2px solid var(--ve-border);
+    border-radius: .75rem;
+}
+
+.modal-header {
+    background: linear-gradient(180deg, var(--ve-primary), var(--ve-accent));
+    color: #fff;
+    border-bottom: none;
+}
+
+.modal-footer {
+    background-color: var(--ve-soft-2);
+    border-top: none;
+}
+
+/* Utilidades */
+@media (max-width: 576px) {
+    .input-fluid-sm {
+        max-width: 100% !important;
+    }
+}

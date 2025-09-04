@@ -1,0 +1,63 @@
+﻿@using ViewModels.Cadastro
+@model EnderecoViewModel
+
+<div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        @* Responsivo *@
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTitle" class="modal-title">Novo Endereço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <form id="formEndereco" asp-action="Save" asp-controller="Endereco" method="post" autocomplete="off">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="id" />
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Rua">Rua*</label>
+                            <input class="form-control" id="Rua" name="Rua" required />
+                            <div class="form-text">Ex.: Rua das Flores</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Numero">Número*</label>
+                            <input class="form-control" id="Numero" name="Numero" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Bairro">Bairro*</label>
+                            <input class="form-control" id="Bairro" name="Bairro" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Cidade">Cidade*</label>
+                            <input class="form-control" id="Cidade" name="Cidade" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="Estado">Estado*</label>
+                            <input class="form-control" id="Estado" name="Estado" required />
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="CEP">CEP*</label>
+                            <input type="text" class="form-control" id="CEP" name="CEP" required />
+                            <div class="form-text">Ex.: 99999-999</div>
+                        </div>
+                    </div>
+
+                    <small class="text-muted d-block mt-3">* campos obrigatórios</small>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

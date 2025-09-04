@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ViewModels.Cadastro.ContatoViewModel>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="text-center p-5 bg-light rounded-3">
+        <p class="mb-0 text-muted">Você ainda não cadastrou contatos.</p>
+    </div>
+}
+else
+{
+    <table class="align-middle table table- table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Celular</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th class="text-end">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr data-id="@c.Id"
+                    data-cel="@c.Celular"
+                    data-tel="@c.Telefone"
+                    data-email="@c.Email">
+                    <td class="text-nowrap">@c.Celular</td>
+                    <td class="text-nowrap">@(string.IsNullOrWhiteSpace(c.Telefone) ? "-" : c.Telefone)</td>
+                    <td class="text-break">@c.Email</td>
+                    <td class="text-end">
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary"
+                                data-action="edit"
+                                data-id="@c.Id">
+                            Editar
+                        </button>
+
+                        <form class="d-inline" onsubmit="return false;">
+                            @Html.AntiForgeryToken()
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    data-action="delete"
+                                    data-id="@c.Id">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

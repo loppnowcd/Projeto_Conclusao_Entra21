@@ -1,0 +1,186 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Via Entrega</title>
+
+	<!-- Bootstrap 5 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="~/css/home_index.css">
+
+</head>
+
+<body>
+
+	<!-- Header -->
+	<header>
+		<h1>Via Entrega <i class="fa-solid fa-truck-fast"></i></h1>
+		<p>Soluções ágeis e seguras para seu transporte</p>
+	</header>
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+				<span style="color: white;">☰</span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav me-auto ms-3">
+					<li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
+					<li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
+					<li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+				</ul>
+				<div>
+					@{
+						if(!Context.User.Identity.IsAuthenticated){
+							<button class="btn-usuario" aria-label="Entrar na conta">
+								<a asp-controller="Account" asp-action="Index">
+									<i style="color: white;" class="fa-solid fa-user"></i> Entrar
+								</a>
+							</button>
+							<button class="btn-usuario" aria-label="Cadastre-se">
+								<a asp-controller="Cadastro" asp-action="Index">
+									<i style="color: white;" class="fa-solid fa-list-ul">
+									</i> Cadastre-se
+								</a>
+							</button>
+						}
+						else{
+							<button class="btn-usuario" aria-label="Sair">
+								<a asp-controller="Account" asp-action="Logout">
+									<i style="color: white;" class="fa-solid fa-arrow-alt-circle-right">
+									</i> Sair
+								</a>
+							</button>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Hero -->
+	<section class="hero">
+		<h1>Levamos seu produto com segurança</h1>
+		<p>Entregas rápidas, confiáveis e com cobertura nacional</p>
+		<div class="hero-buttons">
+			<button><i class="fa-solid fa-truck-fast"></i> Enviar Agora</button>
+			<button><i class="fa-solid fa-calculator"></i> Calcular Frete</button>
+		</div>
+	</section>
+
+	<!-- Carrossel -->
+	<div class="carousel-container d-flex align-items-center justify-content-center mt-5">
+		<div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel" style="max-width: 1000px;">
+			<div class="carousel-indicators">
+				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+						aria-current="true" aria-label="Slide 1"></button>
+				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+						aria-label="Slide 2"></button>
+				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+						aria-label="Slide 3"></button>
+			</div>
+			<div class="carousel-inner text-center">
+				<div class="carousel-item active">
+					<img class="d-block mx-auto" src="~/assets/images/imagem11.jpg" alt="Entrega rápida com caminhão">
+				</div>
+				<div class="carousel-item">
+					<img class="d-block mx-auto" src="~/assets/images/imagem22.jpeg" alt="Equipe logística">
+				</div>
+				<div class="carousel-item">
+					<img class="d-block mx-auto" src="~/assets/images/imagem33.png" alt="Tecnologia de rastreamento">
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+					data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Anterior</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+					data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Próximo</span>
+			</button>
+		</div>
+	</div>
+
+	<!-- Serviços -->
+	<section id="servicos" class="section">
+		<h2>Serviços</h2>
+		<div class="row g-4">
+			<div class="col-md-4">
+				<div class="card shadow-sm h-100">
+					<div class="card-body text-center">
+						<i class="fa-solid fa-box fa-2x text-warning mb-3"></i>
+						<h5 class="card-title">Encomendas</h5>
+						<p class="card-text">Transporte rápido e seguro de pequenas e grandes encomendas.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card shadow-sm h-100">
+					<div class="card-body text-center">
+						<i class="fa-solid fa-truck fa-2x text-warning mb-3"></i>
+						<h5 class="card-title">Fretes</h5>
+						<p class="card-text">Fretes urbanos e interestaduais com agilidade e eficiência.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card shadow-sm h-100">
+					<div class="card-body text-center">
+						<i class="fa-solid fa-route fa-2x text-warning mb-3"></i>
+						<h5 class="card-title">Logística</h5>
+						<p class="card-text">Planejamento e gestão completa para suas entregas.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Sobre -->
+	<section id="sobre" class="section">
+		<h2>Sobre Nós</h2>
+		<p class="text-center">
+			A Via Entrega é referência em transporte e logística há mais de 10 anos.Nosso compromisso é garantir agilidade, segurança e transparência em cada entrega.
+			Contamos com uma equipe altamente capacitada e uma frota moderna que asseguram soluções personalizadas para empresas e clientes em todo o território nacional.
+			Nosso objetivo é ir além de transportar produtos: queremos construir parcerias de confiança e oferecer a melhor experiência em logística para o seu negócio ou necessidade pessoal.
+		</p>
+	</section>
+
+	<!-- Contato -->
+	<section id="contato" class="section">
+		<h2>Contato</h2>
+		<p class="text-center">📧 Email: contato@viaentrega.com.br</p>
+		<p class="text-center">📞 Telefone: (11) 99999-9999</p>
+	</section>
+
+	<!-- Footer -->
+	<footer>
+		<p>&copy; 2025 Via Entrega.</p>
+	</footer>
+
+	<!-- Script -->
+	<script>
+		function redirectLogin() {
+		  document.location.href = "./login2.html";
+		}
+	</script>
+
+	<!-- Bootstrap 5 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
