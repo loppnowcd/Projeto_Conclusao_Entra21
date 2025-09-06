@@ -1,85 +1,159 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Services;
-using via_entrega.services;
 using ViewModels.Cadastro;
 
 namespace Controllers
 {
-    //[Authorize]
-    public class EnderecoController : Controller
-    {
-        private readonly IDadosEnderecoService _dadosEnderecoservice;
+	//[Authorize]
+	public class EnderecoController : Controller
+	{
+		private readonly IDadosEnderecoService _dadosEnderecoService;
+		private readonly ILogger<EnderecoController> _logger;
 
-        public EnderecoController(IDadosEnderecoService service)
-        {
-            _dadosEnderecoservice = service;
-        }
+		public EnderecoController(IDadosEnderecoService dadosEnderecoService, ILogger<EnderecoController> logger)
+		{
+			_dadosEnderecoService = dadosEnderecoService;
+			_logger = logger;
+		}
 
-        public IActionResult Index()
-        {
-            IEnumerable<DadosEndereco?> enderecos =  _dadosEnderecoservice.GetAllAsync().Result;
-            IEnumerable<EnderecoViewModel> enderecoViewModels = [];
+		// Página principal
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
 
-            foreach (DadosEndereco? endereco in enderecos)
-            {
-                enderecoViewModels.Append(new EnderecoViewModel().ConverterParaViewModel(endereco!));
-            }
+		// Lista parcial (tabela)
+		[HttpGet]
+		public async Task<IActionResult> List()
+		{
+			try
+			{
+				List<DadosEndereco?> lista = await _dadosEnderecoService.GetAllAsync();
+				var enderecosViewModel = lista
+					.Where(e => e != null)
+					.Select(e =>  EnderecoViewModel.ConverterParaViewModel(e!))
+					.ToList();
 
-            enderecoViewModels.Append(new EnderecoViewModel()
-            {
-                CEP = "123123",
-                Cidade = "asdasd",
-                Estado = "asdasd",
-                Bairro = "asdasd",
-                Rua = "asdasd",
-                Numero = "123",
-                Id = Guid.NewGuid()
-            });
+				return PartialView("_Table", enderecosViewModel);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao carregar lista de endereços");
+				return PartialView("_Table", new List<EnderecoViewModel>());
+			}
+		}
 
-            return View(enderecoViewModels);
-        }
+		// Buscar por Id (para preencher o modal na edição)
+		[HttpGet]
+		public async Task<IActionResult> GetById(Guid id)
+		{
+			try
+			{
+				var endereco = await _dadosEnderecoService.GetByIdAsync(id);
+				if (endereco == null)
+					return NotFound();
 
-        [HttpGet]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            DadosEndereco? endereco = await _dadosEnderecoservice.GetByIdAsync(id);
-            if (endereco == null) return NotFound();
-            return Ok(endereco);
-        }
+				var enderecoViewModel = EnderecoViewModel.ConverterParaViewModel(endereco);
+				return Json(enderecoViewModel);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao buscar endereço por ID: {Id}", id);
+				return NotFound();
+			}
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] EnderecoViewModel enderecoViewModel)
-        {
-            DadosEndereco dadosEndereco = enderecoViewModel.ConverterParaEntidade();
-            Guid? id = await _dadosEnderecoservice.CreateAsync(dadosEndereco);
+		// Criar/Editar (salva; decide pela presença do id)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Save(EnderecoViewModel enderecoViewModel)
+		{
+			try
+			{
+				ModelState.Remove(nameof(enderecoViewModel.Id));
 
-            return Json(new { success = true, message = "Endereço criado com sucesso!" });
-        }
+				if (!ModelState.IsValid)
+				{
+					var errors = ModelState.Values
+						.SelectMany(v => v.Errors)
+						.Select(e => e.ErrorMessage);
+					return BadRequest(string.Join("; ", errors));
+				}
 
-        [HttpPut]
-        public async Task<IActionResult> Update(Guid id, [FromBody] EnderecoViewModel enderecoViewModel)
-        {
-            enderecoViewModel.Id = id;
-            DadosEndereco dadosEndereco = enderecoViewModel.ConverterParaEntidade();
+				// Validação adicional do CEP (formato brasileiro)
+				if (!ValidarCEPBrasileiro(enderecoViewModel.CEP))
+				{
+					return BadRequest("Formato de CEP inválido. Use 99999-999 ou 99999999.");
+				}
 
-            DadosEndereco? atualizado = await _dadosEnderecoservice.UpdateAsync(dadosEndereco);
-            if (atualizado is null) return Json(new { success = false, message = "Endereço não encontrado!" });
+				var endereco = enderecoViewModel.ConverterParaEntidade();
 
-            return Json(new { success = true, message = "Endereço atualizado com sucesso!" });
-        }
+				if (enderecoViewModel.Id == Guid.Empty)
+				{
+					// Criar novo
+					var novoId = await _dadosEnderecoService.CreateAsync(endereco);
+					if (novoId == null)
+						return BadRequest("Não foi possível criar o endereço.");
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            bool deletado = await _dadosEnderecoservice.DeleteAsync(id);
-            if (!deletado) return Json(new { success = false, message = "Endereço não encontrado!" });
+					await _dadosEnderecoService.SaveChangesAsync();
+					return Ok(new { id = novoId });
+				}
+				else
+				{
+					// Atualizar existente
+					var atualizado = await _dadosEnderecoService.UpdateAsync(endereco);
+					if (atualizado == null)
+						return BadRequest("Não foi possível atualizar o endereço.");
 
-            return Json(new { success = true, message = "Endereço excluído com sucesso!" });
-        }
+					await _dadosEnderecoService.SaveChangesAsync();
+					return Ok(new { id = enderecoViewModel.Id });
+				}
+			}
+			catch (ArgumentException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao salvar endereço");
+				return BadRequest("Erro interno ao salvar o endereço.");
+			}
+		}
 
+		// Excluir
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Delete(Guid id)
+		{
+			try
+			{
+				var sucesso = await _dadosEnderecoService.DeleteAsync(id);
+				if (!sucesso)
+					return BadRequest("Não foi possível excluir o endereço.");
 
-    }
+				await _dadosEnderecoService.SaveChangesAsync();
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao excluir endereço: {Id}", id);
+				return BadRequest("Erro interno ao excluir o endereço.");
+			}
+		}
+
+		// Método auxiliar para validar CEP brasileiro
+		private bool ValidarCEPBrasileiro(string cep)
+		{
+			if (string.IsNullOrWhiteSpace(cep))
+				return false;
+
+			cep = cep.Replace("-", "").Replace(" ", "");
+
+			// CEP deve ter exatamente 8 dígitos numéricos
+			return System.Text.RegularExpressions.Regex.IsMatch(cep, @"^[0-9]{8}$");
+		}
+	}
 }

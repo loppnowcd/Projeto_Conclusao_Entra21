@@ -10,6 +10,7 @@ namespace via_entrega.entities.Registrations
         public int AnoFabricacao { get; set; }
         public string Cor { get; set; }
         public string Placa { get; set; }
-        public virtual ICollection<PessoaFisica> Pessoas { get; set; }
+        public Guid? PessoaId { get; set; }
+		public virtual Pessoa Pessoa { get; set; }
 	}
 }

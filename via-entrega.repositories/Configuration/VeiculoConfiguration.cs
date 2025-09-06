@@ -35,9 +35,9 @@ namespace via_entrega.repositoriess.Configuration
 			builder.Property(v => v.UpdatedAt).IsRequired();
 
 			// Relacionamento: Veículo -> Pessoas Físicas
-			builder.HasMany(v => v.Pessoas)
-				   .WithOne(p => p.Veiculo)
-				   .HasForeignKey(p => p.VeiculoId)
+			builder.HasOne(v => v.Pessoa)
+				   .WithMany(p => p.Veiculos)
+				   .HasForeignKey(p => p.PessoaId)
 				   .OnDelete(DeleteBehavior.SetNull);
 		}
 	}

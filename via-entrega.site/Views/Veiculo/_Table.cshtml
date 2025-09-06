@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ViewModels.Cadastro.VeiculoViewModel>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="text-center p-5 bg-light rounded-3">
+        <i class="fa-solid fa-car fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted mb-2">Nenhum veículo cadastrado</h5>
+        <p class="mb-3 text-muted">Você ainda não possui veículos cadastrados no sistema.</p>
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('btnNovo').click();">
+            <i class="fa-solid fa-plus me-1"></i>
+            Cadastrar Primeiro Veículo
+        </button>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center" style="width: 80px;">
+                        <i class="fa-solid fa-id-card me-1"></i>
+                        Placa
+                    </th>
+                    <th>
+                        <i class="fa-solid fa-copyright me-1"></i>
+                        Marca
+                    </th>
+                    <th>
+                        <i class="fa-solid fa-car me-1"></i>
+                        Modelo
+                    </th>
+                    <th class="text-center" style="width: 80px;">
+                        <i class="fa-solid fa-calendar me-1"></i>
+                        Ano
+                    </th>
+                    <th class="text-center" style="width: 100px;">
+                        <i class="fa-solid fa-palette me-1"></i>
+                        Cor
+                    </th>
+                    <th class="text-center" style="width: 150px;">
+                        <i class="fa-solid fa-cogs me-1"></i>
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var veiculo in Model)
+                {
+                    <tr data-id="@veiculo.Id"
+                        data-placa="@veiculo.Placa"
+                        data-marca="@veiculo.MarcaFipe"
+                        data-modelo="@veiculo.Modelo"
+                        data-ano="@veiculo.AnoFabricacao"
+                        data-cor="@veiculo.Cor">
+
+                        <!-- Placa -->
+                        <td class="text-center">
+                            <span class="badge bg-primary fs-6 font-monospace">
+                                @veiculo.Placa
+                            </span>
+                        </td>
+
+                        <!-- Marca -->
+                        <td>
+                            <div class="fw-bold text-primary">@veiculo.MarcaFipe</div>
+                        </td>
+
+                        <!-- Modelo -->
+                        <td>
+                            <div class="fw-semibold">@veiculo.Modelo</div>
+                        </td>
+
+                        <!-- Ano -->
+                        <td class="text-center">
+                            <span class="badge bg-secondary">@veiculo.AnoFabricacao</span>
+                        </td>
+
+                        <!-- Cor -->
+                        <td class="text-center">
+                            <span class="badge bg-info text-dark">@veiculo.Cor</span>
+                        </td>
+
+                        <!-- Ações -->
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <!-- Botão Editar -->
+                                <button type="button"
+                                        class="btn btn-outline-warning"
+                                        data-action="edit"
+                                        data-id="@veiculo.Id"
+                                        title="Editar veículo">
+                                    <i class="fa-solid fa-edit"></i>
+                                </button>
+
+                                <!-- Botão Excluir -->
+                                <button type="button"
+                                        class="btn btn-outline-danger"
+                                        data-action="delete"
+                                        data-id="@veiculo.Id"
+                                        title="Excluir veículo">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Rodapé da tabela com informações -->
+    <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-light rounded">
+        <small class="text-muted">
+            <i class="fa-solid fa-info-circle me-1"></i>
+            Total de veículos: <strong>@Model.Count()</strong>
+        </small>
+        <small class="text-muted">
+            <i class="fa-solid fa-lightbulb me-1"></i>
+            Use a busca acima para filtrar os resultados
+        </small>
+    </div>
+}

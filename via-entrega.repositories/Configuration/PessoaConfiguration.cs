@@ -29,12 +29,6 @@ namespace via_entrega.repositoriess.Configuration
                 .HasValue<PessoaFisica>("Fisica")
                 .HasValue<PessoaJuridica>("Juridica");
 
-            // Relacionamento com Veiculo
-            builder.HasOne(p => p.Veiculo)
-                   .WithMany()
-                   .HasForeignKey(p => p.VeiculoId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(p => p.Usuario)
                 .WithOne(u => u.Pessoa).HasForeignKey<Pessoa>(p => p.UsuarioId)
                    .OnDelete(DeleteBehavior.Restrict);

@@ -10,8 +10,12 @@ namespace Controllers
         {
             _logger = logger;
         }
+		public IActionResult Inicio()
+		{
+			return View();
+		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
             return View();
         }

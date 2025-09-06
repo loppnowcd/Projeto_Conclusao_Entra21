@@ -62,7 +62,7 @@
         }
 
         async function carregarTabela() {
-            const resp = await fetch('@Url.Action("List", "Contatos")', { cache: 'no-store' });
+            const resp = await fetch('@Url.Action("List", "Contato")', { cache: 'no-store' });
             listaContainer.innerHTML = await resp.text();
         }
 

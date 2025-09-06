@@ -1,114 +1,122 @@
-﻿@model IEnumerable<ViewModels.Cadastro.EnderecoViewModel>
-
-@{
-    ViewData["Title"] = "Endereços";
+﻿@{
+    ViewData["Title"] = "Cadastro de Endereços";
 }
 
-<!DOCTYPE html>
-<html lang="pt-br">
+<style>
+    :root {
+        --primary-color: #ff6b35;
+        --primary-light: #ff8c42;
+        --primary-dark: #e55a2b;
+        --secondary-color: #ffa500;
+        --accent-color: #ffcc80;
+        --light-bg: #fff5f0;
+    }
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>@ViewData["Title"]</title>
+    .btn-primary {
+        background-color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+    }
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
+        .btn-primary:hover {
+            background-color: var(--primary-dark) !important;
+            border-color: var(--primary-dark) !important;
+        }
 
-<body>
-    <div class="container py-3">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="m-0">Endereços</h2>
-            <button type="button" class="btn btn-primary" id="btnNovo">Novo Endereço</button>
-        </div>
+    .text-primary {
+        color: var(--primary-color) !important;
+    }
 
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                    <h5 class="card-title m-0">Meus Endereços</h5>
-                    <input type="search" class="form-control" placeholder="Buscar por rua/bairro..." id="busca" style="max-width:260px;">
-                </div>
+    .table-dark {
+        background-color: var(--primary-color) !important;
+    }
 
-                <div id="listaContainer" class="table-responsive">
-                    <!-- A tabela de endereços será carregada aqui via AJAX -->
-                    <div class="text-center text-muted py-5">Carregando...</div>
+    .badge.bg-primary {
+        background-color: var(--primary-color) !important;
+    }
+
+    .badge.bg-secondary {
+        background-color: var(--secondary-color) !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--accent-color) !important;
+        color: #333 !important;
+    }
+
+    .spinner-border.text-primary {
+        color: var(--primary-color) !important;
+    }
+
+    .modal-header.bg-primary {
+        background-color: var(--primary-color) !important;
+    }
+
+    .alert-info {
+        background-color: var(--light-bg);
+        border-color: var(--accent-color);
+        color: #333;
+    }
+
+    .card {
+        border: 1px solid var(--accent-color);
+    }
+</style>
+
+<div class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="m-0">
+            <i class="fa-solid fa-map-marker-alt me-2 text-primary"></i>
+            Cadastro de Endereços
+        </h2>
+        <button type="button" class="btn btn-primary" id="btnNovo">
+            <i class="fa-solid fa-plus me-1"></i>
+            Novo Endereço
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h5 class="card-title m-0">
+                    <i class="fa-solid fa-list me-1"></i>
+                    Meus Endereços
+                </h5>
+                <input type="search" class="form-control" placeholder="Buscar por rua, bairro, cidade ou CEP..." id="busca" style="max-width:350px;">
+            </div>
+
+            <div id="listaContainer" class="table-responsive">
+                <!-- _Table será carregado aqui via AJAX -->
+                <div class="text-center text-muted py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando endereços...</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal Form (Create/Edit) -->
-    <div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="enderecoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Novo Endereço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="enderecoId" />
-                    <div class="mb-2">
-                        <label>Rua</label>
-                        <input type="text" class="form-control" id="rua" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Número</label>
-                        <input type="text" class="form-control" id="numero" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Bairro</label>
-                        <input type="text" class="form-control" id="bairro" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Cidade</label>
-                        <input type="text" class="form-control" id="cidade" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Estado</label>
-                        <input type="text" class="form-control" id="estado" />
-                    </div>
-                    <div class="mb-2">
-                        <label>CEP</label>
-                        <input type="text" class="form-control" id="cep" />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" onclick="saveEndereco()">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+@await Html.PartialAsync("_FormModal")
 
-    <!-- Toast -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
-        <div id="toastMsg" class="toast text-bg-primary border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body" id="toastBody">Mensagem aqui...</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS (bundle com Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+@section Scripts {
     <script>
         const listaContainer = document.getElementById('listaContainer');
         const buscaInput = document.getElementById('busca');
         const btnNovo = document.getElementById('btnNovo');
+
+        // Modal refs
         const modalEl = document.getElementById('enderecoModal');
         const modal = new bootstrap.Modal(modalEl);
         const form = document.getElementById('formEndereco');
         const modalTitle = document.getElementById('modalTitle');
-        const inputId = document.getElementById('enderecoId');
-        const inputRua = document.getElementById('rua');
-        const inputNumero = document.getElementById('numero');
-        const inputBairro = document.getElementById('bairro');
-        const inputCidade = document.getElementById('cidade');
-        const inputEstado = document.getElementById('estado');
-        const inputCEP = document.getElementById('cep');
+        const inputId = document.getElementById('Id');
+        const inputRua = document.getElementById('Rua');
+        const inputNumero = document.getElementById('Numero');
+        const inputBairro = document.getElementById('Bairro');
+        const inputCidade = document.getElementById('Cidade');
+        const inputEstado = document.getElementById('Estado');
+        const inputCEP = document.getElementById('CEP');
 
         // CSRF (AntiForgery)
         function getCsrf() {
@@ -117,8 +125,17 @@
         }
 
         async function carregarTabela() {
-            const resp = await fetch('@Url.Action("List", "Endereco")', { cache: 'no-store' });
-            listaContainer.innerHTML = await resp.text();
+            try {
+                const resp = await fetch('@Url.Action("List", "Endereco")', { cache: 'no-store' });
+                if (resp.ok) {
+                    listaContainer.innerHTML = await resp.text();
+                } else {
+                    throw new Error('Erro ao carregar endereços');
+                }
+            } catch (error) {
+                listaContainer.innerHTML = '<div class="alert alert-danger">Erro ao carregar endereços. Tente novamente.</div>';
+                console.error('Erro ao carregar tabela:', error);
+            }
         }
 
         function resetForm() {
@@ -129,46 +146,144 @@
             inputCidade.value = '';
             inputEstado.value = '';
             inputCEP.value = '';
+
+            // Limpar mensagens de erro
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+        }
+
+        function formatarCEP(input) {
+            let valor = input.value.replace(/[^0-9]/g, '');
+
+            if (valor.length > 8) {
+                valor = valor.slice(0, 8);
+            }
+
+            if (valor.length > 5) {
+                input.value = valor.slice(0, 5) + '-' + valor.slice(5);
+            } else {
+                input.value = valor;
+            }
+        }
+
+        function formatarEstado(input) {
+            input.value = input.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
         }
 
         function openCreateModal() {
             resetForm();
-            modalTitle.textContent = 'Novo Endereço';
+            modalTitle.innerHTML = '<i class="fa-solid fa-plus me-1"></i> Novo Endereço';
             modal.show();
         }
 
         async function openEditModal(id) {
-            const url = '@Url.Action("GetById", "Endereco")' + `?id=${id}`;
-            const resp = await fetch(url, { cache: 'no-store' });
-            if (!resp.ok) { alert('Endereço não encontrado.'); return; }
-            const data = await resp.json();
-            inputId.value = data.id || '';
-            inputRua.value = data.rua || '';
-            inputNumero.value = data.numero || '';
-            inputBairro.value = data.bairro || '';
-            inputCidade.value = data.cidade || '';
-            inputEstado.value = data.estado || '';
-            inputCEP.value = data.cep || '';
-            modalTitle.textContent = 'Editar Endereço';
-            modal.show();
+            try {
+                const url = '@Url.Action("GetById", "Endereco")' + `?id=${id}`;
+                const resp = await fetch(url, { cache: 'no-store' });
+
+                if (!resp.ok) {
+                    alert('Endereço não encontrado.');
+                    return;
+                }
+
+                const data = await resp.json();
+
+                inputId.value = data.id || '';
+                inputRua.value = data.rua || '';
+                inputNumero.value = data.numero || '';
+                inputBairro.value = data.bairro || '';
+                inputCidade.value = data.cidade || '';
+                inputEstado.value = data.estado || '';
+                inputCEP.value = data.cep || '';
+
+                modalTitle.innerHTML = '<i class="fa-solid fa-edit me-1"></i> Editar Endereço';
+                modal.show();
+            } catch (error) {
+                alert('Erro ao carregar dados do endereço.');
+                console.error('Erro ao abrir modal de edição:', error);
+            }
         }
 
         async function excluir(id) {
-            if (!confirm('Excluir este endereço?')) return;
-            const resp = await fetch('@Url.Action("Delete", "Endereco")', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    '__RequestVerificationToken': getCsrf(),
-                    'id': id
-                })
-            });
-            if (resp.ok) {
-                await carregarTabela();
-                filtrarTabela();
-            } else {
-                const msg = await resp.text();
-                alert(msg || 'Erro ao excluir.');
+            if (!confirm('Tem certeza que deseja excluir este endereço?\nEsta ação não pode ser desfeita.'))
+                return;
+
+            try {
+                const resp = await fetch('@Url.Action("Delete", "Endereco")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        '__RequestVerificationToken': getCsrf(),
+                        'id': id
+                    })
+                });
+
+                if (resp.ok) {
+                    await carregarTabela();
+                    filtrarTabela();
+                    showNotification('Endereço excluído com sucesso!', 'success');
+                } else {
+                    const msg = await resp.text();
+                    alert(msg || 'Erro ao excluir endereço.');
+                }
+            } catch (error) {
+                alert('Erro ao excluir endereço.');
+                console.error('Erro ao excluir:', error);
+            }
+        }
+
+        // Função para mostrar notificações
+        function showNotification(message, type = 'info') {
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const notification = document.createElement('div');
+            notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+
+            // Auto remove após 3 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // API BrasilAPI para preenchimento automático
+        async function buscarCEP(cep) {
+            try {
+                cep = cep.replace(/[^0-9]/g, '');
+                if (cep.length !== 8) return;
+
+                const resp = await fetch(`https://brasilapi.com.br/api/cep/v2/${cep}`);
+
+                if (resp.status === 200) {
+                    const data = await resp.json();
+
+                    inputRua.value = data.street || '';
+                    inputBairro.value = data.neighborhood || '';
+                    inputCidade.value = data.city || '';
+                    inputEstado.value = data.state || '';
+
+                    showNotification('CEP encontrado! Dados preenchidos automaticamente.', 'success');
+
+                    // Focar no campo número se os dados foram preenchidos
+                    if (data.street) {
+                        inputNumero.focus();
+                    }
+                } else if (resp.status === 404) {
+                    showNotification('CEP não encontrado em nenhum provedor.', 'error');
+                } else if (resp.status === 400) {
+                    showNotification('CEP inválido ou mal formatado.', 'error');
+                } else if (resp.status === 500) {
+                    showNotification('Erro interno no serviço de CEP.', 'error');
+                }
+            } catch (error) {
+                console.log('Erro ao buscar CEP:', error);
+                showNotification('Erro de conexão ao buscar CEP.', 'error');
             }
         }
 
@@ -176,8 +291,10 @@
         document.addEventListener('click', (ev) => {
             const btn = ev.target.closest('[data-action]');
             if (!btn) return;
+
             const action = btn.getAttribute('data-action');
             const id = btn.getAttribute('data-id');
+
             if (action === 'edit') openEditModal(id);
             if (action === 'delete') excluir(id);
         });
@@ -185,29 +302,70 @@
         // Criar (botão topo)
         btnNovo?.addEventListener('click', openCreateModal);
 
+        // Formatação do CEP e busca automática
+        inputCEP?.addEventListener('input', function() {
+            formatarCEP(this);
+        });
+
+        inputCEP?.addEventListener('blur', function() {
+            buscarCEP(this.value);
+        });
+
+        // Formatação do Estado
+        inputEstado?.addEventListener('input', function() {
+            formatarEstado(this);
+        });
+
         // Submit do formulário (Create/Update)
         form.addEventListener('submit', async (ev) => {
             ev.preventDefault();
-            const formData = new FormData(form);
-            const resp = await fetch('@Url.Action("Save", "Endereco")', { method: 'POST', body: formData });
-            if (resp.ok) { modal.hide(); await carregarTabela(); filtrarTabela(); }
-            else { const msg = await resp.text(); alert(msg || 'Erro ao salvar.'); }
+
+            try {
+                const formData = new FormData(form);
+                const resp = await fetch('@Url.Action("Save", "Endereco")', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (resp.ok) {
+                    modal.hide();
+                    await carregarTabela();
+                    filtrarTabela();
+                    showNotification('Endereço salvo com sucesso!', 'success');
+                } else {
+                    const errorMsg = await resp.text();
+                    alert(errorMsg || 'Erro ao salvar endereço.');
+                }
+            } catch (error) {
+                alert('Erro ao salvar endereço.');
+                console.error('Erro ao salvar:', error);
+            }
         });
 
         // Busca simples no client
         function filtrarTabela() {
             const q = (buscaInput.value || '').toLowerCase();
             const rows = listaContainer.querySelectorAll('tbody tr');
+
             rows.forEach(tr => {
-                const txt = (tr.dataset.rua + ' ' + tr.dataset.bairro + ' ' + tr.dataset.cidade).toLowerCase();
-                tr.style.display = txt.includes(q) ? '' : 'none';
+                const searchData = [
+                    tr.dataset.rua || '',
+                    tr.dataset.numero || '',
+                    tr.dataset.bairro || '',
+                    tr.dataset.cidade || '',
+                    tr.dataset.estado || '',
+                    tr.dataset.cep || ''
+                ].join(' ').toLowerCase();
+
+                tr.style.display = searchData.includes(q) ? '' : 'none';
             });
         }
+
         buscaInput?.addEventListener('input', filtrarTabela);
 
         // Inicialização
-        (async () => { await carregarTabela(); })();
+        (async () => {
+            await carregarTabela();
+        })();
     </script>
-</body>
-
-</html>
+}

@@ -3,61 +3,247 @@
 
 <div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        @* Responsivo *@
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="modalTitle" class="modal-title">Novo Endereço</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            <div class="modal-header bg-primary text-white">
+                <h5 id="modalTitle" class="modal-title">
+                    <i class="fa-solid fa-plus me-1"></i>
+                    Novo Endereço
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
 
             <form id="formEndereco" asp-action="Save" asp-controller="Endereco" method="post" autocomplete="off">
                 @Html.AntiForgeryToken()
                 <div class="modal-body">
-                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="Id" name="Id" />
 
                     <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" for="Rua">Rua*</label>
-                            <input class="form-control" id="Rua" name="Rua" required />
-                            <div class="form-text">Ex.: Rua das Flores</div>
+                        <!-- CEP com busca automática -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-bold" for="CEP">
+                                <i class="fa-solid fa-mail-bulk me-1 text-primary"></i>
+                                CEP *
+                            </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="CEP" name="CEP" required
+                                       placeholder="99999-999" maxlength="9" />
+                                <button type="button" class="btn btn-outline-secondary" id="btnBuscarCEP" title="Buscar CEP">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Formato: 99999-999. Preenchimento automático.
+                            </div>
                         </div>
 
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" for="Numero">Número*</label>
-                            <input class="form-control" id="Numero" name="Numero" required />
+                        <!-- Estado -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-bold" for="Estado">
+                                <i class="fa-solid fa-flag me-1 text-primary"></i>
+                                Estado *
+                            </label>
+                            <input class="form-control text-uppercase" id="Estado" name="Estado" required
+                                   placeholder="SP" maxlength="2" minlength="2" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Sigla do estado (ex: SP, RJ, MG)
+                            </div>
                         </div>
 
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" for="Bairro">Bairro*</label>
-                            <input class="form-control" id="Bairro" name="Bairro" required />
+                        <!-- Cidade -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-bold" for="Cidade">
+                                <i class="fa-solid fa-city me-1 text-primary"></i>
+                                Cidade *
+                            </label>
+                            <input class="form-control" id="Cidade" name="Cidade" required
+                                   placeholder="São Paulo" maxlength="100" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Nome da cidade
+                            </div>
                         </div>
 
+                        <!-- Bairro -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" for="Cidade">Cidade*</label>
-                            <input class="form-control" id="Cidade" name="Cidade" required />
+                            <label class="form-label fw-bold" for="Bairro">
+                                <i class="fa-solid fa-home me-1 text-primary"></i>
+                                Bairro *
+                            </label>
+                            <input class="form-control" id="Bairro" name="Bairro" required
+                                   placeholder="Centro" maxlength="100" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Nome do bairro
+                            </div>
                         </div>
 
+                        <!-- Rua -->
                         <div class="col-12 col-md-6">
-                            <label class="form-label" for="Estado">Estado*</label>
-                            <input class="form-control" id="Estado" name="Estado" required />
+                            <label class="form-label fw-bold" for="Rua">
+                                <i class="fa-solid fa-road me-1 text-primary"></i>
+                                Rua/Logradouro *
+                            </label>
+                            <input class="form-control" id="Rua" name="Rua" required
+                                   placeholder="Rua das Flores" maxlength="200" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Nome da rua, avenida, etc.
+                            </div>
                         </div>
 
-                        <div class="col-12 col-md-6">
-                            <label class="form-label" for="CEP">CEP*</label>
-                            <input type="text" class="form-control" id="CEP" name="CEP" required />
-                            <div class="form-text">Ex.: 99999-999</div>
+                        <!-- Número -->
+                        <div class="col-12 col-md-12">
+                            <label class="form-label fw-bold" for="Numero">
+                                <i class="fa-solid fa-hashtag me-1 text-primary"></i>
+                                Número *
+                            </label>
+                            <input class="form-control" id="Numero" name="Numero" required
+                                   placeholder="123 ou S/N" maxlength="10" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Número da residência/estabelecimento ou S/N
+                            </div>
                         </div>
                     </div>
 
-                    <small class="text-muted d-block mt-3">* campos obrigatórios</small>
+                    <!-- Informações importantes -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="alert alert-info d-flex align-items-center">
+                                <i class="fa-solid fa-lightbulb me-2"></i>
+                                <div>
+                                    <strong>Dicas importantes:</strong>
+                                    <ul class="mb-0 mt-1">
+                                        <li>Digite o CEP para preenchimento automático dos dados</li>
+                                        <li>Use a sigla do estado (2 letras): SP, RJ, MG, etc.</li>
+                                        <li>Todos os campos são obrigatórios para o cadastro</li>
+                                        <li>Para números use "S/N" caso não se aplique</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <small class="text-muted d-block">
+                                <i class="fa-solid fa-asterisk me-1" style="font-size: 0.6em;"></i>
+                                <strong>Campos obrigatórios</strong>
+                            </small>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-times me-1"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-save me-1"></i>
+                        Salvar Endereço
+                    </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
+
+<script>
+    // Script para buscar CEP via API BrasilAPI
+    document.getElementById('btnBuscarCEP')?.addEventListener('click', async function() {
+        const cepInput = document.getElementById('CEP');
+        const btn = this;
+
+        if (!cepInput.value) {
+            alert('Digite o CEP primeiro!');
+            cepInput.focus();
+            return;
+        }
+
+        // Estado de loading
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        try {
+            const cep = cepInput.value.replace(/[^0-9]/g, '');
+
+            if (cep.length !== 8) {
+                throw new Error('CEP deve ter 8 dígitos');
+            }
+
+            const response = await fetch(`https://brasilapi.com.br/api/cep/v2/${cep}`);
+
+            if (response.status === 200) {
+                const data = await response.json();
+
+                // Preencher os campos usando a estrutura da BrasilAPI
+                document.getElementById('Rua').value = data.street || '';
+                document.getElementById('Bairro').value = data.neighborhood || '';
+                document.getElementById('Cidade').value = data.city || '';
+                document.getElementById('Estado').value = data.state || '';
+
+                // Mostrar mensagem de sucesso
+                if (typeof showNotification !== 'undefined') {
+                    showNotification('CEP encontrado! Dados preenchidos automaticamente.', 'success');
+                }
+
+                // Focar no campo número
+                document.getElementById('Numero').focus();
+
+            } else if (response.status === 404) {
+                throw new Error('CEP não encontrado em nenhum provedor');
+            } else if (response.status === 400) {
+                throw new Error('CEP inválido ou mal formatado');
+            } else if (response.status === 500) {
+                throw new Error('Erro interno no serviço de CEP');
+            } else {
+                throw new Error('Erro desconhecido ao buscar CEP');
+            }
+
+        } catch (error) {
+            console.error('Erro ao buscar CEP:', error);
+
+            if (typeof showNotification !== 'undefined') {
+                showNotification('Erro: ' + error.message, 'error');
+            } else {
+                alert('Erro ao buscar CEP: ' + error.message);
+            }
+        } finally {
+            // Restaurar botão
+            btn.innerHTML = '<i class="fa-solid fa-search"></i>';
+            btn.disabled = false;
+        }
+    });
+
+    // Buscar CEP automaticamente quando sair do campo (blur)
+    document.getElementById('CEP')?.addEventListener('blur', function() {
+        const cep = this.value.replace(/[^0-9]/g, '');
+        if (cep.length === 8) {
+            document.getElementById('btnBuscarCEP').click();
+        }
+    });
+
+    // Função auxiliar para notificações (se não existir no arquivo principal)
+    if (typeof showNotification === 'undefined') {
+        function showNotification(message, type = 'info') {
+            const alertClass = type === 'success' ? 'alert-success' : type === 'error' ? 'alert-danger' : 'alert-info';
+            const notification = document.createElement('div');
+            notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+    }
+</script>

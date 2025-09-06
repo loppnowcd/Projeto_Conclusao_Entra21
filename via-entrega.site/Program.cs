@@ -33,6 +33,8 @@ builder.Services.AddScoped<IDadosContatoService, DadosContatoService>();
 builder.Services.AddScoped<IDadosEnderecoService, DadosEnderecoService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICollectionOrderService, CollectionOrderService>();
+builder.Services.AddScoped<IVeiculoService, VeiculoService>();
+
 #endregion
 
 #region Repositories
@@ -45,6 +47,8 @@ builder.Services.AddScoped<IDadosContatoRepository, DadosContatoRepository>();
 builder.Services.AddScoped<IDadosEnderecoRepository, DadosEnderecoRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICollectionOrderRepository, CollectionOrderRepository>();
+builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+
 #endregion
 
 

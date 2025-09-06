@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using via_entrega.repositoriess;
 
@@ -11,9 +12,11 @@ using via_entrega.repositoriess;
 namespace viaentrega.site.Migrations
 {
     [DbContext(typeof(ViaEntregaContext))]
-    partial class ViaEntregaContextModelSnapshot : ModelSnapshot
+    [Migration("20250906191727_user_Veiculo")]
+    partial class user_Veiculo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

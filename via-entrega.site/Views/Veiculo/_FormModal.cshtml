@@ -1,0 +1,222 @@
+﻿@using ViewModels.Cadastro
+@model VeiculoViewModel
+
+<div class="modal fade" id="veiculoModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 id="modalTitle" class="modal-title">
+                    <i class="fa-solid fa-plus me-1"></i>
+                    Novo Veículo
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <form id="formVeiculo" asp-action="Save" asp-controller="CadastroVeiculo" method="post" autocomplete="off">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <input type="hidden" id="Id" name="Id" />
+
+                    <div class="row g-3">
+                        <!-- Marca -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold" for="MarcaFipe">
+                                <i class="fa-solid fa-copyright me-1 text-primary"></i>
+                                Marca *
+                            </label>
+                            <div class="input-group">
+                                <select class="form-select" id="MarcaFipe" name="MarcaFipe" required>
+                                    <option value="">Selecione a marca...</option>
+                                </select>
+                                <button type="button" class="btn btn-outline-secondary" id="btnCarregarMarcas" title="Carregar marcas da FIPE">
+                                    <i class="fa-solid fa-refresh"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Selecione a marca do veículo
+                            </div>
+                        </div>
+
+                        <!-- Modelo -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold" for="Modelo">
+                                <i class="fa-solid fa-car me-1 text-primary"></i>
+                                Modelo *
+                            </label>
+                            <input class="form-control" id="Modelo" name="Modelo" required
+                                   placeholder="Ex: Civic, Corolla, Gol..." maxlength="100" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Digite o modelo do veículo
+                            </div>
+                        </div>
+
+                        <!-- Ano de Fabricação -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-bold" for="AnoFabricacao">
+                                <i class="fa-solid fa-calendar me-1 text-primary"></i>
+                                Ano *
+                            </label>
+                            <input type="number" class="form-control" id="AnoFabricacao" name="AnoFabricacao" required
+                                   min="1900" max="2030" placeholder="2024" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Ano de fabricação
+                            </div>
+                        </div>
+
+                        <!-- Cor -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-bold" for="Cor">
+                                <i class="fa-solid fa-palette me-1 text-primary"></i>
+                                Cor *
+                            </label>
+                            <input class="form-control" id="Cor" name="Cor" required
+                                   placeholder="Ex: Branco, Prata, Azul..." maxlength="50" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Cor do veículo
+                            </div>
+                        </div>
+
+                        <!-- Placa -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-bold" for="Placa">
+                                <i class="fa-solid fa-id-card me-1 text-primary"></i>
+                                Placa *
+                            </label>
+                            <input class="form-control text-uppercase" id="Placa" name="Placa" required
+                                   placeholder="ABC1234" maxlength="7" minlength="7" />
+                            <div class="form-text">
+                                <i class="fa-solid fa-info-circle me-1"></i>
+                                Formato: ABC1234 ou ABC1D23
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informações importantes -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="alert alert-info d-flex align-items-center">
+                                <i class="fa-solid fa-lightbulb me-2"></i>
+                                <div>
+                                    <strong>Dicas importantes:</strong>
+                                    <ul class="mb-0 mt-1">
+                                        <li>A placa deve seguir o formato brasileiro (ABC1234 ou ABC1D23 para Mercosul)</li>
+                                        <li>Todos os campos são obrigatórios para o cadastro</li>
+                                        <li>Use o botão de atualizar para carregar marcas da FIPE automaticamente</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <small class="text-muted d-block">
+                                <i class="fa-solid fa-asterisk me-1" style="font-size: 0.6em;"></i>
+                                <strong>Campos obrigatórios</strong>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-times me-1"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-save me-1"></i>
+                        Salvar Veículo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para carregar marcas da API FIPE
+    document.getElementById('btnCarregarMarcas')?.addEventListener('click', async function() {
+        const select = document.getElementById('MarcaFipe');
+        const btn = this;
+
+        // Estado de loading
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/marcas');
+
+            if (response.ok) {
+                const marcas = await response.json();
+
+                // Limpar opções existentes (exceto a primeira)
+                select.innerHTML = '<option value="">Selecione a marca...</option>';
+
+                // Adicionar marcas da API
+                if (marcas && Array.isArray(marcas)) {
+                    marcas.forEach(marca => {
+                        const option = document.createElement('option');
+                        option.value = marca.nome || marca.name || marca;
+                        option.textContent = marca.nome || marca.name || marca;
+                        select.appendChild(option);
+                    });
+
+                    // Mostrar mensagem de sucesso
+                    showNotification('Marcas carregadas com sucesso!', 'success');
+                } else {
+                    throw new Error('Formato de dados inválido');
+                }
+            } else {
+                throw new Error('Erro na API');
+            }
+        } catch (error) {
+            console.error('Erro ao carregar marcas:', error);
+
+            // Adicionar algumas marcas comuns como fallback
+            const marcasComuns = [
+                'Volkswagen', 'Chevrolet', 'Ford', 'Fiat', 'Toyota',
+                'Honda', 'Hyundai', 'Nissan', 'Renault', 'Peugeot',
+                'BMW', 'Mercedes-Benz', 'Audi', 'Jeep', 'Citroën'
+            ];
+
+            select.innerHTML = '<option value="">Selecione a marca...</option>';
+            marcasComuns.forEach(marca => {
+                const option = document.createElement('option');
+                option.value = marca;
+                option.textContent = marca;
+                select.appendChild(option);
+            });
+
+            showNotification('Erro ao carregar marcas da FIPE. Usando lista padrão.', 'warning');
+        } finally {
+            // Restaurar botão
+            btn.innerHTML = '<i class="fa-solid fa-refresh"></i>';
+            btn.disabled = false;
+        }
+    });
+
+    // Função auxiliar para notificações (definida no arquivo principal se não existir)
+    if (typeof showNotification === 'undefined') {
+        function showNotification(message, type = 'info') {
+            const alertClass = type === 'success' ? 'alert-success' : type === 'warning' ? 'alert-warning' : 'alert-danger';
+            const notification = document.createElement('div');
+            notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+    }
+</script>

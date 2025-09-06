@@ -14,7 +14,7 @@ namespace via_entrega.entities.Registrations
 		public Guid? UsuarioId { get; set; }
         public virtual ICollection<DadosEndereco> Enderecos { get; set; }
 		public virtual ICollection<DadosContato> Contatos { get; set; }
-		public virtual Veiculo Veiculo { get; set; }
+		public virtual ICollection<Veiculo> Veiculos { get; set; }
 		public virtual Usuario Usuario { get; set; }
         public Guid? VeiculoId { get; set; }
 

@@ -1,0 +1,644 @@
+﻿/*:root {
+    --primary-orange: #ff6600;
+    --secondary-orange: #ff9933;
+    --light-orange: #ffcc99;
+    --white: #ffffff;
+    --text-dark: #333333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}*/
+
+/* Header Principal */
+/*.main-header {
+    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+    .main-header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .main-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+.truck-icon {
+    margin-left: 10px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}*/
+
+/* Navbar */
+/*.custom-navbar {
+    background: linear-gradient(135deg, var(--secondary-orange) 0%, var(--light-orange) 100%);
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: white !important;
+        font-weight: 500;
+        padding: 10px 20px;
+        margin: 0 5px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+        .custom-navbar .navbar-nav .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+    .custom-navbar .navbar-toggler {
+        border: none;
+        padding: 4px 8px;
+    }
+
+        .custom-navbar .navbar-toggler:focus {
+            box-shadow: none;
+        }*/
+
+/* Botões de usuário */
+/*.btn-user {
+    background: white;
+    color: var(--primary-orange);
+    border: 2px solid white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+    .btn-user:hover {
+        background: var(--primary-orange);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255,102,0,0.3);
+    }
+
+.btn-logout {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+    .btn-logout:hover {
+        background: white;
+        color: var(--primary-orange);
+    }*/
+
+/* Welcome message */
+/*.welcome-message {
+    color: white;
+    font-weight: 500;
+    margin-right: 15px;
+    padding: 8px 0;
+}*/
+
+/* Main content */
+/*.main-content {
+    min-height: calc(100vh - 200px);
+    padding: 30px 0;
+}*/
+
+/* Footer */
+/*.main-footer {
+    background: linear-gradient(135deg, var(--text-dark) 0%, #555555 100%);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+}*/
+
+/* Responsividade */
+/*@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 2rem;
+    }
+
+    .main-header p {
+        font-size: 1rem;
+    }
+
+    .custom-navbar .navbar-nav .nav-link {
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    .btn-user {
+        display: block;
+        margin: 10px auto;
+        width: fit-content;
+    }
+}*/
+
+/* Navbar brand */
+/*.navbar-brand-custom {
+    color: white !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .navbar-brand-custom:hover {
+        color: white !important;
+    }*/
+:root {
+    --primary-orange: #ff6600;
+    --secondary-orange: #ff9933;
+    --light-orange: #ffcc99;
+    --white: #ffffff;
+    --text-dark: #333333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Header Principal */
+.main-header {
+    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-orange) 100%);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+    .main-header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .main-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+/* Animação do caminhão passando por pedras na estrada */
+.truck-icon {
+    margin-left: 10px;
+    animation: stoneRoad 4s infinite linear;
+    transform-origin: bottom center;
+}
+
+/* Keyframes que simulam pedras irregulares na estrada */
+@keyframes stoneRoad {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    /* Primeira pedra pequena */
+    8% {
+        transform: translateY(-3px) rotate(-0.5deg);
+    }
+
+    12% {
+        transform: translateY(0) rotate(0deg);
+    }
+    /* Pedra média */
+    20% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+
+    25% {
+        transform: translateY(-2px) rotate(0.5deg);
+    }
+
+    30% {
+        transform: translateY(0) rotate(0deg);
+    }
+    /* Várias pedras pequenas seguidas */
+    35% {
+        transform: translateY(-4px) rotate(-0.3deg);
+    }
+
+    38% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    42% {
+        transform: translateY(-6px) rotate(0.8deg);
+    }
+
+    45% {
+        transform: translateY(-1px) rotate(0.2deg);
+    }
+
+    48% {
+        transform: translateY(0) rotate(0deg);
+    }
+    /* Pedra grande */
+    55% {
+        transform: translateY(-12px) rotate(-1.2deg);
+    }
+
+    60% {
+        transform: translateY(-4px) rotate(-0.4deg);
+    }
+
+    65% {
+        transform: translateY(0) rotate(0deg);
+    }
+    /* Sequência de pedras médias */
+    70% {
+        transform: translateY(-7px) rotate(0.9deg);
+    }
+
+    73% {
+        transform: translateY(-2px) rotate(0.3deg);
+    }
+
+    76% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    80% {
+        transform: translateY(-5px) rotate(-0.6deg);
+    }
+
+    83% {
+        transform: translateY(-1px) rotate(-0.1deg);
+    }
+
+    86% {
+        transform: translateY(0) rotate(0deg);
+    }
+    /* Última pedra antes do fim do ciclo */
+    92% {
+        transform: translateY(-9px) rotate(1.1deg);
+    }
+
+    96% {
+        transform: translateY(-2px) rotate(0.4deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+/* Versão alternativa com movimento horizontal também (opcional) */
+.truck-icon-advanced {
+    margin-left: 10px;
+    animation: stoneRoadAdvanced 5s infinite ease-in-out;
+    transform-origin: bottom center;
+}
+
+@keyframes stoneRoadAdvanced {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    5% {
+        transform: translateY(-2px) translateX(1px) rotate(-0.3deg);
+    }
+
+    10% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    15% {
+        transform: translateY(-8px) translateX(-1px) rotate(0.8deg);
+    }
+
+    20% {
+        transform: translateY(-1px) translateX(0) rotate(0.2deg);
+    }
+
+    25% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    30% {
+        transform: translateY(-4px) translateX(2px) rotate(-0.5deg);
+    }
+
+    32% {
+        transform: translateY(-6px) translateX(1px) rotate(-0.7deg);
+    }
+
+    35% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    42% {
+        transform: translateY(-10px) translateX(-2px) rotate(1deg);
+    }
+
+    47% {
+        transform: translateY(-3px) translateX(-1px) rotate(0.3deg);
+    }
+
+    50% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    55% {
+        transform: translateY(-5px) translateX(1px) rotate(-0.4deg);
+    }
+
+    58% {
+        transform: translateY(-7px) translateX(0) rotate(-0.6deg);
+    }
+
+    62% {
+        transform: translateY(-1px) translateX(0) rotate(-0.1deg);
+    }
+
+    65% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    70% {
+        transform: translateY(-12px) translateX(-1px) rotate(1.2deg);
+    }
+
+    75% {
+        transform: translateY(-2px) translateX(0) rotate(0.4deg);
+    }
+
+    80% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    85% {
+        transform: translateY(-6px) translateX(1px) rotate(-0.7deg);
+    }
+
+    88% {
+        transform: translateY(-3px) translateX(0) rotate(-0.3deg);
+    }
+
+    92% {
+        transform: translateY(-1px) translateX(0) rotate(-0.1deg);
+    }
+
+    95% {
+        transform: translateY(-4px) translateX(-1px) rotate(0.5deg);
+    }
+
+    98% {
+        transform: translateY(-1px) translateX(0) rotate(0.1deg);
+    }
+
+    100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+}
+
+/* Navbar */
+.custom-navbar {
+    background: linear-gradient(135deg, var(--secondary-orange) 0%, var(--light-orange) 100%);
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: white !important;
+        font-weight: 500;
+        padding: 10px 20px;
+        margin: 0 5px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+        .custom-navbar .navbar-nav .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+    .custom-navbar .navbar-toggler {
+        border: none;
+        padding: 4px 8px;
+    }
+
+        .custom-navbar .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+/* Botões de usuário */
+.btn-user {
+    background: white;
+    color: var(--primary-orange);
+    border: 2px solid white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+    .btn-user:hover {
+        background: var(--primary-orange);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255,102,0,0.3);
+    }
+
+.btn-logout {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+    .btn-logout:hover {
+        background: white;
+        color: var(--primary-orange);
+    }
+
+/* Welcome message */
+.welcome-message {
+    color: white;
+    font-weight: 500;
+    margin-right: 15px;
+    padding: 8px 0;
+}
+
+/* Main content */
+.main-content {
+    min-height: calc(100vh - 200px);
+    padding: 30px 0;
+}
+
+/* Footer */
+.main-footer {
+    background: linear-gradient(135deg, var(--text-dark) 0%, #555555 100%);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 2rem;
+    }
+
+    .main-header p {
+        font-size: 1rem;
+    }
+
+    .custom-navbar .navbar-nav .nav-link {
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    .btn-user {
+        display: block;
+        margin: 10px auto;
+        width: fit-content;
+    }
+
+    /* Reduz a intensidade da animação em telas menores */
+    .truck-icon {
+        animation: stoneRoadMobile 3s infinite linear;
+    }
+
+    @keyframes stoneRoadMobile {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        10% {
+            transform: translateY(-2px) rotate(-0.2deg);
+        }
+
+        15% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        25% {
+            transform: translateY(-5px) rotate(0.5deg);
+        }
+
+        30% {
+            transform: translateY(-1px) rotate(0.1deg);
+        }
+
+        35% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        45% {
+            transform: translateY(-3px) rotate(-0.3deg);
+        }
+
+        50% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        60% {
+            transform: translateY(-7px) rotate(0.7deg);
+        }
+
+        65% {
+            transform: translateY(-2px) rotate(0.2deg);
+        }
+
+        70% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        80% {
+            transform: translateY(-4px) rotate(-0.4deg);
+        }
+
+        85% {
+            transform: translateY(-1px) rotate(-0.1deg);
+        }
+
+        90% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        95% {
+            transform: translateY(-6px) rotate(0.6deg);
+        }
+
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+    }
+}
+
+/* Navbar brand */
+.navbar-brand-custom {
+    color: white !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .navbar-brand-custom:hover {
+        color: white !important;
+    }
+
+/* Efeito adicional: pedras na estrada visual (opcional) */
+.road-stones {
+    position: relative;
+    overflow: hidden;
+}
+
+    .road-stones::before {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: repeating-linear-gradient( 90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 2px, transparent 2px, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 7px, transparent 7px, transparent 12px );
+        animation: roadMovement 2s infinite linear;
+    }
+
+@keyframes roadMovement {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(20px);
+    }
+}

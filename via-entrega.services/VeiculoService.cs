@@ -26,7 +26,9 @@ namespace via_entrega.services
 			if (string.IsNullOrWhiteSpace(veiculo.Placa) || veiculo.Placa.Length != 7)
 				throw new ArgumentException("Placa inválida.");
 
-			return await _veiculoRepositorio.CreateAsync(veiculo);
+			Guid? id =  await _veiculoRepositorio.CreateAsync(veiculo);
+            await SaveChangesAsync();
+            return id;
 		}
 
         public async Task<List<Veiculo?>> GetAllAsync()
@@ -36,8 +38,11 @@ namespace via_entrega.services
 
         public async Task<Veiculo?> UpdateAsync(Veiculo veiculo)
         {
-            return await _veiculoRepositorio.UpdateAsync(veiculo);
-        }
+			Veiculo? veiculoAtualiado =  await _veiculoRepositorio.UpdateAsync(veiculo);
+            await SaveChangesAsync();
+            return veiculoAtualiado;
+
+		}
         public async Task<bool> DeleteAsync(Guid id)
         {
             return await _veiculoRepositorio.DeleteAsync(id);

@@ -1,0 +1,48 @@
+﻿
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+.badge {
+    font-size: 0.75em;
+    padding: 0.5em 0.75em;
+}
+
+.btn-group-sm .btn {
+    transition: all 0.2s ease;
+}
+
+    .btn-group-sm .btn:hover {
+        transform: translateY(-1px);
+    }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+
+    .btn-group-sm .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .badge {
+        font-size: 0.7em;
+        padding: 0.25em 0.5em;
+    }
+}
+
+/* Animação para linhas da tabela */
+tbody tr {
+    transition: all 0.2s ease;
+}
+
+/* Destaque para placa */
+.font-monospace {
+    font-family: 'Courier New', monospace !important;
+    font-weight: bold;
+}
+
+

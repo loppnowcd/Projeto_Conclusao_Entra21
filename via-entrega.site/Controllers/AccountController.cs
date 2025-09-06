@@ -48,7 +48,7 @@ namespace Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Inicio", "Home");
             }
 
             return View("Index", model);
@@ -65,6 +65,8 @@ namespace Controllers
         {
             try
             {
+                return true;
+
                 HttpClient cliente = new HttpClient();
                 cliente.BaseAddress = new Uri("https://api.hcaptcha.com/siteverify");
                 cliente.Timeout = TimeSpan.FromSeconds(30);

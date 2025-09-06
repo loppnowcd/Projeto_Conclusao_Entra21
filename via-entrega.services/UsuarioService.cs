@@ -1,12 +1,13 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Repositories;
 using via_entrega.interfaces.Services;
 using via_entrega.repositoriess.Registrations;
+using via_entrega.services.Auth;
 
 namespace via_entrega.services
 {
@@ -70,7 +71,8 @@ namespace via_entrega.services
                 new Claim(ClaimTypes.Name, usuario.Email),
                 new Claim(ClaimTypes.Email, usuario.Email),
                 new Claim(ClaimTypes.Role, "Usuario"),
-                new Claim("UserId", usuario.Id.ToString())
+                new Claim(CustomClaims.Pessoa, usuario.Pessoa.Id.ToString()),
+				new Claim("UserId", usuario.Id.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

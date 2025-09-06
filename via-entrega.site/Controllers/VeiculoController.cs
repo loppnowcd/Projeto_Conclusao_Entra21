@@ -1,43 +1,164 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using via_entrega.entities.Registrations;
+using via_entrega.interfaces.Services;
+using ViewModels.Cadastro;
 
 namespace Controllers
 {
-    public class VeiculoController : Controller
-    {
-        // ==========================================================
-        // PASSO 1: ADICIONE ESTE MÉTODO QUE ESTAVA FALTANDO
-        // Esta é a ação que MOSTRA o formulário em branco (GET)
-        public IActionResult CadastroVeiculo()
-        {
-            return View();
-        }
-        // ==========================================================
+	//[Authorize]
+	public class VeiculoController : Controller
+	{
+		private readonly IVeiculoService _veiculoService;
+		private readonly ILogger<VeiculoController> _logger;
 
+		public VeiculoController(IVeiculoService veiculoService, ILogger<VeiculoController> logger)
+		{
+			_veiculoService = veiculoService;
+			_logger = logger;
+		}
 
-        // PASSO 2: DESCOMENTE O [HttpPost] AQUI
-        // Este é o seu método que já existe (POST)
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CadastroVeiculo(Veiculo veiculo)
-        {
-            // O ModelState.IsValid verifica se os dados recebidos são válidos
-            // (ex: se campos obrigatórios foram preenchidos)
-            if (ModelState.IsValid)
-            {
-                // !! AQUI VIRA A LÓGICA PARA SALVAR NO BANCO DE DADOS !!
-                // Por enquanto, vamos apenas simular que deu tudo certo.
-                // O código seria algo como: _context.PessoasF.Add(pessoaF);
-                //                          _context.SaveChanges();
+		// Página principal
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
 
-                // Após salvar, redireciona o usuário para a página inicial para que ele não fique na tela de formulário.
-                return RedirectToAction("Index", "Home");
-            }
+		// Lista parcial (tabela)
+		[HttpGet]
+		public async Task<IActionResult> List()
+		{
+			try
+			{
+				List<Veiculo?> lista = await _veiculoService.GetAllAsync();
+				var veiculosViewModel = lista
+					.Where(v => v != null)
+					.Select(v => VeiculoViewModel.ConverterParaViewModel(v!))
+					.ToList();
 
-            // Se o modelo não for válido (ex: campo nome em branco), 
-            // a aplicação retorna para a mesma tela de cadastro,
-            // mas desta vez exibindo as mensagens de erro e mantendo os dados que o usuário já digitou.
-            return View(veiculo);
-        }
-    }
+				return PartialView("_Table", veiculosViewModel);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao carregar lista de veículos");
+				return PartialView("_Table", new List<VeiculoViewModel>());
+			}
+		}
+
+		// Buscar por Id (para preencher o modal na edição)
+		[HttpGet]
+		public async Task<IActionResult> GetById(Guid id)
+		{
+			try
+			{
+				var veiculo = await _veiculoService.GetByIdAsync(id);
+				if (veiculo == null)
+					return NotFound();
+
+				var veiculoViewModel = VeiculoViewModel.ConverterParaViewModel(veiculo);
+				return Json(veiculoViewModel);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao buscar veículo por ID: {Id}", id);
+				return NotFound();
+			}
+		}
+
+		// Criar/Editar (salva; decide pela presença do id)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Save(VeiculoViewModel veiculoViewModel)
+		{
+			try
+			{
+				ModelState.Remove(nameof(veiculoViewModel.Id));
+
+				if (!ModelState.IsValid)
+				{
+					var errors = ModelState.Values
+						.SelectMany(v => v.Errors)
+						.Select(e => e.ErrorMessage);
+					return BadRequest(string.Join("; ", errors));
+				}
+
+				// Validação adicional da placa (formato brasileiro)
+				if (!ValidarPlacaBrasileira(veiculoViewModel.Placa))
+				{
+					return BadRequest("Formato de placa inválido. Use ABC1234 ou ABC1D23.");
+				}
+
+				var veiculo = veiculoViewModel.ConverterParaEntidade(Request.HttpContext);
+
+				if (veiculoViewModel.Id == Guid.Empty)
+				{
+					// Criar novo
+					var novoId = await _veiculoService.CreateAsync(veiculo);
+					if (novoId == null)
+						return BadRequest("Não foi possível criar o veículo.");
+
+					await _veiculoService.SaveChangesAsync();
+					return Ok(new { id = novoId });
+				}
+				else
+				{
+					// Atualizar existente
+					var atualizado = await _veiculoService.UpdateAsync(veiculo);
+					if (atualizado == null)
+						return BadRequest("Não foi possível atualizar o veículo.");
+
+					await _veiculoService.SaveChangesAsync();
+					return Ok(new { id = veiculoViewModel.Id });
+				}
+			}
+			catch (ArgumentException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao salvar veículo");
+				return BadRequest("Erro interno ao salvar o veículo.");
+			}
+		}
+
+		// Excluir
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Delete(Guid id)
+		{
+			try
+			{
+				var sucesso = await _veiculoService.DeleteAsync(id);
+				if (!sucesso)
+					return BadRequest("Não foi possível excluir o veículo.");
+
+				await _veiculoService.SaveChangesAsync();
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Erro ao excluir veículo: {Id}", id);
+				return BadRequest("Erro interno ao excluir o veículo.");
+			}
+		}
+
+		// Método auxiliar para validar placa brasileira
+		private bool ValidarPlacaBrasileira(string placa)
+		{
+			if (string.IsNullOrWhiteSpace(placa) || placa.Length != 7)
+				return false;
+
+			placa = placa.ToUpper().Replace("-", "").Replace(" ", "");
+
+			// Formato antigo: ABC1234
+			var formatoAntigo = System.Text.RegularExpressions.Regex.IsMatch(placa, @"^[A-Z]{3}[0-9]{4}$");
+
+			// Formato Mercosul: ABC1D23
+			var formatoMercosul = System.Text.RegularExpressions.Regex.IsMatch(placa, @"^[A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2}$");
+
+			return formatoAntigo || formatoMercosul;
+		}
+	}
 }

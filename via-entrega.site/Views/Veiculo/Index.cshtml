@@ -1,0 +1,260 @@
+﻿@{
+    ViewData["Title"] = "Cadastro de Veículos";
+}
+
+<div class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="m-0">
+            <i class="fa-solid fa-truck me-2 text-primary"></i>
+            Cadastro de Veículos
+        </h2>
+        <button type="button" class="btn btn-primary" id="btnNovo">
+            <i class="fa-solid fa-plus me-1"></i>
+            Novo Veículo
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h5 class="card-title m-0">
+                    <i class="fa-solid fa-list me-1"></i>
+                    Meus Veículos
+                </h5>
+                <input type="search" class="form-control" placeholder="Buscar por placa, marca ou modelo..." id="busca" style="max-width:300px;">
+            </div>
+
+            <div id="listaContainer" class="table-responsive">
+                <!-- _Table será carregado aqui via AJAX -->
+                <div class="text-center text-muted py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando veículos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_FormModal")
+
+@section Scripts {
+    <script>
+        const listaContainer = document.getElementById('listaContainer');
+        const buscaInput = document.getElementById('busca');
+        const btnNovo = document.getElementById('btnNovo');
+
+        // Modal refs
+        const modalEl = document.getElementById('veiculoModal');
+        const modal = new bootstrap.Modal(modalEl);
+        const form = document.getElementById('formVeiculo');
+        const modalTitle = document.getElementById('modalTitle');
+        const inputId = document.getElementById('Id');
+        const inputMarca = document.getElementById('MarcaFipe');
+        const inputModelo = document.getElementById('Modelo');
+        const inputAno = document.getElementById('AnoFabricacao');
+        const inputCor = document.getElementById('Cor');
+        const inputPlaca = document.getElementById('Placa');
+
+        // CSRF (AntiForgery)
+        function getCsrf() {
+            const tokenInput = form.querySelector('input[name="__RequestVerificationToken"]');
+            return tokenInput ? tokenInput.value : '';
+        }
+
+        async function carregarTabela() {
+            try {
+                const resp = await fetch('@Url.Action("List", "Veiculo")', { cache: 'no-store' });
+                if (resp.ok) {
+                    listaContainer.innerHTML = await resp.text();
+                } else {
+                    throw new Error('Erro ao carregar veículos');
+                }
+            } catch (error) {
+                listaContainer.innerHTML = '<div class="alert alert-danger">Erro ao carregar veículos. Tente novamente.</div>';
+                console.error('Erro ao carregar tabela:', error);
+            }
+        }
+
+        function resetForm() {
+            inputId.value = '';
+            inputMarca.value = '';
+            inputModelo.value = '';
+            inputAno.value = '';
+            inputCor.value = '';
+            inputPlaca.value = '';
+
+            // Limpar mensagens de erro
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+        }
+
+        function formatarPlaca(input) {
+            let valor = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+            if (valor.length <= 3) {
+                input.value = valor;
+            } else if (valor.length <= 7) {
+                // Formato: ABC1234 ou ABC1D23
+                input.value = valor.slice(0, 3) + valor.slice(3);
+            } else {
+                input.value = valor.slice(0, 7);
+            }
+        }
+
+        function openCreateModal() {
+            resetForm();
+            modalTitle.innerHTML = '<i class="fa-solid fa-plus me-1"></i> Novo Veículo';
+            modal.show();
+        }
+
+        async function openEditModal(id) {
+            try {
+                const url = '@Url.Action("GetById", "Veiculo")' + `?id=${id}`;
+                const resp = await fetch(url, { cache: 'no-store' });
+
+                if (!resp.ok) {
+                    alert('Veículo não encontrado.');
+                    return;
+                }
+
+                const data = await resp.json();
+
+                inputId.value = data.id || '';
+                inputMarca.value = data.marcaFipe || '';
+                inputModelo.value = data.modelo || '';
+                inputAno.value = data.anoFabricacao || '';
+                inputCor.value = data.cor || '';
+                inputPlaca.value = data.placa || '';
+
+                modalTitle.innerHTML = '<i class="fa-solid fa-edit me-1"></i> Editar Veículo';
+                modal.show();
+            } catch (error) {
+                alert('Erro ao carregar dados do veículo.');
+                console.error('Erro ao abrir modal de edição:', error);
+            }
+        }
+
+        async function excluir(id) {
+            if (!confirm('Tem certeza que deseja excluir este veículo?\nEsta ação não pode ser desfeita.'))
+                return;
+
+            try {
+                const resp = await fetch('@Url.Action("Delete", "Veiculo")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        '__RequestVerificationToken': getCsrf(),
+                        'id': id
+                    })
+                });
+
+                if (resp.ok) {
+                    await carregarTabela();
+                    filtrarTabela();
+                    // Mostrar mensagem de sucesso
+                    showNotification('Veículo excluído com sucesso!', 'success');
+                } else {
+                    const msg = await resp.text();
+                    alert(msg || 'Erro ao excluir veículo.');
+                }
+            } catch (error) {
+                alert('Erro ao excluir veículo.');
+                console.error('Erro ao excluir:', error);
+            }
+        }
+
+        // Função para mostrar notificações
+        function showNotification(message, type = 'info') {
+            // Implementação simples - você pode melhorar com Toast do Bootstrap
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const notification = document.createElement('div');
+            notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+
+            // Auto remove após 3 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // Delegação de eventos dos botões da tabela
+        document.addEventListener('click', (ev) => {
+            const btn = ev.target.closest('[data-action]');
+            if (!btn) return;
+
+            const action = btn.getAttribute('data-action');
+            const id = btn.getAttribute('data-id');
+
+            if (action === 'edit') openEditModal(id);
+            if (action === 'delete') excluir(id);
+        });
+
+        // Criar (botão topo)
+        btnNovo?.addEventListener('click', openCreateModal);
+
+        // Formatação da placa em tempo real
+        inputPlaca?.addEventListener('input', function() {
+            formatarPlaca(this);
+        });
+
+        // Submit do formulário (Create/Update)
+        form.addEventListener('submit', async (ev) => {
+            ev.preventDefault();
+
+            try {
+                const formData = new FormData(form);
+                const resp = await fetch('@Url.Action("Save", "Veiculo")', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (resp.ok) {
+                    modal.hide();
+                    await carregarTabela();
+                    filtrarTabela();
+                    showNotification('Veículo salvo com sucesso!', 'success');
+                } else {
+                    const errorMsg = await resp.text();
+                    alert(errorMsg || 'Erro ao salvar veículo.');
+                }
+            } catch (error) {
+                alert('Erro ao salvar veículo.');
+                console.error('Erro ao salvar:', error);
+            }
+        });
+
+        // Busca simples no client
+        function filtrarTabela() {
+            const q = (buscaInput.value || '').toLowerCase();
+            const rows = listaContainer.querySelectorAll('tbody tr');
+
+            rows.forEach(tr => {
+                const searchData = [
+                    tr.dataset.placa || '',
+                    tr.dataset.marca || '',
+                    tr.dataset.modelo || '',
+                    tr.dataset.cor || '',
+                    tr.dataset.ano || ''
+                ].join(' ').toLowerCase();
+
+                tr.style.display = searchData.includes(q) ? '' : 'none';
+            });
+        }
+
+        buscaInput?.addEventListener('input', filtrarTabela);
+
+        // Inicialização
+        (async () => {
+            await carregarTabela();
+        })();
+    </script>
+}
