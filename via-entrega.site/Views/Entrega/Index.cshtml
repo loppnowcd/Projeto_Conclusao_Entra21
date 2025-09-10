@@ -1,59 +1,472 @@
 ﻿@model IEnumerable<ViewModels.Pedidos.EntregaResumoViewModel>
 @{
-    ViewBag.Title = "Lista de Entregas";
+    ViewBag.Title = "Gestão de Entregas";
 }
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Entregas</h4>
-        <button class="btn btn-success" onclick="openModal()">+ Nova Entrega</button>
-    </div>
+<div class="container-fluid mt-4">
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["MensagemSucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["MensagemErro"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
-    <div class="mb-3">
-        <input type="text" class="form-control" id="searchInput" placeholder="Buscar por destinatário ou endereço..." onkeyup="filterGrid()" />
-    </div>
-
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Destinatário</th>
-                <th>Endereço</th>
-                <th>Telefone</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody id="entregasTable">
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Destinatario</td>
-                    <td>@item.Endereco</td>
-                    <td>@item.Telefone</td>
-                    <td>
-                        <button class="btn btn-sm btn-primary" onclick="editEntrega(@item.Id)">Editar</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="entregaModal" tabindex="-1" aria-labelledby="entregaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="entregaModalLabel">Nova Entrega</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="text-dark mb-1">
+                        <i class="fas fa-truck text-primary me-2"></i>
+                        Gestão de Entregas
+                    </h2>
+                    <p class="text-muted mb-0">Gerencie suas solicitações de coleta e entrega</p>
+                </div>
+                <button class="btn btn-primary btn-lg shadow" onclick="novaEntrega()">
+                    <i class="fas fa-plus me-2"></i>Nova Entrega
+                </button>
             </div>
-            <div class="modal-body" id="modalBodyContent">
-                <!-- Formulário será carregado aqui via AJAX -->
-                <div class="text-center">Carregando...</div>
+        </div>
+    </div>
+
+    <!-- Filtros e Estatísticas -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body py-3">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0"
+                                       id="searchInput"
+                                       placeholder="Buscar por destinatário, endereço..."
+                                       onkeyup="filtrarEntregas()">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filtroStatus" onchange="filtrarEntregas()">
+                                <option value="">Todos os status</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="coletado">Coletado</option>
+                                <option value="entregue">Entregue</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary w-100" onclick="limparFiltros()">
+                                <i class="fas fa-eraser me-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-primary text-white">
+                <div class="card-body text-center py-3">
+                    <h5 class="mb-1">Total de Entregas</h5>
+                    <h2 class="mb-0" id="totalEntregas">@Model.Count()</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Entregas -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2 text-muted"></i>
+                        Lista de Entregas
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" id="entregasTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="px-4 py-3">
+                                        <i class="fas fa-hashtag me-1 text-muted"></i>ID
+                                    </th>
+                                    <th class="py-3">
+                                        <i class="fas fa-user me-1 text-muted"></i>Destinatário
+                                    </th>
+                                    <th class="py-3">
+                                        <i class="fas fa-map-marker-alt me-1 text-muted"></i>Endereço
+                                    </th>
+                                    <th class="py-3">
+                                        <i class="fas fa-phone me-1 text-muted"></i>Telefone
+                                    </th>
+                                    <th class="py-3">
+                                        <i class="fas fa-calendar me-1 text-muted"></i>Data
+                                    </th>
+                                    <th class="py-3">
+                                        <i class="fas fa-dollar-sign me-1 text-muted"></i>Valor
+                                    </th>
+                                    <th class="py-3 text-center">
+                                        <i class="fas fa-cogs me-1 text-muted"></i>Ações
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Any())
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr data-id="@item.Id">
+                                            <td class="px-4 py-3">
+                                                <small class="text-muted font-monospace">
+                                                    @item.Id.ToString().Substring(0, 8)...
+                                                </small>
+                                            </td>
+                                            <td class="py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-sm bg-primary-soft rounded-circle me-2 d-flex align-items-center justify-content-center">
+                                                        <i class="fas fa-user text-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <strong>@item.Destinatario</strong>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="text-muted" title="@item.Endereco">
+                                                    @item.EnderecoResumido
+                                                </span>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="font-monospace">@item.TelefoneFormatado</span>
+                                            </td>
+                                            <td class="py-3">
+                                                <small class="text-muted">
+                                                    @item.DataCriacao.ToString("dd/MM/yyyy HH:mm")
+                                                </small>
+                                            </td>
+                                            <td class="py-3">
+                                                <span class="fw-bold text-success">
+                                                    R$ @item.ValorTotal.ToString("N2")
+                                                </span>
+                                            </td>
+                                            <td class="py-3 text-center">
+                                                <div class="btn-group" role="group">
+                                                    <button class="btn btn-sm btn-outline-info"
+                                                            onclick="verDetalhes('@item.Id')"
+                                                            title="Ver detalhes">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-primary"
+                                                            onclick="editarEntrega('@item.Id')"
+                                                            title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger"
+                                                            onclick="excluirEntrega('@item.Id')"
+                                                            title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center py-5">
+                                            <div class="text-muted">
+                                                <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
+                                                <h5>Nenhuma entrega encontrada</h5>
+                                                <p>Clique em "Nova Entrega" para criar sua primeira solicitação</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<script src="js/entregaLista.js"></script>
+
+<!-- Modal de Entrega -->
+<div class="modal fade" id="entregaModal" tabindex="-1" aria-labelledby="entregaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="entregaModalLabel">
+                    <i class="fas fa-truck me-2"></i>Nova Entrega
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body p-0" id="modalBodyContent">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Carregando formulário...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Detalhes -->
+<div class="modal fade" id="detalhesModal" tabindex="-1" aria-labelledby="detalhesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="detalhesModalLabel">
+                    <i class="fas fa-info-circle me-2"></i>Detalhes da Entrega
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body" id="detalhesModalContent">
+                <!-- Conteúdo será carregado via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-check-circle me-2"></i>
+                <span id="successMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+
+    <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span id="errorMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Customizado -->
+<link  href="~/css/entrega-index.css" rel="stylesheet"/>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/form-produtos.js"></script>
+
+<script>
+    // Variáveis globais
+    let entregaModal, detalhesModal;
+    let successToast, errorToast;
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar modais
+        entregaModal = new bootstrap.Modal(document.getElementById('entregaModal'));
+        detalhesModal = new bootstrap.Modal(document.getElementById('detalhesModal'));
+
+        // Inicializar toasts
+        successToast = new bootstrap.Toast(document.getElementById('successToast'));
+        errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+
+        // Event listeners
+        document.getElementById('entregaModal').addEventListener('hidden.bs.modal', function() {
+            document.getElementById('modalBodyContent').innerHTML = getLoadingHtml();
+        });
+    });
+
+    // Função para nova entrega
+    function novaEntrega() {
+        document.getElementById('entregaModalLabel').innerHTML =
+            '<i class="fas fa-truck me-2"></i>Nova Entrega';
+
+        fetch('@Url.Action("Criar", "Entrega")')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('modalBodyContent').innerHTML = html;
+                entregaModal.show();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao carregar formulário');
+            });
+    }
+
+    // Função para editar entrega
+    function editarEntrega(id) {
+        document.getElementById('entregaModalLabel').innerHTML =
+            '<i class="fas fa-edit me-2"></i>Editar Entrega';
+
+        fetch(`@Url.Action("Editar", "Entrega")?id=${id}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('modalBodyContent').innerHTML = html;
+                entregaModal.show();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao carregar dados da entrega');
+            });
+    }
+
+    // Função para ver detalhes
+    function verDetalhes(id) {
+        fetch(`@Url.Action("Detalhes", "Entrega")?id=${id}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('detalhesModalContent').innerHTML = html;
+                detalhesModal.show();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                mostrarErro('Erro ao carregar detalhes da entrega');
+            });
+    }
+
+    // Função para excluir entrega
+    function excluirEntrega(id) {
+        Swal.fire({
+            title: 'Confirmar Exclusão',
+            text: 'Tem certeza que deseja excluir esta entrega? Esta ação não pode ser desfeita.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sim, excluir',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                excluirEntregaConfirmado(id);
+            }
+        });
+    }
+
+    // Função para excluir confirmado
+    function excluirEntregaConfirmado(id) {
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('__RequestVerificationToken', document.querySelector('input[name="__RequestVerificationToken"]')?.value || '');
+
+        fetch('@Url.Action("Excluir", "Entrega")', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                mostrarSucesso(data.message);
+                // Remove a linha da tabela
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if (row) {
+                    row.remove();
+                    atualizarContador();
+                }
+            } else {
+                mostrarErro(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            mostrarErro('Erro ao excluir entrega');
+        });
+    }
+
+    // Função para filtrar entregas
+    function filtrarEntregas() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const statusFilter = document.getElementById('filtroStatus').value.toLowerCase();
+        const rows = document.querySelectorAll('#entregasTable tbody tr');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            if (row.cells.length === 1) return; // Skip empty state row
+
+            const destinatario = row.cells[1].textContent.toLowerCase();
+            const endereco = row.cells[2].textContent.toLowerCase();
+
+            const matchesSearch = destinatario.includes(searchTerm) || endereco.includes(searchTerm);
+            // const matchesStatus = !statusFilter || row.dataset.status === statusFilter;
+
+            if (matchesSearch) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Atualizar contador
+        document.getElementById('totalEntregas').textContent = visibleCount;
+    }
+
+    // Função para limpar filtros
+    function limparFiltros() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('filtroStatus').value = '';
+        filtrarEntregas();
+    }
+
+    // Função para atualizar contador
+    function atualizarContador() {
+        const visibleRows = document.querySelectorAll('#entregasTable tbody tr:not([style*="display: none"])').length;
+        document.getElementById('totalEntregas').textContent = visibleRows;
+    }
+
+    // Função para mostrar sucesso
+    function mostrarSucesso(message) {
+        document.getElementById('successMessage').textContent = message;
+        successToast.show();
+    }
+
+    // Função para mostrar erro
+    function mostrarErro(message) {
+        document.getElementById('errorMessage').textContent = message;
+        errorToast.show();
+    }
+
+    // Função para HTML de loading
+    function getLoadingHtml() {
+        return `
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+                <p class="mt-2 text-muted">Carregando formulário...</p>
+            </div>
+        `;
+    }
+
+    // Função global para ser chamada pelo formulário
+    window.entregaSalva = function(message) {
+        entregaModal.hide();
+        mostrarSucesso(message);
+
+        // Recarregar a página após 1 segundo
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    };
+
+    // Função global para mostrar erro do formulário
+    window.entregaErro = function(message) {
+        mostrarErro(message);
+    };
+</script>

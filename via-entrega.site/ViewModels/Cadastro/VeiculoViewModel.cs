@@ -31,7 +31,7 @@ namespace ViewModels.Cadastro
 		public string Placa { get; set; } = string.Empty;
 
 		// Método para converter ViewModel para Entidade
-		public Veiculo ConverterParaEntidade(HttpContext httpContext)
+		public Veiculo ConverterParaEntidade()
 		{
 			return new Veiculo
 			{
@@ -42,7 +42,6 @@ namespace ViewModels.Cadastro
 				Cor = this.Cor,
 				Placa = this.Placa?.ToUpper(), // Placa sempre maiúscula
 				Active = true,
-				PessoaId = httpContext.Request.Query.ContainsKey(CustomClaims.Pessoa) ? Guid.Parse(CustomClaims.Pessoa) : null
 			};
 		}
 

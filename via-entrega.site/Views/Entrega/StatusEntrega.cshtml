@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Encomendas Cadastradas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-color: #ff7300;
+        }
+
+        .card-encomenda {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+            .card-encomenda:hover {
+                transform: translateY(-3px);
+            }
+
+        .badge-status {
+            background-color: #ff7300;
+            color: white;
+        }
+
+        .badge-entregue {
+            background-color: #28a745;
+        }
+
+        .badge-transito {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .badge-pendente {
+            background-color: #dc3545;
+        }
+
+        .btn-orange {
+            background-color: #ff7300;
+            color: white;
+            border: none;
+        }
+
+            .btn-orange:hover {
+                background-color: #e06200;
+                color: white;
+            }
+
+        .filtros-container {
+            background-color: rgba(255,255,255,0.95);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .contador-resultados {
+            background-color: rgba(255,255,255,0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #ff7300;
+            box-shadow: 0 0 0 0.2rem rgba(255, 115, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="text-center text-white mb-4">
+            <h1>Via Entrega</h1>
+            <h4>Encomendas Cadastradas</h4>
+        </div>
+
+        <!-- Painel de Filtros -->
+        <div class="filtros-container">
+            <h5 class="mb-3">Filtros e Busca</h5>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Buscar nome:</label>
+                    <input type="text" class="form-control" id="buscaNome" placeholder="Digite o nome...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Status:</label>
+                    <select class="form-select" id="filtroStatus">
+                        <option value="">Todos os status</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em trânsito">Em trânsito</option>
+                        <option value="Entregue">Entregue</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Ordenar por:</label>
+                    <select class="form-select" id="ordenacao">
+                        <option value="nome">Nome (A-Z)</option>
+                        <option value="nome-desc">Nome (Z-A)</option>
+                        <option value="valor">Valor (Menor)</option>
+                        <option value="valor-desc">Valor (Maior)</option>
+                        <option value="status">Status</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Valor mínimo:</label>
+                    <input type="number" class="form-control" id="valorMin" placeholder="R$ 0">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label class="form-label">Valor máximo:</label>
+                    <input type="number" class="form-control" id="valorMax" placeholder="R$ 1000">
+                </div>
+                <div class="col-md-9 d-flex align-items-end">
+                    <button class="btn btn-orange me-2" onclick="aplicarFiltros()">
+                        Aplicar Filtros
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="limparFiltros()">
+                        Limpar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contador de Resultados -->
+        <div class="contador-resultados">
+            <span id="contadorResultados">Exibindo 0 de 0 encomendas</span>
+        </div>
+
+        <div class="row" id="encomendasContainer">
+            <!-- Cards serão gerados aqui pelo JS -->
+        </div>
+    </div>
+
+    <script>
+        // Dados de exemplo expandidos
+        const encomendasOriginais = [
+          {
+            id: 1,
+            destinatario: "João Silva",
+            endereco: "Rua das Flores, 123",
+            telefone: "(11) 98765-4321",
+            valor: 120.50,
+            status: "Pendente"
+          },
+          {
+            id: 2,
+            destinatario: "Maria Souza",
+            endereco: "Av. Paulista, 456",
+            telefone: "(11) 91234-5678",
+            valor: 250.00,
+            status: "Entregue"
+          },
+          {
+            id: 3,
+            destinatario: "Carlos Lima",
+            endereco: "Rua Afonso Pena, 789",
+            telefone: "(11) 99876-5432",
+            valor: 75.90,
+            status: "Em trânsito"
+          },
+          {
+            id: 4,
+            destinatario: "Ana Costa",
+            endereco: "Rua da Paz, 321",
+            telefone: "(11) 95555-1234",
+            valor: 180.75,
+            status: "Pendente"
+          },
+          {
+            id: 5,
+            destinatario: "Pedro Santos",
+            endereco: "Av. Brasil, 654",
+            telefone: "(11) 94444-5678",
+            valor: 95.30,
+            status: "Entregue"
+          },
+          {
+            id: 6,
+            destinatario: "Lucia Oliveira",
+            endereco: "Rua São João, 987",
+            telefone: "(11) 93333-9876",
+            valor: 340.00,
+            status: "Em trânsito"
+          }
+        ];
+
+        let encomendasFiltradas = [...encomendasOriginais];
+        const container = document.getElementById("encomendasContainer");
+
+        // Algoritmo de filtros combinados
+        function aplicarFiltros() {
+          const busca = document.getElementById('buscaNome').value.toLowerCase().trim();
+          const status = document.getElementById('filtroStatus').value;
+          const ordenacao = document.getElementById('ordenacao').value;
+          const valorMin = parseFloat(document.getElementById('valorMin').value) || 0;
+          const valorMax = parseFloat(document.getElementById('valorMax').value) || Infinity;
+
+          // Filtrar por nome (algoritmo de busca fuzzy simples)
+          encomendasFiltradas = encomendasOriginais.filter(encomenda => {
+            const nomeMatch = busca === '' || encomenda.destinatario.toLowerCase().includes(busca);
+            const statusMatch = status === '' || encomenda.status === status;
+            const valorMatch = encomenda.valor >= valorMin && encomenda.valor <= valorMax;
+
+            return nomeMatch && statusMatch && valorMatch;
+          });
+
+          // Algoritmo de ordenação
+          switch(ordenacao) {
+            case 'nome':
+              encomendasFiltradas.sort((a, b) => a.destinatario.localeCompare(b.destinatario));
+              break;
+            case 'nome-desc':
+              encomendasFiltradas.sort((a, b) => b.destinatario.localeCompare(a.destinatario));
+              break;
+            case 'valor':
+              encomendasFiltradas.sort((a, b) => a.valor - b.valor);
+              break;
+            case 'valor-desc':
+              encomendasFiltradas.sort((a, b) => b.valor - a.valor);
+              break;
+            case 'status':
+              const statusOrder = { 'Pendente': 1, 'Em trânsito': 2, 'Entregue': 3 };
+              encomendasFiltradas.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+              break;
+          }
+
+          renderEncomendas();
+          atualizarContador();
+        }
+
+        function limparFiltros() {
+          document.getElementById('buscaNome').value = '';
+          document.getElementById('filtroStatus').value = '';
+          document.getElementById('ordenacao').value = 'nome';
+          document.getElementById('valorMin').value = '';
+          document.getElementById('valorMax').value = '';
+
+          encomendasFiltradas = [...encomendasOriginais];
+          renderEncomendas();
+          atualizarContador();
+        }
+
+        function atualizarContador() {
+          const total = encomendasOriginais.length;
+          const exibindo = encomendasFiltradas.length;
+          document.getElementById('contadorResultados').textContent =
+            `Exibindo ${exibindo} de ${total} encomendas`;
+        }
+
+        function obterClasseBadge(status) {
+          switch(status) {
+            case 'Entregue': return 'badge-entregue';
+            case 'Em trânsito': return 'badge-transito';
+            case 'Pendente': return 'badge-pendente';
+            default: return 'badge-status';
+          }
+        }
+
+        function renderEncomendas() {
+          container.innerHTML = "";
+
+          if (encomendasFiltradas.length === 0) {
+            container.innerHTML = `
+              <div class="col-12">
+                <div class="text-center text-white p-5">
+                  <h4>🔍 Nenhuma encomenda encontrada</h4>
+                  <p>Tente ajustar os filtros para encontrar o que procura</p>
+                </div>
+              </div>
+            `;
+            return;
+          }
+
+          encomendasFiltradas.forEach((e) => {
+            const card = document.createElement("div");
+            card.className = "col-12 col-md-6 col-lg-4";
+            card.innerHTML = `
+              <div class="card-encomenda">
+                <h5>${e.destinatario}</h5>
+                <p><strong>Endereço:</strong> ${e.endereco}</p>
+                <p><strong>Telefone:</strong> ${e.telefone}</p>
+                <p><strong>Valor:</strong> R$ ${e.valor.toFixed(2)}</p>
+                <span class="badge ${obterClasseBadge(e.status)}">${e.status}</span>
+                <div class="mt-3 d-flex gap-2">
+                  <button class="btn btn-sm btn-orange" onclick="verDetalhes(${e.id})">Ver</button>
+                  <button class="btn btn-sm btn-outline-primary" onclick="editarEncomenda(${e.id})">Editar</button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="excluirEncomenda(${e.id})">Excluir</button>
+                </div>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        }
+
+        // Busca em tempo real
+        document.getElementById('buscaNome').addEventListener('input', aplicarFiltros);
+        document.getElementById('filtroStatus').addEventListener('change', aplicarFiltros);
+        document.getElementById('ordenacao').addEventListener('change', aplicarFiltros);
+        document.getElementById('valorMin').addEventListener('input', aplicarFiltros);
+        document.getElementById('valorMax').addEventListener('input', aplicarFiltros);
+
+        function verDetalhes(id) {
+          const e = encomendasOriginais.find(x => x.id === id);
+          Swal.fire({
+            title: `Detalhes de ${e.destinatario}`,
+            html: `<p><strong>Endereço:</strong> ${e.endereco}</p>
+                   <p><strong>Telefone:</strong> ${e.telefone}</p>
+                   <p><strong>Valor:</strong> R$ ${e.valor.toFixed(2)}</p>
+                   <p><strong>Status:</strong> ${e.status}</p>`,
+            confirmButtonColor: '#ff7300'
+          });
+        }
+
+        function editarEncomenda(id) {
+          Swal.fire({
+            icon: 'info',
+            title: 'Editar Encomenda',
+            text: `Função de edição para o ID ${id} (a implementar)`,
+            confirmButtonColor: '#ff7300'
+          });
+        }
+
+        function excluirEncomenda(id) {
+          Swal.fire({
+            title: 'Tem certeza?',
+            text: "A encomenda será removida!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff7300',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const index = encomendasOriginais.findIndex(x => x.id === id);
+              encomendasOriginais.splice(index, 1);
+              aplicarFiltros(); // Reaplica filtros após exclusão
+              Swal.fire({
+                icon: 'success',
+                title: 'Excluída!',
+                text: 'A encomenda foi removida.',
+                confirmButtonColor: '#ff7300'
+              });
+            }
+          });
+        }
+
+        // Inicialização
+        aplicarFiltros();
+    </script>
+</body>
+</html>

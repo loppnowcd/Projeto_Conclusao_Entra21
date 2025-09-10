@@ -1,147 +1,238 @@
 ﻿@model ViewModels.Pedidos.EntregaViewModel
 
-@{
-	ViewBag.Title = "Solicitação de Entrega";
-	Layout = null;
-}
+<form id="entregaForm" asp-action="@(Model.IsEdicao ? "Editar" : "Criar")" asp-controller="Entrega" method="post">
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(m => m.Id)
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<meta charset="UTF-8" />
-	<title>Via Entrega - Solicitação</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script src="js\entregaform.js"></script>
-
-	<style>
-		body {
-			background-color: #ff7300;
-		}
-
-		.form-container {
-			background-color: #fff;
-			padding: 2rem;
-			border-radius: 10px;
-			margin: 50px auto;
-			max-width: 800px;
-		}
-
-		.btn-orange {
-			background-color: #ff7300;
-			color: white;
-		}
-
-			.btn-orange:hover {
-				background-color: #e06200;
-			}
-
-		.product-card img {
-			max-width: 100px;
-			max-height: 100px;
-		}
-
-		.toggle-products {
-			cursor: pointer;
-			color: #ff7300;
-		}
-
-		input:focus, textarea:focus, select:focus {
-			border-color: #ff7300 !important;
-			box-shadow: 0 0 0 0.25rem rgba(255, 115, 0, 0.25) !important;
-			outline: none !important;
-		}
-	</style>
-</head>
-<body>
-	<script>
-		window.onload = function () {
-			const produtosJson = '@Html.Raw(Model.ProdutosJson ?? "[]")';
-
-			try {
-				productList = JSON.parse(produtosJson);
-				renderProducts();
-				updateProductCount();
-			} catch (e) {
-				console.error("Erro ao carregar produtos:", e);
-				productList = [];
-			}
-		};
-	</script>
-	<div class="form-container shadow">
-		<h4 class="text-center mb-4">Solicitação de Entrega</h4>
-
-		<form asp-action="Criar" asp-controller="Entrega" method="post" enctype="multipart/form-data" id="deliveryForm">
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label asp-for="Endereco" class="form-label"></label>
-					<input asp-for="Endereco" class="form-control" />
-					<span asp-validation-for="Endereco" class="text-danger"></span>
-				</div>
-				<div class="col-md-6 mb-3">
-					<label asp-for="Destinatario" class="form-label"></label>
-					<input asp-for="Destinatario" class="form-control" />
-					<span asp-validation-for="Destinatario" class="text-danger"></span>
+	<div class="container-fluid p-4">
+		<!-- Dados da Entrega -->
+		<div class="row mb-4">
+			<div class="col-12">
+				<h5 class="text-primary mb-3">
+					<i class="fas fa-shipping-fast me-2"></i>Dados da Entrega
+				</h5>
+				<div class="card border-0 bg-light">
+					<div class="card-body">
+						<div class="row g-3">
+							<div class="col-md-6">
+								<label asp-for="Destinatario" class="form-label fw-bold">
+									<i class="fas fa-user me-1 text-muted"></i>@Html.DisplayNameFor(m => m.Destinatario)
+								</label>
+								<input asp-for="Destinatario" class="form-control form-control-lg" placeholder="Nome completo do destinatário" />
+								<span asp-validation-for="Destinatario" class="text-danger small"></span>
+							</div>
+							<div class="col-md-6">
+								<label asp-for="Telefone" class="form-label fw-bold">
+									<i class="fas fa-phone me-1 text-muted"></i>@Html.DisplayNameFor(m => m.Telefone)
+								</label>
+								<input asp-for="Telefone" class="form-control form-control-lg" placeholder="(00) 00000-0000" data-mask="(00) 00000-0000" />
+								<span asp-validation-for="Telefone" class="text-danger small"></span>
+							</div>
+							<div class="col-md-8">
+								<label asp-for="Endereco" class="form-label fw-bold">
+									<i class="fas fa-map-marker-alt me-1 text-muted"></i>@Html.DisplayNameFor(m => m.Endereco)
+								</label>
+								<input asp-for="Endereco" class="form-control form-control-lg" placeholder="Endereço completo com número, bairro, cidade" />
+								<span asp-validation-for="Endereco" class="text-danger small"></span>
+							</div>
+							<div class="col-md-4">
+								<label asp-for="Documento" class="form-label fw-bold">
+									<i class="fas fa-id-card me-1 text-muted"></i>@Html.DisplayNameFor(m => m.Documento)
+								</label>
+								<input asp-for="Documento" class="form-control form-control-lg" placeholder="CPF ou CNPJ" data-mask="000.000.000-00" />
+								<span asp-validation-for="Documento" class="text-danger small"></span>
+							</div>
+							<div class="col-12">
+								<label asp-for="Observacao" class="form-label fw-bold">
+									<i class="fas fa-sticky-note me-1 text-muted"></i>@Html.DisplayNameFor(m => m.Observacao)
+								</label>
+								<textarea asp-for="Observacao" class="form-control" rows="3" placeholder="Observações adicionais sobre a entrega..."></textarea>
+								<span asp-validation-for="Observacao" class="text-danger small"></span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="row">
-				<div class="col-md-6 mb-3">
-					<label asp-for="Telefone" class="form-label"></label>
-					<input asp-for="Telefone" class="form-control" />
-				</div>
-				<div class="col-md-6 mb-3">
-					<label asp-for="Documento" class="form-label"></label>
-					<input asp-for="Documento" class="form-control" />
-				</div>
-			</div>
-
-			<div class="mb-3">
-				<label asp-for="Observacao" class="form-label"></label>
-				<textarea asp-for="Observacao" class="form-control" rows="3"></textarea>
-			</div>
-
-			<!-- Produto -->
-			<h5 class="mt-4">Adicionar Produto</h5>
-			<div id="productForm">
-				<div class="row g-2">
-					<div class="col-12">
-						<input type="text" class="form-control" placeholder="Descrição do produto" id="descricao" />
+		<!-- Produtos -->
+		<div class="row mb-4">
+			<div class="col-12">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h5 class="text-primary mb-0">
+						<i class="fas fa-boxes me-2"></i>Produtos
+					</h5>
+					<div class="d-flex align-items-center">
+						<span class="badge bg-primary me-2" id="contadorProdutos">0 produtos</span>
+						<button type="button" class="btn btn-success btn-sm" onclick="toggleFormularioProduto()">
+							<i class="fas fa-plus me-1"></i>Adicionar Produto
+						</button>
 					</div>
 				</div>
 
-				<div class="row g-2 mt-2">
-					<div class="col-md-4"><input type="number" class="form-control" placeholder="Altura (cm)" id="altura" /></div>
-					<div class="col-md-4"><input type="number" class="form-control" placeholder="Largura (cm)" id="largura" /></div>
-					<div class="col-md-4"><input type="number" class="form-control" placeholder="Comprimento" id="comprimento" /></div>
-				</div>
-
-				<div class="row g-2 mt-2">
-					<div class="col-md-4"><input type="number" class="form-control" placeholder="Peso (kg)" id="peso" /></div>
-					<div class="col-md-4"><input type="number" class="form-control" placeholder="Valor (R$)" id="valor" /></div>
-					<div class="col-md-4"><input type="number" class="form-control" placeholder="Quantidade" id="quantidade" /></div>
-				</div>
-
-				<div class="row mt-2">
-					<div class="col-12">
-						<input type="file" class="form-control" id="imagem" />
+				<!-- Formulário de Produto -->
+				<div class="card border-0 shadow-sm mb-3 d-none" id="formularioProduto">
+					<div class="card-header bg-success text-white">
+						<h6 class="mb-0">
+							<i class="fas fa-box-open me-2"></i>
+							<span id="tituloFormProduto">Adicionar Produto</span>
+						</h6>
+					</div>
+					<div class="card-body">
+						<div class="row g-3">
+							<div class="col-12">
+								<label class="form-label fw-bold">Descrição do Produto</label>
+								<input type="text" class="form-control" id="produtoDescricao" placeholder="Descreva o produto a ser coletado" />
+								<div class="invalid-feedback" id="erroDescricao"></div>
+							</div>
+							<div class="col-md-3">
+								<label class="form-label fw-bold">Altura (cm)</label>
+								<input type="number" class="form-control" id="produtoAltura" min="0.1" step="0.1" placeholder="0.0" />
+								<div class="invalid-feedback" id="erroAltura"></div>
+							</div>
+							<div class="col-md-3">
+								<label class="form-label fw-bold">Largura (cm)</label>
+								<input type="number" class="form-control" id="produtoLargura" min="0.1" step="0.1" placeholder="0.0" />
+								<div class="invalid-feedback" id="erroLargura"></div>
+							</div>
+							<div class="col-md-3">
+								<label class="form-label fw-bold">Comprimento (cm)</label>
+								<input type="number" class="form-control" id="produtoComprimento" min="0.1" step="0.1" placeholder="0.0" />
+								<div class="invalid-feedback" id="erroComprimento"></div>
+							</div>
+							<div class="col-md-3">
+								<label class="form-label fw-bold">Peso (kg)</label>
+								<input type="number" class="form-control" id="produtoPeso" min="0.1" step="0.1" placeholder="0.0" />
+								<div class="invalid-feedback" id="erroPeso"></div>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label fw-bold">Valor (R$)</label>
+								<div class="input-group">
+									<span class="input-group-text">R$</span>
+									<input type="number" class="form-control" id="produtoValor" min="0.01" step="0.01" placeholder="0,00" />
+								</div>
+								<div class="invalid-feedback" id="erroValor"></div>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label fw-bold">Quantidade</label>
+								<input type="number" class="form-control" id="produtoQuantidade" min="1" value="1" />
+								<div class="invalid-feedback" id="erroQuantidade"></div>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label fw-bold">Imagem</label>
+								<input type="file" class="form-control" id="produtoImagem" accept="image/*" />
+								<div class="form-text">Opcional - Formatos: JPG, PNG, GIF</div>
+							</div>
+						</div>
+						<div class="mt-3 d-flex gap-2">
+							<button type="button" class="btn btn-success" onclick="salvarProduto()">
+								<i class="fas fa-save me-1"></i>
+								<span id="textoBotaoSalvar">Salvar Produto</span>
+							</button>
+							<button type="button" class="btn btn-secondary" onclick="cancelarEdicaoProduto()">
+								<i class="fas fa-times me-1"></i>Cancelar
+							</button>
+						</div>
 					</div>
 				</div>
 
-				<button type="button" class="btn btn-orange mt-3 w-100" id="btnAddProduct">Adicionar Produto</button>
+				<!-- Lista de Produtos -->
+				<div id="listaProdutos">
+					<!-- Produtos serão inseridos aqui dinamicamente -->
+				</div>
+
+				<!-- Estado vazio -->
+				<div class="card border-0 bg-light text-center py-4 d-none" id="estadoVazio">
+					<div class="card-body">
+						<i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+						<h6 class="text-muted">Nenhum produto adicionado</h6>
+						<p class="text-muted small mb-0">Clique em "Adicionar Produto" para começar</p>
+					</div>
+				</div>
+
+				<!-- Resumo -->
+				<div class="card border-0 bg-primary text-white d-none" id="resumoProdutos">
+					<div class="card-body">
+						<div class="row text-center">
+							<div class="col-md-3">
+								<h6 class="mb-1">Total de Itens</h6>
+								<h5 class="mb-0" id="totalItens">0</h5>
+							</div>
+							<div class="col-md-3">
+								<h6 class="mb-1">Peso Total</h6>
+								<h5 class="mb-0" id="pesoTotal">0.0 kg</h5>
+							</div>
+							<div class="col-md-3">
+								<h6 class="mb-1">Volume Total</h6>
+								<h5 class="mb-0" id="volumeTotal">0.0 cm³</h5>
+							</div>
+							<div class="col-md-3">
+								<h6 class="mb-1">Valor Total</h6>
+								<h5 class="mb-0" id="valorTotal">R$ 0,00</h5>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+		</div>
 
-			<input type="hidden" name="ProdutosJson" id="ProdutosJson" />
-
-			<!-- Lista de Produtos -->
-			<div class="mt-4">
-				<span class="toggle-products" onclick="toggleProducts()">👁️ Ver/Ocultar Produtos Adicionados (<span id="productCount">0</span>)</span>
-				<div id="productList" class="row mt-3 d-none"></div>
+		<!-- Botões de Ação -->
+		<div class="row">
+			<div class="col-12">
+				<div class="d-flex justify-content-end gap-2">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						<i class="fas fa-times me-1"></i>Cancelar
+					</button>
+					<button type="submit" class="btn btn-primary btn-lg" id="btnSubmit">
+						<i class="fas fa-save me-1"></i>
+						@(Model.IsEdicao ? "Atualizar Entrega" : "Registrar Entrega")
+					</button>
+				</div>
 			</div>
-
-			<button type="submit" class="btn btn-orange w-100 mt-4">Registrar Entrega</button>
-		</form>
+		</div>
 	</div>
 
-</body>
-</html>
+	<!-- Campos Hidden -->
+	<input type="hidden" asp-for="ProdutosJson" id="produtosJsonField" />
+
+	<!-- CSS específico -->
+	<style>
+		.form-control:focus {
+			border-color: #0d6efd;
+			box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+		}
+
+		.produto-card {
+			transition: all 0.3s ease;
+			border-left: 4px solid #0d6efd;
+		}
+
+			.produto-card:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+			}
+
+		.produto-imagem {
+			width: 60px;
+			height: 60px;
+			object-fit: cover;
+			border-radius: 8px;
+		}
+
+		.badge-dimension {
+			font-size: 0.7rem;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.btn-action {
+			width: 32px;
+			height: 32px;
+			padding: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	</style>
+
+
+</form>

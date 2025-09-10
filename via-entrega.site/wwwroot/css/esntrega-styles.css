@@ -1,0 +1,637 @@
+﻿/* ==================== VARIÁVEIS CSS ==================== */
+:root {
+    --primary-color: #0d6efd;
+    --primary-dark: #0b5ed7;
+    --primary-light: rgba(13, 110, 253, 0.1);
+    --success-color: #198754;
+    --success-light: rgba(25, 135, 84, 0.1);
+    --danger-color: #dc3545;
+    --danger-light: rgba(220, 53, 69, 0.1);
+    --warning-color: #ffc107;
+    --warning-light: rgba(255, 193, 7, 0.1);
+    --info-color: #0dcaf0;
+    --info-light: rgba(13, 202, 240, 0.1);
+    --secondary-color: #6c757d;
+    --secondary-light: rgba(108, 117, 125, 0.1);
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --border-radius: 0.375rem;
+    --border-radius-lg: 0.5rem;
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --box-shadow-lg: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --transition: all 0.15s ease-in-out;
+    --font-family-monospace: 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+/* ==================== RESET E BASE ==================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: #f5f6fa;
+}
+
+/* ==================== CARDS E CONTAINERS ==================== */
+.card {
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    background: #ffffff;
+}
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--box-shadow-lg);
+    }
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0 !important;
+    background: var(--light-color);
+    font-weight: 600;
+}
+
+.form-container {
+    background: #ffffff;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-lg);
+}
+
+/* ==================== FORMULÁRIOS ==================== */
+.form-control {
+    border: 1px solid #dee2e6;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-size: 0.95rem;
+}
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem var(--primary-light);
+        outline: none;
+    }
+
+.form-control-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+    .form-label i {
+        width: 16px;
+        text-align: center;
+    }
+
+.input-group .form-control:focus {
+    z-index: 3;
+}
+
+.input-group-text {
+    background: var(--light-color);
+    border: 1px solid #dee2e6;
+    font-weight: 500;
+}
+
+/* ==================== BOTÕES ==================== */
+.btn {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #084298 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.4);
+    }
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(25, 135, 84, 0.3);
+}
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #146c43 0%, #0f5132 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(25, 135, 84, 0.4);
+    }
+
+.btn-outline-primary {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+.btn-outline-danger {
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    background: transparent;
+}
+
+    .btn-outline-danger:hover {
+        background: var(--danger-color);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+.btn-outline-info {
+    border: 1px solid var(--info-color);
+    color: var(--info-color);
+    background: transparent;
+}
+
+    .btn-outline-info:hover {
+        background: var(--info-color);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+.btn-group .btn {
+    margin: 0 1px;
+}
+
+/* ==================== TABELAS ==================== */
+.table {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+    .table thead th {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        color: white;
+        border: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        padding: 1rem 0.75rem;
+    }
+
+    .table tbody tr {
+        transition: var(--transition);
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+        .table tbody tr:hover {
+            background: var(--primary-light);
+            transform: scale(1.001);
+        }
+
+    .table tbody td {
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+        border: none;
+    }
+
+.table-responsive {
+    border-radius: var(--border-radius-lg);
+}
+
+/* ==================== BADGES E INDICADORES ==================== */
+.badge {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+}
+
+.badge-dimension {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    background: var(--secondary-light);
+    color: var(--secondary-color);
+}
+
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-primary-soft {
+    background-color: var(--primary-light) !important;
+}
+
+.bg-success-soft {
+    background-color: var(--success-light) !important;
+}
+
+.bg-danger-soft {
+    background-color: var(--danger-light) !important;
+}
+
+.bg-warning-soft {
+    background-color: var(--warning-light) !important;
+}
+
+.bg-info-soft {
+    background-color: var(--info-light) !important;
+}
+
+/* ==================== PRODUTOS ==================== */
+.produto-card {
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
+    background: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+    .produto-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-left-color: var(--primary-dark);
+    }
+
+.produto-imagem {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    border: 2px solid #f8f9fa;
+}
+
+.produto-placeholder {
+    width: 60px;
+    height: 60px;
+    background: var(--light-color);
+    border: 2px dashed #dee2e6;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+    .btn-action:hover {
+        transform: scale(1.1);
+    }
+
+/* ==================== MODAIS ==================== */
+.modal-content {
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+}
+
+    .modal-header.bg-info {
+        background: linear-gradient(135deg, var(--info-color) 0%, #0aa2c0 100%);
+    }
+
+    .modal-header.bg-success {
+        background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%);
+    }
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 0;
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ==================== TOASTS ==================== */
+.toast {
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.toast-container {
+    z-index: 9999;
+}
+
+/* ==================== LOADING E ESTADOS ==================== */
+.spinner-border {
+    border-width: 0.2em;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== UTILITÁRIOS ==================== */
+.font-monospace {
+    font-family: var(--font-family-monospace);
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.text-danger {
+    color: var(--danger-color) !important;
+}
+
+.text-warning {
+    color: var(--warning-color) !important;
+}
+
+.text-info {
+    color: var(--info-color) !important;
+}
+
+.border-start {
+    border-left-width: 4px !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+
+.border-success {
+    border-color: var(--success-color) !important;
+}
+
+.opacity-50 {
+    opacity: 0.5 !important;
+}
+
+.opacity-75 {
+    opacity: 0.75 !important;
+}
+
+/* ==================== FORMULÁRIO DE PRODUTOS ==================== */
+#formularioProduto {
+    border: 2px dashed var(--success-color);
+    border-radius: var(--border-radius-lg);
+    background: var(--success-light);
+    transition: var(--transition);
+}
+
+    #formularioProduto:hover {
+        border-style: solid;
+        background: white;
+    }
+
+    #formularioProduto .card-header {
+        background: linear-gradient(135deg, var(--success-color) 0%, #146c43 100%);
+        color: white;
+    }
+
+/* ==================== RESUMO DE PRODUTOS ==================== */
+#resumoProdutos {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border-radius: var(--border-radius-lg);
+}
+
+    #resumoProdutos .col-md-3 {
+        position: relative;
+    }
+
+        #resumoProdutos .col-md-3:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+/* ==================== VALIDAÇÃO ==================== */
+.is-invalid {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--danger-color);
+}
+
+.was-validated .form-control:valid {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.25rem var(--success-light);
+}
+
+/* ==================== SEARCH E FILTROS ==================== */
+.input-group .form-control:not(:first-child) {
+    border-left: none;
+}
+
+.input-group .input-group-text {
+    border-right: none;
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.input-group:focus-within .form-control {
+    border-color: var(--primary-color);
+}
+
+/* ==================== RESPONSIVIDADE ==================== */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+        .btn-group .btn {
+            margin: 1px 0;
+            border-radius: var(--border-radius) !important;
+        }
+
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+
+    .avatar-sm {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+
+    .produto-imagem {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-fluid {
+        padding: 0.5rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+}
+
+/* ==================== DARK MODE SUPPORT ==================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light-color: #343a40;
+        --dark-color: #f8f9fa;
+    }
+
+    body {
+        background-color: #1a1d20;
+        color: var(--dark-color);
+    }
+
+    .card {
+        background: #2d3339;
+        color: var(--dark-color);
+    }
+
+    .form-control {
+        background: #2d3339;
+        border-color: #495057;
+        color: var(--dark-color);
+    }
+
+        .form-control:focus {
+            background: #2d3339;
+            color: var(--dark-color);
+        }
+
+    .table {
+        background: #2d3339;
+        color: var(--dark-color);
+    }
+
+        .table tbody tr:hover {
+            background: rgba(13, 110, 253, 0.2);
+        }
+}
+
+/* ==================== IMPRESSÃO ==================== */
+@media print {
+    .btn, .modal, .toast-container {
+        display: none !important;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+    }
+
+    .table {
+        border: 1px solid #dee2e6;
+    }
+
+        .table thead th {
+            background: #f8f9fa !important;
+            color: #212529 !important;
+        }
+}

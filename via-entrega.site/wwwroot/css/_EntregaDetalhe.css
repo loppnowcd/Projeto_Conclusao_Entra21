@@ -1,0 +1,38 @@
+﻿<style >
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.badge {
+    font-size: 0.75rem;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+media print {
+    .btn-group
+
+{
+    display: none !important;
+}
+
+.card {
+    box-shadow: none !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+}

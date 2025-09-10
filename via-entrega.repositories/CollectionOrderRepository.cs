@@ -17,8 +17,7 @@ namespace via_entrega.repositoriess
 
         public  CollectionOrder? GetByIdIncluded(Guid id)
         {
-            return  _dbSet.Include(co => co.Products).FirstOrDefault(x=> x.Id == id,
-                defaultValue: null);
+            return  _dbSet.Include(co => co.Products).FirstOrDefault(x=> x.Id == id);
         }
     }
 }

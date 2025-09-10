@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Extensions;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Services;
@@ -33,7 +35,7 @@ namespace Controllers
 			{
 				List<DadosEndereco?> lista = await _dadosEnderecoService.GetAllAsync();
 				var enderecosViewModel = lista
-					.Where(e => e != null)
+					.Where(e => e != null && e.Active && e.PessoaId == Request.HttpContext.GetPessoaId())
 					.Select(e =>  EnderecoViewModel.ConverterParaViewModel(e!))
 					.ToList();
 
@@ -94,7 +96,8 @@ namespace Controllers
 				if (enderecoViewModel.Id == Guid.Empty)
 				{
 					// Criar novo
-					var novoId = await _dadosEnderecoService.CreateAsync(endereco);
+					endereco.PessoaId = Request.HttpContext.GetPessoaId();
+                    var novoId = await _dadosEnderecoService.CreateAsync(endereco);
 					if (novoId == null)
 						return BadRequest("Não foi possível criar o endereço.");
 

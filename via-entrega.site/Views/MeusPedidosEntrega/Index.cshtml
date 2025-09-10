@@ -1,0 +1,137 @@
+﻿@{
+    ViewData["Title"] = "Meus Pedidos de Entrega";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h2>
+            <i class="fa-solid fa-list-alt me-2"></i>
+            Meus Pedidos de Entrega
+        </h2>
+        <hr>
+    </div>
+</div>
+
+<!-- Filtros (opcional) -->
+<div class="row mb-3">
+    <div class="col-md-4">
+        <select id="statusFilter" class="form-select">
+            <option value="">Todos os Status</option>
+            <option value="AguardandoColeta">Aguardando Coleta</option>
+            <option value="Entregue">Entregue</option>
+            <option value="Cancelado">Cancelado</option>
+            <option value="Devolvido">Devolvido</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary" onclick="filtrarPorStatus()">
+            <i class="fa-solid fa-filter me-1"></i>Filtrar
+        </button>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-secondary" onclick="carregarPedidos()">
+            <i class="fa-solid fa-refresh me-1"></i>Atualizar
+        </button>
+    </div>
+</div>
+
+<div id="pedidosContainer">
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-2">Carregando pedidos...</p>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Incluir jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            carregarPedidos();
+        });
+
+        function carregarPedidos() {
+            $('#pedidosContainer').html(`
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2">Carregando pedidos...</p>
+                </div>
+            `);
+
+            $.get('@Url.Action("List", "MeusPedidosEntrega")')
+                .done(function(data) {
+                    $('#pedidosContainer').html(data);
+                })
+                .fail(function(xhr, status, error) {
+                    console.error('Erro ao carregar pedidos:', error);
+                    $('#pedidosContainer').html(`
+                        <div class="alert alert-danger">
+                            <i class="fa-solid fa-exclamation-triangle me-2"></i>
+                            Erro ao carregar pedidos: ${error}
+                            <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="carregarPedidos()">
+                                Tentar novamente
+                            </button>
+                        </div>
+                    `);
+                });
+        }
+
+        function filtrarPorStatus() {
+            const status = $('#statusFilter').val();
+            const url = status ?
+                '@Url.Action("FilterByStatus", "MeusPedidosEntrega")?status=' + status :
+                '@Url.Action("List", "MeusPedidosEntrega")';
+
+            $('#pedidosContainer').html(`
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Filtrando...</span>
+                    </div>
+                    <p class="mt-2">Filtrando pedidos...</p>
+                </div>
+            `);
+
+            $.get(url)
+                .done(function(data) {
+                    $('#pedidosContainer').html(data);
+                })
+                .fail(function(xhr, status, error) {
+                    console.error('Erro ao filtrar pedidos:', error);
+                    $('#pedidosContainer').html(`
+                        <div class="alert alert-danger">
+                            <i class="fa-solid fa-exclamation-triangle me-2"></i>
+                            Erro ao filtrar pedidos: ${error}
+                        </div>
+                    `);
+                });
+        }
+
+        // Função para cancelar pedido (se implementar botões na partial view)
+        function cancelarPedido(pedidoId) {
+            if (!confirm('Tem certeza que deseja cancelar este pedido?')) {
+                return;
+            }
+
+            $.post('@Url.Action("CancelarPedido", "MeusPedidosEntrega")', {
+                id: pedidoId,
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            })
+            .done(function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    carregarPedidos(); // Recarrega a lista
+                } else {
+                    alert('Erro: ' + response.message);
+                }
+            })
+            .fail(function() {
+                alert('Erro ao cancelar pedido. Tente novamente.');
+            });
+        }
+    </script>
+}

@@ -63,8 +63,8 @@
                     {
                         <!-- MENU PRIVADO (usuário LOGADO) -->
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Contatos" asp-action="Index">
-                                <i class="fa-solid fa-address-book me-1"></i> Contatos
+                            <a class="nav-link" asp-controller="Contato" asp-action="Index">
+                                <i class="fa-solid fa-address-book me-1"></i> Contato
                             </a>
                         </li>
                         <li class="nav-item">
@@ -88,8 +88,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="PedidoEntrega" asp-action="MeusPedidosEntrega">
+                            <a class="nav-link" asp-controller="MeusPedidosEntrega" asp-action="Index">
                                 <i class="fa-solid fa-list-alt me-1"></i> Meus Pedidos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Entrega" asp-action="StatusEntrega">
+                                <i class="fa-solid fa-list-alt me-1"></i> Pedidos 
                             </a>
                         </li>
                     }

@@ -56,6 +56,7 @@ namespace Controllers
                 {
                     Email = model.Email,
                     Senha = model.Senha,
+                    PessoaId = idPessoa
                 });
 
                 if (model.TipoPessoa == TipoPessoa.PessoaJuridica)

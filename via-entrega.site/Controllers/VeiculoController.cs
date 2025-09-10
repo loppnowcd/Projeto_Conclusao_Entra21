@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Extensions;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using via_entrega.entities.Registrations;
 using via_entrega.interfaces.Services;
@@ -33,7 +35,7 @@ namespace Controllers
 			{
 				List<Veiculo?> lista = await _veiculoService.GetAllAsync();
 				var veiculosViewModel = lista
-					.Where(v => v != null)
+					.Where(v => v != null && v.Active && v.PessoaId == HttpContext.GetPessoaId())
 					.Select(v => VeiculoViewModel.ConverterParaViewModel(v!))
 					.ToList();
 
@@ -89,12 +91,13 @@ namespace Controllers
 					return BadRequest("Formato de placa inválido. Use ABC1234 ou ABC1D23.");
 				}
 
-				var veiculo = veiculoViewModel.ConverterParaEntidade(Request.HttpContext);
+				var veiculo = veiculoViewModel.ConverterParaEntidade();
 
 				if (veiculoViewModel.Id == Guid.Empty)
 				{
-					// Criar novo
-					var novoId = await _veiculoService.CreateAsync(veiculo);
+					veiculo.PessoaId = HttpContext.GetPessoaId();
+                    // Criar novo
+                    var novoId = await _veiculoService.CreateAsync(veiculo);
 					if (novoId == null)
 						return BadRequest("Não foi possível criar o veículo.");
 

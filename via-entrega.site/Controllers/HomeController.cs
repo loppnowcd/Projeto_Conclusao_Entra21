@@ -1,3 +1,5 @@
+using Azure;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Controllers
@@ -17,6 +19,9 @@ namespace Controllers
 
 		public IActionResult Index()
         {
+            if (Request.HttpContext.User.Identity.IsAuthenticated)
+                return View("Inicio");
+
             return View();
         }
 

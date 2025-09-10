@@ -1,0 +1,48 @@
+﻿.avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+}
+
+.bg-primary-soft {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+.table > tbody > tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.btn-group .btn {
+    margin: 0 1px;
+}
+
+.font-monospace {
+    font-family: 'Courier New', monospace;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

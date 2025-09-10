@@ -35,7 +35,7 @@ namespace via_entrega.repositoriess.Registrations
 
         public async Task<Usuario?> BuscarPorEmail(string email)
         {
-            return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbSet.Include(p=> p.Pessoa).FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

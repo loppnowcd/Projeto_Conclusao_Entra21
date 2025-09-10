@@ -1,0 +1,260 @@
+﻿@model ViewModels.Pedidos.EntregaDetalheViewModel
+
+<div class="container-fluid p-0">
+    <!-- Header -->
+    <div class="bg-info text-white p-4 mb-0">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h4 class="mb-1">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Detalhes da Entrega
+                </h4>
+                <p class="mb-0 opacity-75">
+                    <small>ID: @Model.Id.ToString().Substring(0, 8)... | Criado em @Model.DataCriacao.ToString("dd/MM/yyyy HH:mm")</small>
+                </p>
+            </div>
+            <div class="col-md-4 text-end">
+                <span class="badge bg-light text-dark fs-6 px-3 py-2">
+                    <i class="fas fa-calendar me-1"></i>
+                    @Model.DataCriacao.ToString("dd/MM/yyyy")
+                </span>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="~/css/_EntregaDetalhe.css">
+
+    <!-- Conteúdo Principal -->
+    <div class="p-4">
+        <!-- Informações da Entrega -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0">
+                            <i class="fas fa-user me-2"></i>Dados do Destinatário
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-bold">DESTINATÁRIO</label>
+                                <p class="mb-0 fs-5">@Model.Destinatario</p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-bold">TELEFONE</label>
+                                <p class="mb-0">
+                                    <i class="fas fa-phone text-success me-1"></i>
+                                    @Model.TelefoneFormatado
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-bold">DOCUMENTO</label>
+                                <p class="mb-0 font-monospace">@Model.Documento</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0">
+                            <i class="fas fa-map-marker-alt me-2"></i>Endereço de Entrega
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-bold">ENDEREÇO COMPLETO</label>
+                                <p class="mb-0">@Model.Endereco</p>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Observacao))
+                            {
+                                <div class="col-12">
+                                    <label class="form-label text-muted small fw-bold">OBSERVAÇÕES</label>
+                                    <div class="bg-light p-3 rounded">
+                                        <p class="mb-0 text-muted">
+                                            <i class="fas fa-sticky-note me-2"></i>
+                                            @Model.Observacao
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Financeiro -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <h6 class="mb-1">Total de Produtos</h6>
+                                <h4 class="mb-0">@Model.TotalProdutos</h4>
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="mb-1">Peso Total</h6>
+                                <h4 class="mb-0">@Model.PesoTotal.ToString("N1") kg</h4>
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="mb-1">Volume Total</h6>
+                                <h4 class="mb-0">@Model.VolumeTotal.ToString("N2") dm³</h4>
+                            </div>
+                            <div class="col-md-3">
+                                <h6 class="mb-1">Valor Total</h6>
+                                <h4 class="mb-0 text-success">R$ @Model.ValorTotal.ToString("N2")</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Produtos -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">
+                            <i class="fas fa-boxes me-2"></i>Produtos da Entrega
+                        </h6>
+                        <span class="badge bg-light text-dark">@Model.Produtos.Count() item(ns)</span>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (Model.Produtos.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="px-4 py-3">Produto</th>
+                                            <th class="py-3 text-center">Dimensões</th>
+                                            <th class="py-3 text-center">Peso</th>
+                                            <th class="py-3 text-center">Volume</th>
+                                            <th class="py-3 text-center">Qtd</th>
+                                            <th class="py-3 text-end">Valor Unit.</th>
+                                            <th class="py-3 text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var produto in Model.Produtos)
+                                        {
+                                            <tr>
+                                                <td class="px-4 py-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="me-3">
+                                                            @if (produto.Imagem != null && produto.Imagem.Length > 0)
+                                                            {
+                                                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(produto.Imagem)"
+                                                                     class="rounded"
+                                                                     style="width: 50px; height: 50px; object-fit: cover;"
+                                                                     alt="@produto.Descricao">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                                                     style="width: 50px; height: 50px;">
+                                                                    <i class="fas fa-box text-muted"></i>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="mb-0">@produto.Descricao</h6>
+                                                            <small class="text-muted">ID: @produto.Id.ToString().Substring(0, 8)...</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="py-3 text-center">
+                                                    <span class="badge bg-secondary font-monospace">
+                                                        @produto.Altura.ToString("N1")×@produto.Largura.ToString("N1")×@produto.Comprimento.ToString("N1") cm
+                                                    </span>
+                                                </td>
+                                                <td class="py-3 text-center">
+                                                    <strong>@produto.Peso.ToString("N1") kg</strong>
+                                                </td>
+                                                <td class="py-3 text-center">
+                                                    <span class="text-muted">
+                                                        @((produto.Altura * produto.Largura * produto.Comprimento / 1000).ToString("N2")) dm³
+                                                    </span>
+                                                </td>
+                                                <td class="py-3 text-center">
+                                                    <span class="badge bg-primary">@produto.Quantidade</span>
+                                                </td>
+                                                <td class="py-3 text-end">
+                                                    <span class="text-muted">R$ @produto.Valor.ToString("N2")</span>
+                                                </td>
+                                                <td class="py-3 text-end">
+                                                    <strong class="text-success">R$ @((produto.Valor * produto.Quantidade).ToString("N2"))</strong>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot class="table-dark">
+                                        <tr>
+                                            <th colspan="6" class="text-end px-4 py-3">TOTAL GERAL:</th>
+                                            <th class="text-end py-3">
+                                                <span class="fs-5 text-warning">R$ @Model.ValorTotal.ToString("N2")</span>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                <h6 class="text-muted">Nenhum produto encontrado</h6>
+                                <p class="text-muted small mb-0">Esta entrega não possui produtos cadastrados</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">
+                            <i class="fas fa-clock me-1"></i>
+                            Última atualização: @Model.DataAtualizacao?.ToString("dd/MM/yyyy HH:mm") ?? "Não informado"
+                        </small>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary" onclick="editarEntrega('@Model.Id')">
+                            <i class="fas fa-edit me-1"></i>Editar
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="imprimirDetalhes()">
+                            <i class="fas fa-print me-1"></i>Imprimir
+                        </button>
+                        <button type="button" class="btn btn-outline-info" onclick="gerarEtiqueta('@Model.Id')">
+                            <i class="fas fa-tag me-1"></i>Etiqueta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function imprimirDetalhes() {
+        window.print();
+    }
+
+    function gerarEtiqueta(id) {
+        // Implementar geração de etiqueta
+        window.open(`@Url.Action("GerarEtiqueta", "Entrega")?id=${id}`, '_blank');
+    }
+</script>
